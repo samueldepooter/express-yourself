@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Previous, Deny, Allow} from '../../components';
 
-const CheckLocation = ({step, changeIntroStep, setLocation}) => {
+const Location = ({step, changeIntroStep, setLocation}) => {
   return (
     <div>
       <h1>Can we check your location?</h1>
@@ -15,7 +15,7 @@ const CheckLocation = ({step, changeIntroStep, setLocation}) => {
   );
 };
 
-CheckLocation.propTypes = {
+Location.propTypes = {
   step: PropTypes.number,
   changeIntroStep: PropTypes.func,
   setLocation: PropTypes.func
@@ -28,4 +28,4 @@ const checkLocation = setLocation => {
     .then(result => setLocation(result.country));
 };
 
-export default CheckLocation;
+export default Location;

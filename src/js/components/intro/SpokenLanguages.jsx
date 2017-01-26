@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Previous, Next} from '../../components';
 import {languages} from '../../globals';
 
-const FamilyLanguages = ({step, changeIntroStep, onSpokenLangChange, family, location}) => {
+const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, location}) => {
   return (
     <div>
       <h2>Which languages does the family speak?</h2>
@@ -24,7 +24,7 @@ const FamilyLanguages = ({step, changeIntroStep, onSpokenLangChange, family, loc
   );
 };
 
-FamilyLanguages.propTypes = {
+SpokenLanguages.propTypes = {
   step: PropTypes.number,
   changeIntroStep: PropTypes.func,
   onSpokenLangChange: PropTypes.func,
@@ -82,4 +82,4 @@ const renderMostSpoken = (location, family, onSpokenLangChange) => {
   );
 };
 
-export default FamilyLanguages;
+export default SpokenLanguages;

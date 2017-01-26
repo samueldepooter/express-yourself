@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {FamilyName, CheckLocation, FamilyLanguages, FamilyMembers, Details} from '../components';
+import {FamilyName, Location, SpokenLanguages, Members, Details} from '../components';
 
 const Intro = ({step, location, updateFamilyName, family, changeIntroStep, onSpokenLangChange, setLocation}) => {
 
@@ -14,13 +14,13 @@ const Intro = ({step, location, updateFamilyName, family, changeIntroStep, onSpo
     return <FamilyName familyName={family.name} updateFamilyName={updateFamilyName} step={step} changeIntroStep={changeIntroStep} />;
 
   case 2:
-    return <CheckLocation step={step} changeIntroStep={changeIntroStep} setLocation={location => setLocation(location)} />;
+    return <Location step={step} changeIntroStep={changeIntroStep} setLocation={location => setLocation(location)} />;
 
   case 3:
-    return <FamilyLanguages step={step} changeIntroStep={changeIntroStep} family={family} onSpokenLangChange={language => onSpokenLangChange(language)} location={location} />;
+    return <SpokenLanguages step={step} changeIntroStep={changeIntroStep} family={family} onSpokenLangChange={language => onSpokenLangChange(language)} location={location} />;
 
   case 4:
-    return <FamilyMembers step={step} changeIntroStep={changeIntroStep} familyName={family.name} />;
+    return <Members step={step} changeIntroStep={changeIntroStep} familyName={family.name} />;
 
   case 5:
     return <Details step={step} changeIntroStep={changeIntroStep} familyName={family.name} />;

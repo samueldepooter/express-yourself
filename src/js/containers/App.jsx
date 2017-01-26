@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
-import {Home, Intro, NoMatch} from '../pages';
+import {Start, Intro, NoMatch} from '../pages';
 
 import {settings} from '../globals';
 
@@ -85,7 +85,7 @@ class App extends Component {
 
           <Match
             exactly pattern='/'
-            component={Home}
+            component={Start}
           />
 
           <Match

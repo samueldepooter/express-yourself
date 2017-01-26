@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Previous, Next} from '../../components';
 
-const FamilyMembers = ({step, changeIntroStep, familyName}) => {
+const Members = ({step, changeIntroStep, familyName}) => {
   return (
     <div>
       <h2>How many of the {familyName} family are joining this session?</h2>
@@ -13,10 +13,10 @@ const FamilyMembers = ({step, changeIntroStep, familyName}) => {
   );
 };
 
-FamilyMembers.propTypes = {
+Members.propTypes = {
   step: PropTypes.number,
   changeIntroStep: PropTypes.func,
   familyName: PropTypes.string
 };
 
-export default FamilyMembers;
+export default Members;

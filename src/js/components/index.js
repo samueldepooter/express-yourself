@@ -4,7 +4,7 @@ export Deny from './intro/Deny';
 export Allow from './intro/Allow';
 
 export FamilyName from './intro/FamilyName';
-export CheckLocation from './intro/CheckLocation';
-export FamilyLanguages from './intro/FamilyLanguages';
+export Location from './intro/Location';
+export SpokenLanguages from './intro/SpokenLanguages';
 export Details from './intro/Details';
-export FamilyMembers from './intro/FamilyMembers';
+export Members from './intro/Members';

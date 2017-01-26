@@ -8,7 +8,8 @@ import {settings} from '../globals';
 class App extends Component {
 
   state = {
-    currentIntroStep: 1
+    currentIntroStep: 1,
+    location: ``
   }
 
   componentWillMount() {
@@ -20,7 +21,6 @@ class App extends Component {
   checkIntroSteps(id) {
 
     const {introSteps} = settings;
-    //const {currentIntroStep} = this.state;
     let currentIntroStep = localStorage.getItem(`currentStep`);
 
     id = parseInt(id);
@@ -44,6 +44,11 @@ class App extends Component {
     this.setState({currentIntroStep: newStep});
   }
 
+  setLocationHandler(location) {
+    localStorage.setItem(`location`, location);
+    this.setState({location});
+  }
+
   render() {
 
     return (
@@ -61,8 +66,9 @@ class App extends Component {
 
               const {id} = params;
               const stepExists = this.checkIntroSteps(id);
+              const {location} = this.state;
 
-              if (stepExists) return <Intro step={params.id} changeIntroStep={newStep => this.changeIntroStepHandler(newStep)} />;
+              if (stepExists) return <Intro step={params.id} location={location} setLocation={location => this.setLocationHandler(location)} changeIntroStep={newStep => this.changeIntroStepHandler(newStep)} />;
               else return <Redirect to='/' />;
             }}
           />

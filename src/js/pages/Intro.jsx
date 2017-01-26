@@ -1,138 +1,40 @@
-import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
+import React, {PropTypes} from 'react';
+import {FamilyName, CheckLocation, FamilyLanguages, FamilyMembers, Details} from '../components';
 
-import {settings, languages} from '../globals';
+const Intro = ({step, location, updateFamilyName, family, changeIntroStep, onSpokenLangChange, setLocation}) => {
 
-class Intro extends Component {
+  step = parseInt(step);
 
-  state = {}
+  const localLocation = localStorage.getItem(`location`);
+  if (localLocation) location = localLocation;
 
-  renderStepBtn(type, step) {
-    const {changeIntroStep, setLocation} = this.props;
-    const {introSteps} = settings;
+  switch (step) {
 
-    const previousStep = step - 1;
-    const nextStep = step + 1;
+  case 1:
+    return <FamilyName familyName={family.name} updateFamilyName={updateFamilyName} step={step} changeIntroStep={changeIntroStep} />;
 
-    if (type === 1) {
-      if (!previousStep) return;
+  case 2:
+    return <CheckLocation step={step} changeIntroStep={changeIntroStep} setLocation={location => setLocation(location)} />;
 
-      return (
-        <li>
-          <Link to={`/intro/${previousStep}`} className='btn btn-default' onClick={() => changeIntroStep(previousStep)}>Previous step</Link>
-        </li>
-      );
-    } else if (type === 2) {
-      if (nextStep > introSteps) return;
+  case 3:
+    return <FamilyLanguages step={step} changeIntroStep={changeIntroStep} family={family} onSpokenLangChange={language => onSpokenLangChange(language)} location={location} />;
 
-      //bij stap 2 custom buttons om verder te gaan
-      if (step === 2) {
-        return (
-          <ul className='list-inline'>
-            <li><Link to={`/intro/${nextStep}`} className='btn btn-danger' onClick={() => {setLocation(`Not allowed`);changeIntroStep(nextStep);}}>Deny</Link></li>
-            <li><Link to={`/intro/${nextStep}`} className='btn btn-success' onClick={() => {this.checkLocation();changeIntroStep(nextStep);}}>Allow</Link></li>
-          </ul>
-        );
-      }
+  case 4:
+    return <FamilyMembers step={step} changeIntroStep={changeIntroStep} familyName={family.name} />;
 
-      return (
-        <li>
-          <Link to={`/intro/${nextStep}`} className='btn btn-default' onClick={() => changeIntroStep(nextStep)}>Next step</Link>
-        </li>
-      );
-    }
+  case 5:
+    return <Details step={step} changeIntroStep={changeIntroStep} familyName={family.name} />;
   }
-
-  checkLocation() {
-    const {setLocation} = this.props;
-
-    fetch(`https://ipinfo.io/json`)
-      .then(response => response.json())
-      .then(result => setLocation(result.country));
-  }
-
-  renderSpokenLanguages(location) {
-    const country = languages[location];
-
-    if (location === `Not allowed` || location === `Unknown`) return <p>Allow the location checker for this to work!</p>;
-
-    return country.map((language, i) => {
-      return <li key={i}>{language}</li>;
-    });
-  }
-
-  renderStep(step) {
-    step = parseInt(step);
-
-    let {location} = this.props;
-    if (!location) location = `Loading`;
-
-    const localLocation = localStorage.getItem(`location`);
-    if (localLocation) location = localLocation;
-
-    switch (step) {
-
-    case 1:
-      return (
-        <div>Fill in family name</div>
-      );
-
-    case 2:
-
-      return (
-        <div>
-          <h2>Can we check your location?</h2>
-        </div>
-      );
-
-    case 3:
-
-      return (
-        <div>
-          <h2>Add family languages</h2>
-          <p>Location: {location}</p>
-          <ul>
-            {this.renderSpokenLanguages(location)}
-          </ul>
-        </div>
-      );
-
-    case 4:
-      return (
-        <div>How many family members for this session?</div>
-      );
-
-    case 5:
-      return (
-        <div>Details for every family member</div>
-      );
-    }
-  }
-
-  render() {
-
-    const {step} = this.props;
-    const parsedStep = parseInt(step);
-
-    return (
-      <div>
-        <h1>Intro: {step}</h1>
-        {this.renderStep(step)}
-        <ul className='list-inline'>
-          {this.renderStepBtn(1, parsedStep)}
-          {this.renderStepBtn(2, parsedStep)}
-        </ul>
-      </div>
-    );
-  }
-
-}
+};
 
 Intro.propTypes = {
   step: PropTypes.string,
   changeIntroStep: PropTypes.func,
+  onSpokenLangChange: PropTypes.func,
+  updateFamilyName: PropTypes.func,
   setLocation: PropTypes.func,
-  location: PropTypes.string
+  location: PropTypes.string,
+  family: PropTypes.object
 };
 
 export default Intro;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
-import {Home, Intro, NoMatch} from '../pages/';
+import {Home, Intro, NoMatch} from '../pages';
 
 import {settings} from '../globals';
 
@@ -9,7 +9,12 @@ class App extends Component {
 
   state = {
     currentIntroStep: 1,
-    location: ``
+    location: ``,
+    family: {
+      name: ``,
+      languages: [],
+      members: []
+    }
   }
 
   componentWillMount() {
@@ -45,11 +50,34 @@ class App extends Component {
   }
 
   setLocationHandler(location) {
+    if (!location) location = `denied`;
     localStorage.setItem(`location`, location);
     this.setState({location});
   }
 
+  onSpokenLangChangeHandler(language) {
+    const {family} = this.state;
+    const {languages} = family;
+
+    const index = languages.indexOf(language);
+
+    if (index > - 1) languages.splice(index, 1);
+    else languages.push(language);
+
+    family.languages = languages;
+
+    this.setState({family});
+  }
+
+  updateFamilyNameHandler(name) {
+    const {family} = this.state;
+    family.name = name;
+    this.setState({family});
+  }
+
   render() {
+
+    console.log(this.state);
 
     return (
       <Router>
@@ -66,10 +94,23 @@ class App extends Component {
 
               const {id} = params;
               const stepExists = this.checkIntroSteps(id);
-              const {location} = this.state;
+              const {location, family} = this.state;
 
-              if (stepExists) return <Intro step={params.id} location={location} setLocation={location => this.setLocationHandler(location)} changeIntroStep={newStep => this.changeIntroStepHandler(newStep)} />;
-              else return <Redirect to='/' />;
+              if (stepExists) {
+                return (
+                  <Intro
+                    step={params.id}
+                    family={family}
+                    updateFamilyName={familyName => this.updateFamilyNameHandler(familyName)}
+                    onSpokenLangChange={language => this.onSpokenLangChangeHandler(language)}
+                    location={location}
+                    setLocation={location => this.setLocationHandler(location)}
+                    changeIntroStep={newStep => this.changeIntroStepHandler(newStep)}
+                  />
+                );
+              } else {
+                return <Redirect to='/' />;
+              }
             }}
           />
 

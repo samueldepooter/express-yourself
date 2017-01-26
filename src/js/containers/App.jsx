@@ -11,13 +11,20 @@ class App extends Component {
     currentIntroStep: 1
   }
 
+  componentWillMount() {
+    const storageStep = localStorage.getItem(`currentStep`);
+    const {currentIntroStep} = this.state;
+    if (!storageStep) localStorage.setItem(`currentStep`, currentIntroStep);
+  }
+
   checkIntroSteps(id) {
 
     const {introSteps} = settings;
     //const {currentIntroStep} = this.state;
-    const currentIntroStep = localStorage.getItem(`currentStep`);
+    let currentIntroStep = localStorage.getItem(`currentStep`);
 
-    console.log(currentIntroStep);
+    id = parseInt(id);
+    currentIntroStep = parseInt(currentIntroStep);
 
     //als id groter is dan totaal aantal introstappen (introSteps)
     //of groter dan waar je mag zitten (currentIntroStep) -> false

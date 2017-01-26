@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <header>
       <h1>Home</h1>
-      <Link to='/intro/1'>Start session</Link>
+      <Link to='/intro/1' className='btn btn-default'>Start session</Link>
     </header>
   );
 };

@@ -7,7 +7,7 @@ class Intro extends Component {
 
   state = {}
 
-  renderStep(type, step) {
+  renderStepBtn(type, step) {
     const {changeIntroStep} = this.props;
     const {introSteps} = settings;
 
@@ -18,13 +18,17 @@ class Intro extends Component {
       if (!previousStep) return;
 
       return (
-        <Link to={`/intro/${previousStep}`} onClick={() => {changeIntroStep(previousStep);}}>Previous step</Link>
+        <li>
+          <Link to={`/intro/${previousStep}`} className='btn btn-default' onClick={() => {changeIntroStep(previousStep);}}>Previous step</Link>
+        </li>
       );
     } else if (type === 2) {
       if (nextStep > introSteps) return;
 
       return (
-        <Link to={`/intro/${nextStep}`} onClick={() => {changeIntroStep(nextStep);}}>Next step</Link>
+        <li>
+          <Link to={`/intro/${nextStep}`} className='btn btn-default' onClick={() => {changeIntroStep(nextStep);}}>Next step</Link>
+        </li>
       );
     }
   }
@@ -36,9 +40,11 @@ class Intro extends Component {
 
     return (
       <div>
-        <p>Intro: {step}</p>
-        {this.renderStep(1, parsedStep)}
-        {this.renderStep(2, parsedStep)}
+        <h1>Intro: {step}</h1>
+        <ul className='list-inline'>
+          {this.renderStepBtn(1, parsedStep)}
+          {this.renderStepBtn(2, parsedStep)}
+        </ul>
       </div>
     );
   }

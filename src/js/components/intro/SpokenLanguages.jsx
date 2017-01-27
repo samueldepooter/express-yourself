@@ -10,10 +10,15 @@ const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, loc
 
       {spokenLanguages(family)}
 
-      <form>
+      <form onSubmit={e => e.preventDefault()}>
         <h3>Most spoken languages</h3>
 
         {renderMostSpoken(location, family, onSpokenLangChange)}
+
+        <div className='form-group'>
+          <label htmlFor='languageSearch'>Search for a language</label>
+          <input type='text' className='form-control' id='languageSearch' placeholder='TODO: Search for a language' />
+        </div>
 
         <ul className='list-inline'>
           <li><Previous step={step} changeIntroStep={changeIntroStep} /></li>

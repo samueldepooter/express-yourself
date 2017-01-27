@@ -1,19 +1,27 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
-const Deny = ({step, changeIntroStep, setLocation}) => {
+const Deny = ({step, onIntroStepUpdate, onLocationSubmit}) => {
 
   const nextStep = step + 1;
 
   return (
-    <Link to={`/intro/${nextStep}`} className='btn btn-danger' onClick={() => {setLocation(false);changeIntroStep(nextStep);}}>Deny</Link>
+    <Link
+      to={`/intro/${nextStep}`}
+      className='btn btn-danger'
+      onClick={() => {
+        onLocationSubmit(false);
+        onIntroStepUpdate(nextStep);
+      }}>
+      Deny
+    </Link>
   );
 };
 
 Deny.propTypes = {
   step: PropTypes.number,
-  changeIntroStep: PropTypes.func,
-  setLocation: PropTypes.func
+  onIntroStepUpdate: PropTypes.func,
+  onLocationSubmit: PropTypes.func
 };
 
 export default Deny;

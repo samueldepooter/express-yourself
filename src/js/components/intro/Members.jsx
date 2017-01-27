@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react';
 import {Previous, Next} from '../../components';
 
-const Members = ({step, changeIntroStep, familyName}) => {
+const Members = ({step, onIntroStepUpdate, familyName}) => {
   return (
     <div>
       <h2>How many of the {familyName} family are joining this session?</h2>
       <ul className='list-inline'>
-        <li><Previous step={step} changeIntroStep={changeIntroStep} /></li>
-        <li><Next step={step} changeIntroStep={changeIntroStep} /></li>
+        <li><Previous step={step} onIntroStepUpdate={onIntroStepUpdate} /></li>
+        <li><Next step={step} onIntroStepUpdate={onIntroStepUpdate} /></li>
       </ul>
     </div>
   );
@@ -15,7 +15,7 @@ const Members = ({step, changeIntroStep, familyName}) => {
 
 Members.propTypes = {
   step: PropTypes.number,
-  changeIntroStep: PropTypes.func,
+  onIntroStepUpdate: PropTypes.func,
   familyName: PropTypes.string
 };
 

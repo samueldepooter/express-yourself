@@ -1,5 +1,5 @@
 const settings = {
-  introSteps: 5
+  totalIntroSteps: 5
 };
 
 export default settings;

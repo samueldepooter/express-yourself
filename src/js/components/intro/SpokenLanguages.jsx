@@ -3,17 +3,17 @@ import React, {PropTypes} from 'react';
 import {Previous, Next} from '../../components';
 import {languages} from '../../globals';
 
-const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, location, changeSearchLanguage, search}) => {
+const SpokenLanguages = ({step, onIntroStepUpdate, onSpokenLangUpdate, family, location, onSearchLangUpdate, search}) => {
   return (
     <div>
       <h2>Which languages does the family speak?</h2>
 
-      {spokenLanguages(family, onSpokenLangChange)}
+      {spokenLanguages(family, onSpokenLangUpdate)}
 
       <form onSubmit={e => e.preventDefault()}>
         <h3>Most spoken languages</h3>
 
-        {renderMostSpoken(location, family, onSpokenLangChange)}
+        {renderMostSpoken(location, family, onSpokenLangUpdate)}
 
         <div className='form-group'>
           <label htmlFor='languageSearch'>Search for a language</label>
@@ -23,27 +23,27 @@ const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, loc
             id='languageSearch'
             placeholder='Search for a language'
             ref={searchLanguage => this.searchLanguage = searchLanguage}
-            onChange={() => changeSearchLanguage(this.searchLanguage.value)}
+            onChange={() => onSearchLangUpdate(this.searchLanguage.value)}
           />
-          {renderSearch(search, family, onSpokenLangChange)}
+          {renderSearch(search, family, onSpokenLangUpdate)}
         </div>
 
         <ul className='list-inline'>
-          <li><Previous step={step} changeIntroStep={changeIntroStep} /></li>
-          {renderNext(step, changeIntroStep, family)}
+          <li><Previous step={step} onIntroStepUpdate={onIntroStepUpdate} /></li>
+          {renderNext(step, onIntroStepUpdate, family)}
         </ul>
       </form>
     </div>
   );
 };
 
-const renderNext = (step, changeIntroStep, family) => {
+const renderNext = (step, onIntroStepUpdate, family) => {
   const {languages} = family;
 
   if (languages.length === 0) return;
 
   const word = languages.length === 1 ? `language` : `languages`;
-  return <li><Next step={step} changeIntroStep={changeIntroStep} text={`${languages.length} ${word}, check!`} /></li>;
+  return <li><Next step={step} onIntroStepUpdate={onIntroStepUpdate} text={`${languages.length} ${word}, check!`} /></li>;
 };
 
 const checkFamilyLangs = (familyLanguages, language) => {
@@ -52,7 +52,7 @@ const checkFamilyLangs = (familyLanguages, language) => {
   return false;
 };
 
-const spokenLanguages = (family, onSpokenLangChange) => {
+const spokenLanguages = (family, onSpokenLangUpdate) => {
   const {languages: familyLanguages} = family;
 
   if (familyLanguages.length === 0) return <p>No languages added yet.</p>;
@@ -68,7 +68,7 @@ const spokenLanguages = (family, onSpokenLangChange) => {
                 checked={checkFamilyLangs(familyLanguages, lang)}
                 value={lang}
                 id={lang}
-                onChange={() => onSpokenLangChange(lang)}
+                onChange={() => onSpokenLangUpdate(lang)}
               />
               {lang}
             </label>
@@ -79,7 +79,7 @@ const spokenLanguages = (family, onSpokenLangChange) => {
   );
 };
 
-const renderMostSpoken = (location, family, onSpokenLangChange) => {
+const renderMostSpoken = (location, family, onSpokenLangUpdate) => {
 
   if (location === `denied` || !location) return <p className='bg-warning'>Allow the location checker for this to work!</p>;
 
@@ -97,7 +97,7 @@ const renderMostSpoken = (location, family, onSpokenLangChange) => {
                 checked={checkFamilyLangs(familyLanguages, language)}
                 value={language}
                 id={language}
-                onChange={() => onSpokenLangChange(language)}
+                onChange={() => onSpokenLangUpdate(language)}
               />
               {language}
             </label>
@@ -108,7 +108,7 @@ const renderMostSpoken = (location, family, onSpokenLangChange) => {
   );
 };
 
-const renderSearch = (found, family, onSpokenLangChange) => {
+const renderSearch = (found, family, onSpokenLangUpdate) => {
   const {languages: familyLanguages} = family;
 
   if (this.searchLanguage) {
@@ -128,7 +128,7 @@ const renderSearch = (found, family, onSpokenLangChange) => {
                 checked={checkFamilyLangs(familyLanguages, language)}
                 value={language}
                 id={language}
-                onChange={() => onSpokenLangChange(language)}
+                onChange={() => onSpokenLangUpdate(language)}
               />
               {language}
             </label>
@@ -141,9 +141,9 @@ const renderSearch = (found, family, onSpokenLangChange) => {
 
 SpokenLanguages.propTypes = {
   step: PropTypes.number,
-  changeIntroStep: PropTypes.func,
-  onSpokenLangChange: PropTypes.func,
-  changeSearchLanguage: PropTypes.func,
+  onIntroStepUpdate: PropTypes.func,
+  onSpokenLangUpdate: PropTypes.func,
+  onSearchLangUpdate: PropTypes.func,
   family: PropTypes.object,
   location: PropTypes.string,
   search: PropTypes.array

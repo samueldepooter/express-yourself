@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-const Home = () => {
+const Start = () => {
   return (
     <header>
       <h1>Express yourself!</h1>
@@ -11,4 +11,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Start;

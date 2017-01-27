@@ -1,1 +1,5 @@
 # expressYourself
+
+##About
+
+##Getting Started

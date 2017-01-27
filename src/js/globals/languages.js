@@ -1,5 +1,5 @@
 const languages = {
-  BE: [`Dutch`, `French`, `German`, `Arabic`, `Turkisch`],
+  BE: [`Arabic`, `Dutch`, `French`, `German`, `Turkish`],
   FR: [`French`],
   all: [
     {code: `ab`, name: `Abkhaz`, nativeName: `аҧсуа`},

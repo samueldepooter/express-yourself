@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react';
 import {Previous, Deny, Allow} from '../../components';
 
-const Location = ({step, changeIntroStep, setLocation}) => {
+const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
   return (
     <div>
-      <h1>Can we check your location?</h1>
+      <h2>Can we check your location?</h2>
       <p>This information is used to determine the most spoken languages in this region.</p>
       <ul className='list-inline'>
-        <li><Previous step={step} changeIntroStep={changeIntroStep} /></li>
-        <li><Deny step={step} changeIntroStep={changeIntroStep} setLocation={setLocation} /></li>
-        <li><Allow step={step} changeIntroStep={changeIntroStep} checkLocation={() => checkLocation(setLocation)} /></li>
+        <li><Previous step={step} onIntroStepUpdate={onIntroStepUpdate} /></li>
+        <li><Deny step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationSubmit={onLocationSubmit} /></li>
+        <li><Allow step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationCheck={() => onLocationCheckHandler(onLocationSubmit)} /></li>
       </ul>
     </div>
   );
@@ -17,15 +17,14 @@ const Location = ({step, changeIntroStep, setLocation}) => {
 
 Location.propTypes = {
   step: PropTypes.number,
-  changeIntroStep: PropTypes.func,
-  setLocation: PropTypes.func
+  onIntroStepUpdate: PropTypes.func,
+  onLocationSubmit: PropTypes.func
 };
 
-const checkLocation = setLocation => {
-
+const onLocationCheckHandler = onLocationSubmit => {
   fetch(`https://ipinfo.io/json`)
     .then(response => response.json())
-    .then(result => setLocation(result.country));
+    .then(result => onLocationSubmit(result.country));
 };
 
 export default Location;

@@ -2,13 +2,17 @@ import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
 import {Start, Intro, NoMatch} from '../pages';
-
 import {settings, languages} from '../globals';
+
+let router = {};
 
 class App extends Component {
 
   state = {
-    currentIntroStep: 1,
+    intro: {
+      currentStep: 1,
+      maxStep: 1
+    },
     location: ``,
     family: {
       name: ``,
@@ -18,45 +22,68 @@ class App extends Component {
     search: []
   }
 
+  setRouter(r) {
+    router = r;
+  }
+
   componentWillMount() {
-    const storageStep = localStorage.getItem(`currentStep`);
-    const {currentIntroStep} = this.state;
-    if (!storageStep) localStorage.setItem(`currentStep`, currentIntroStep);
+    //check everything that's stored in local storage
+    this.checkLocalStorageData();
+  }
+
+  checkLocalStorageData() {
+    //check all data from intro
+    this.checkIntroData();
+  }
+
+  checkIntroData() {
+    const storageMaxStep = localStorage.getItem(`maxStepIntro`);
+    const {intro} = this.state;
+    const {maxStep} = intro;
+
+    if (!storageMaxStep) {
+      localStorage.setItem(`maxStepIntro`, maxStep);
+    } else {
+      intro.maxStep = storageMaxStep;
+      intro.maxStep = parseInt(intro.maxStep);
+      this.setState({intro});
+    }
   }
 
   checkIntroSteps(id) {
 
-    const {introSteps} = settings;
-    let currentIntroStep = localStorage.getItem(`currentStep`);
+    const {totalIntroSteps} = settings;
+    let storageMaxStep = localStorage.getItem(`maxStepIntro`);
 
     id = parseInt(id);
-    currentIntroStep = parseInt(currentIntroStep);
+    storageMaxStep = parseInt(storageMaxStep);
 
-    //als id groter is dan totaal aantal introstappen (introSteps)
-    //of groter dan waar je mag zitten (currentIntroStep) -> false
-    if (id > introSteps || id > currentIntroStep) return false;
+    if (id > totalIntroSteps || id > storageMaxStep || isNaN(id)) return false;
     else return true;
 
   }
 
-  changeIntroStepHandler(newStep) {
-    const {currentIntroStep} = this.state;
-    //als je huidige stap groter is dan de nieuwe, de localstorage niet setten
-    //omdat je ook in de verdere stap moet kunnen geraken
-    if (currentIntroStep > newStep) return;
+  onIntroStepUpdateHandler(newStep) {
+    const {intro} = this.state;
+    const {maxStep} = intro;
 
-    localStorage.setItem(`currentStep`, newStep);
+    intro.currentStep = newStep;
 
-    this.setState({currentIntroStep: newStep});
+    if (maxStep < newStep) {
+      localStorage.setItem(`maxStepIntro`, newStep);
+      intro.maxStep = newStep;
+    }
+
+    this.setState({intro});
   }
 
-  setLocationHandler(location) {
+  onLocationSubmitHandler(location) {
     if (!location) location = `denied`;
     localStorage.setItem(`location`, location);
     this.setState({location});
   }
 
-  onSpokenLangChangeHandler(language) {
+  onSpokenLangUpdateHandler(language) {
     const {family} = this.state;
     const {languages} = family;
 
@@ -70,68 +97,99 @@ class App extends Component {
     this.setState({family});
   }
 
-  updateFamilyNameHandler(name) {
-    const {family} = this.state;
-    family.name = name;
-    this.setState({family});
-  }
-
-  changeSearchLanguageHandler(search) {
+  onSearchLangUpdateHandler(search) {
     const allLanguages = languages.all;
 
     const found = [];
 
     if (search) {
       allLanguages.forEach((language => {
-        if (language.name.toLowerCase().indexOf(search) >= 0 || language.name.indexOf(search) >= 0) found.push(language.name);
+        if (language.name.toLowerCase().indexOf(search) >= 0
+            || language.name.indexOf(search) >= 0
+            || language.nativeName.indexOf(search) >= 0
+            || language.nativeName.toLowerCase().indexOf(search) >= 0
+          ) found.push(language.name);
       }));
     }
 
-    this.setState({search: found});
+    //0 - > 6 means 5 elements starting from index 0
+    const filtered = found.slice(0, 5);
+
+    this.setState({search: filtered});
+  }
+
+  onFamilyNameUpdateHandler(name) {
+    const {family} = this.state;
+    family.name = name;
+    this.setState({family});
+  }
+
+  onFamilyNameSubmitHandler(e, name) {
+    e.preventDefault();
+
+    const {intro} = this.state;
+    const {currentStep} = intro;
+
+    const newStep = currentStep + 1;
+
+    if (name) {
+      this.onIntroStepUpdateHandler(newStep);
+      router.transitionTo(`/intro/${newStep}`);
+    } else {
+      console.log(`Family name cannot be empty!`);
+    }
   }
 
   render() {
 
+    console.log(this.state);
+
     return (
       <Router>
-        <main>
+        {({router}) => (
 
-          <Match
-            exactly pattern='/'
-            component={Start}
-          />
+          <main>
 
-          <Match
-            pattern='/intro/:id'
-            render={({params}) => {
+            {this.setRouter(router)}
 
-              const {id} = params;
-              const stepExists = this.checkIntroSteps(id);
-              const {location, family, search} = this.state;
+            <Match
+              exactly pattern='/'
+              component={Start}
+            />
 
-              if (stepExists) {
-                return (
-                  <Intro
-                    step={params.id}
-                    family={family}
-                    updateFamilyName={familyName => this.updateFamilyNameHandler(familyName)}
-                    onSpokenLangChange={language => this.onSpokenLangChangeHandler(language)}
-                    location={location}
-                    setLocation={location => this.setLocationHandler(location)}
-                    changeIntroStep={newStep => this.changeIntroStepHandler(newStep)}
-                    changeSearchLanguage={searchLanguage => this.changeSearchLanguageHandler(searchLanguage)}
-                    search={search}
-                  />
-                );
-              } else {
-                return <Redirect to='/' />;
-              }
-            }}
-          />
+            <Match
+              pattern='/intro/:id'
+              render={({params}) => {
 
-          <Miss component={NoMatch} />
+                const {id} = params;
+                const stepExists = this.checkIntroSteps(id);
+                const {location, family, search} = this.state;
 
-        </main>
+                if (stepExists) {
+                  return (
+                    <Intro
+                      step={params.id}
+                      family={family}
+                      search={search}
+                      location={location}
+                      onIntroStepUpdate={newStep => this.onIntroStepUpdateHandler(newStep)}
+                      onFamilyNameUpdate={familyName => this.onFamilyNameUpdateHandler(familyName)}
+                      onFamilyNameSubmit={(e, name) => this.onFamilyNameSubmitHandler(e, name)}
+                      onLocationSubmit={location => this.onLocationSubmitHandler(location)}
+                      onSpokenLangUpdate={language => this.onSpokenLangUpdateHandler(language)}
+                      onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
+                    />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
+            />
+
+            <Miss component={NoMatch} />
+
+          </main>
+        )}
       </Router>
     );
   }

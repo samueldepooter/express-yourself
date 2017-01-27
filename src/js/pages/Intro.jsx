@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {FamilyName, Location, SpokenLanguages, Members, Details} from '../components';
 
-const Intro = ({step, location, updateFamilyName, family, changeIntroStep, onSpokenLangChange, setLocation}) => {
+const Intro = ({step, location, updateFamilyName, family, changeIntroStep, onSpokenLangChange, setLocation, changeSearchLanguage, search}) => {
 
   step = parseInt(step);
 
@@ -17,7 +17,7 @@ const Intro = ({step, location, updateFamilyName, family, changeIntroStep, onSpo
     return <Location step={step} changeIntroStep={changeIntroStep} setLocation={location => setLocation(location)} />;
 
   case 3:
-    return <SpokenLanguages step={step} changeIntroStep={changeIntroStep} family={family} onSpokenLangChange={language => onSpokenLangChange(language)} location={location} />;
+    return <SpokenLanguages step={step} search={search} changeSearchLanguage={searchLanguage => changeSearchLanguage(searchLanguage)} changeIntroStep={changeIntroStep} family={family} onSpokenLangChange={language => onSpokenLangChange(language)} location={location} />;
 
   case 4:
     return <Members step={step} changeIntroStep={changeIntroStep} familyName={family.name} />;
@@ -32,9 +32,11 @@ Intro.propTypes = {
   changeIntroStep: PropTypes.func,
   onSpokenLangChange: PropTypes.func,
   updateFamilyName: PropTypes.func,
+  changeSearchLanguage: PropTypes.func,
   setLocation: PropTypes.func,
   location: PropTypes.string,
-  family: PropTypes.object
+  family: PropTypes.object,
+  search: PropTypes.array
 };
 
 export default Intro;

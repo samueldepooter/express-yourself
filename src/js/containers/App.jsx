@@ -3,7 +3,7 @@ import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
 import {Start, Intro, NoMatch} from '../pages';
 
-import {settings} from '../globals';
+import {settings, languages} from '../globals';
 
 class App extends Component {
 
@@ -14,7 +14,8 @@ class App extends Component {
       name: ``,
       languages: [],
       members: []
-    }
+    },
+    search: []
   }
 
   componentWillMount() {
@@ -75,6 +76,20 @@ class App extends Component {
     this.setState({family});
   }
 
+  changeSearchLanguageHandler(search) {
+    const allLanguages = languages.all;
+
+    const found = [];
+
+    if (search) {
+      allLanguages.forEach((language => {
+        if (language.name.toLowerCase().indexOf(search) >= 0 || language.name.indexOf(search) >= 0) found.push(language.name);
+      }));
+    }
+
+    this.setState({search: found});
+  }
+
   render() {
 
     return (
@@ -92,7 +107,7 @@ class App extends Component {
 
               const {id} = params;
               const stepExists = this.checkIntroSteps(id);
-              const {location, family} = this.state;
+              const {location, family, search} = this.state;
 
               if (stepExists) {
                 return (
@@ -104,6 +119,8 @@ class App extends Component {
                     location={location}
                     setLocation={location => this.setLocationHandler(location)}
                     changeIntroStep={newStep => this.changeIntroStepHandler(newStep)}
+                    changeSearchLanguage={searchLanguage => this.changeSearchLanguageHandler(searchLanguage)}
+                    search={search}
                   />
                 );
               } else {

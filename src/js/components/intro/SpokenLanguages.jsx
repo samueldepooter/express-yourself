@@ -3,12 +3,12 @@ import React, {PropTypes} from 'react';
 import {Previous, Next} from '../../components';
 import {languages} from '../../globals';
 
-const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, location}) => {
+const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, location, changeSearchLanguage, search}) => {
   return (
     <div>
       <h2>Which languages does the family speak?</h2>
 
-      {spokenLanguages(family)}
+      {spokenLanguages(family, onSpokenLangChange)}
 
       <form onSubmit={e => e.preventDefault()}>
         <h3>Most spoken languages</h3>
@@ -17,7 +17,15 @@ const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, loc
 
         <div className='form-group'>
           <label htmlFor='languageSearch'>Search for a language</label>
-          <input type='text' className='form-control' id='languageSearch' placeholder='TODO: Search for a language' />
+          <input
+            type='text'
+            className='form-control'
+            id='languageSearch'
+            placeholder='Search for a language'
+            ref={searchLanguage => this.searchLanguage = searchLanguage}
+            onChange={() => changeSearchLanguage(this.searchLanguage.value)}
+          />
+          {renderSearch(search, family, onSpokenLangChange)}
         </div>
 
         <ul className='list-inline'>
@@ -27,14 +35,6 @@ const SpokenLanguages = ({step, changeIntroStep, onSpokenLangChange, family, loc
       </form>
     </div>
   );
-};
-
-SpokenLanguages.propTypes = {
-  step: PropTypes.number,
-  changeIntroStep: PropTypes.func,
-  onSpokenLangChange: PropTypes.func,
-  family: PropTypes.object,
-  location: PropTypes.string
 };
 
 const renderNext = (step, changeIntroStep, family) => {
@@ -52,14 +52,29 @@ const checkFamilyLangs = (familyLanguages, language) => {
   return false;
 };
 
-const spokenLanguages = family => {
+const spokenLanguages = (family, onSpokenLangChange) => {
   const {languages: familyLanguages} = family;
 
   if (familyLanguages.length === 0) return <p>No languages added yet.</p>;
 
   return (
-    <ul className='list-inline'>
-      {familyLanguages.map((lang, i) => <li key={i}><label htmlFor={lang}>{lang} (<span className='text-danger'>delete</span>)</label></li>)}
+    <ul className='list-inline checkbox'>
+      {familyLanguages.map((lang, i) => {
+        return (
+          <li key={i}>
+            <label htmlFor={lang}>
+              <input
+                type='checkbox'
+                checked={checkFamilyLangs(familyLanguages, lang)}
+                value={lang}
+                id={lang}
+                onChange={() => onSpokenLangChange(lang)}
+              />
+              {lang}
+            </label>
+          </li>
+        );
+      })}
     </ul>
   );
 };
@@ -72,12 +87,49 @@ const renderMostSpoken = (location, family, onSpokenLangChange) => {
   const {languages: familyLanguages} = family;
 
   return (
-    <div>
+    <ul>
       {country.map((language, i) => {
+        return (
+          <li className='checkbox' key={i}>
+            <label htmlFor={language}>
+              <input
+                type='checkbox'
+                checked={checkFamilyLangs(familyLanguages, language)}
+                value={language}
+                id={language}
+                onChange={() => onSpokenLangChange(language)}
+              />
+              {language}
+            </label>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+const renderSearch = (found, family, onSpokenLangChange) => {
+  const {languages: familyLanguages} = family;
+
+  if (this.searchLanguage) {
+    if (found.length === 0 && this.searchLanguage.value.length > 0) return <p>Nothing found</p>;
+  }
+
+  if (found.length === 0) return <p>Type something to search</p>;
+
+  return (
+    <div>
+      {found.map((language, i) => {
         return (
           <div className='checkbox' key={i}>
             <label htmlFor={language}>
-              <input type='checkbox' checked={checkFamilyLangs(familyLanguages, language)} value={language} id={language} onChange={() => onSpokenLangChange(language)} />
+              <input
+                type='checkbox'
+                checked={checkFamilyLangs(familyLanguages, language)}
+                value={language}
+                id={language}
+                onChange={() => onSpokenLangChange(language)}
+              />
               {language}
             </label>
           </div>
@@ -85,6 +137,16 @@ const renderMostSpoken = (location, family, onSpokenLangChange) => {
       })}
     </div>
   );
+};
+
+SpokenLanguages.propTypes = {
+  step: PropTypes.number,
+  changeIntroStep: PropTypes.func,
+  onSpokenLangChange: PropTypes.func,
+  changeSearchLanguage: PropTypes.func,
+  family: PropTypes.object,
+  location: PropTypes.string,
+  search: PropTypes.array
 };
 
 export default SpokenLanguages;

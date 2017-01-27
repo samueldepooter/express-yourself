@@ -1,6 +1,6 @@
 const languages = {
-  BE: [`Nederlands`, `Français`, `Deutsch`, `Moroccan`, `Turkisch`],
-  FR: [`Français`],
+  BE: [`Dutch`, `French`, `German`, `Arabic`, `Turkisch`],
+  FR: [`French`],
   all: [
     {code: `ab`, name: `Abkhaz`, nativeName: `аҧсуа`},
     {code: `aa`, name: `Afar`, nativeName: `Afaraf`},

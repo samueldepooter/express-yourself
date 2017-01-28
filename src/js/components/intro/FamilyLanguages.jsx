@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import {Previous, Next, SearchLanguages, SpokenLanguages, LocationLanguages} from '../../components';
+import {Previous, Next, FoundLanguages, SpokenLanguages, LocationLanguages} from '../../components';
 
 const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onSpokenLangUpdate, onSearchLangUpdate}) => {
   return (
@@ -10,7 +10,7 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
       <SpokenLanguages
         family={family}
         onSpokenLangUpdate={onSpokenLangUpdate}
-        checkFamilyLangs={(familyLanguages, language) => checkFamilyLangs(familyLanguages, language)}
+        checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
       />
 
       <form onSubmit={e => e.preventDefault()}>
@@ -20,7 +20,7 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
           location={location}
           family={family}
           onSpokenLangUpdate={onSpokenLangUpdate}
-          checkFamilyLangs={(familyLanguages, language) => checkFamilyLangs(familyLanguages, language)}
+          checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
         />
 
         <div className='form-group'>
@@ -34,11 +34,12 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
             onChange={() => onSearchLangUpdate(this.searchLanguage.value)}
           />
 
-          <SearchLanguages
+          <FoundLanguages
             found={search}
             family={family}
+            searchLanguage={checkSeachLanguage()}
             onSpokenLangUpdate={onSpokenLangUpdate}
-            checkFamilyLangs={(familyLanguages, language) => checkFamilyLangs(familyLanguages, language)}
+            checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
           />
 
         </div>
@@ -57,6 +58,11 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
   );
 };
 
+const checkSeachLanguage = () => {
+  if (this.searchLanguage) return this.searchLanguage.value;
+  return ``;
+};
+
 const renderNext = (step, onIntroStepUpdate, family) => {
   const {languages} = family;
 
@@ -66,8 +72,8 @@ const renderNext = (step, onIntroStepUpdate, family) => {
   return <li><Next step={step} onIntroStepUpdate={onIntroStepUpdate} text={`${languages.length} ${word}, check!`} /></li>;
 };
 
-const checkFamilyLangs = (familyLanguages, language) => {
-  const index = familyLanguages.indexOf(language);
+const checkLanguageSelected = (languages, language) => {
+  const index = languages.indexOf(language);
   if (index > - 1) return true;
   return false;
 };

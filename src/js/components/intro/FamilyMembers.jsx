@@ -30,7 +30,7 @@ class FamilyMembers extends Component {
             <Previous step={step} onIntroStepUpdate={onIntroStepUpdate} />
           </li>
           <li>
-            <Next step={step} onIntroStepUpdate={onIntroStepUpdate} />
+            {renderNext(step, onIntroStepUpdate, familyMembers)}
           </li>
         </ul>
 
@@ -38,6 +38,15 @@ class FamilyMembers extends Component {
     );
   }
 }
+
+const renderNext = (step, onIntroStepUpdate, familyMembers) => {
+
+  const members = familyMembers.length > 1 ? `members` : `member`;
+
+  return (
+    <Next step={step} onIntroStepUpdate={onIntroStepUpdate} text={`${familyMembers.length} ${members}, check!`} />
+  );
+};
 
 FamilyMembers.propTypes = {
   step: PropTypes.number,

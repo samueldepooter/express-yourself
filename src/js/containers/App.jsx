@@ -82,16 +82,32 @@ class App extends Component {
     this.setState({location});
   }
 
-  onSpokenLangUpdateHandler(language) {
+  onSpokenLangUpdateHandler(memberId, type, language) {
+
     const {family} = this.state;
-    const {languages} = family;
 
-    const index = languages.indexOf(language);
+    if (type === `family`) {
 
-    if (index > - 1) languages.splice(index, 1);
-    else languages.push(language);
+      const {languages: familyLanguages} = family;
+
+      const index = familyLanguages.indexOf(language);
+
+      if (index >= 0) familyLanguages.splice(index, 1);
+      else familyLanguages.push(language);
+
+    } else if (type === `member`) {
+
+      const member = this.findMember(memberId);
+
+      const index = member.languages.indexOf(language);
+
+      if (index >= 0) member.languages.splice(index, 1);
+      else member.languages.push(language);
+
+    }
 
     this.setState({family});
+
   }
 
   onSearchLangUpdateHandler(search) {
@@ -141,37 +157,32 @@ class App extends Component {
     const {family} = this.state;
     const {maxPlayers} = settings;
 
+    //take copy of original array
+    const familyLanguages = family.languages.slice();
+
     if (status) {
 
       if (family.members.length >= maxPlayers) return;
-
-      console.log(`Add member`);
 
       const familyMember = {
         id: family.members.length + 1,
         name: ``,
         avatar: `unknown`,
-        languages: [],
+        languages: familyLanguages,
         completed: false
       };
-
-      familyMember.languages = family.languages;
 
       family.members.push(familyMember);
 
     } else {
-
       if (family.members.length <= 1) return;
-
-      console.log(`Remove member`);
       family.members.pop();
-
     }
 
     this.setState({family});
   }
 
-  onAvatarUpdateHandler(memberId, avatar) {
+  onMemberAvatarUpdateHandler(memberId, avatar) {
     const {family} = this.state;
 
     //member with id 1 id is 0 in the state
@@ -191,9 +202,28 @@ class App extends Component {
     return false;
   }
 
+  onMemberNameUpdateHandler(memberId, name) {
+    const {family} = this.state;
+
+    //member with id 1 id is 0 in the state
+    const stateId = memberId - 1;
+
+    family.members[stateId].name = name;
+
+    this.setState({family});
+  }
+
+  onMemberCompletedHandler(id) {
+    const {family} = this.state;
+    const member = this.findMember(id);
+    member.completed = true;
+    this.setState({family});
+  }
+
   render() {
 
     console.log(this.state);
+    const {location, family, search} = this.state;
 
     return (
       <Router>
@@ -216,7 +246,6 @@ class App extends Component {
                 id = parseInt(id);
 
                 const stepExists = this.doesIntroStepExist(id);
-                const {location, family, search} = this.state;
 
                 if (stepExists) {
                   return (
@@ -229,7 +258,7 @@ class App extends Component {
                       onFamilyNameUpdate={familyName => this.onFamilyNameUpdateHandler(familyName)}
                       onFamilyNameSubmit={(e, name) => this.onFamilyNameSubmitHandler(e, name)}
                       onLocationSubmit={location => this.onLocationSubmitHandler(location)}
-                      onSpokenLangUpdate={language => this.onSpokenLangUpdateHandler(language)}
+                      onSpokenLangUpdate={(memberId, type, language) => this.onSpokenLangUpdateHandler(memberId, type, language)}
                       onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
                       onMembersUpdate={status => this.onMembersUpdateHandler(status)}
                     />
@@ -258,7 +287,12 @@ class App extends Component {
                       step={id}
                       editStep={editId}
                       member={member}
-                      onAvatarUpdate={(memberId, avatar) => this.onAvatarUpdateHandler(memberId, avatar)}
+                      search={search}
+                      onMemberAvatarUpdate={(memberId, avatar) => this.onMemberAvatarUpdateHandler(memberId, avatar)}
+                      onMemberNameUpdate={(memberId, name) => this.onMemberNameUpdateHandler(memberId, name)}
+                      onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
+                      onSpokenLangUpdate={(memberId, type, language) => this.onSpokenLangUpdateHandler(memberId, type, language)}
+                      onMemberCompleted={id => this.onMemberCompletedHandler(id)}
                     />
                   );
                 } else {

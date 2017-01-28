@@ -1,7 +1,24 @@
 import React, {PropTypes} from 'react';
-import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails, MemberAvatar} from '../components';
+import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails, MemberAvatar, MemberLanguages} from '../components';
 
-const Intro = ({step, location, family, member, editStep, onAvatarUpdate, onIntroStepUpdate, onFamilyNameUpdate, onSpokenLangUpdate, onLocationSubmit, onSearchLangUpdate, search, onFamilyNameSubmit, onMembersUpdate}) => {
+const Intro = ({
+  step,
+  location,
+  family,
+  member,
+  editStep,
+  onMemberAvatarUpdate,
+  onMemberNameUpdate,
+  onIntroStepUpdate,
+  onFamilyNameUpdate,
+  onSpokenLangUpdate,
+  onLocationSubmit,
+  onSearchLangUpdate,
+  search,
+  onFamilyNameSubmit,
+  onMembersUpdate,
+  onMemberCompleted
+}) => {
 
   const localLocation = localStorage.getItem(`location`);
   if (localLocation) location = localLocation;
@@ -15,14 +32,23 @@ const Intro = ({step, location, family, member, editStep, onAvatarUpdate, onIntr
       return (
         <MemberAvatar
           step={step}
+          editStep={editStep}
           member={member}
-          onAvatarUpdate={onAvatarUpdate}
+          onMemberAvatarUpdate={onMemberAvatarUpdate}
+          onMemberNameUpdate={onMemberNameUpdate}
         />
       );
 
     case 2:
       return (
-        <p>Verander talen van {member.id}</p>
+        <MemberLanguages
+          step={step}
+          member={member}
+          search={search}
+          onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)}
+          onSpokenLangUpdate={(memberId, type, language) => onSpokenLangUpdate(memberId, type, language)}
+          onMemberCompleted={id => onMemberCompleted(id)}
+        />
       );
     }
 
@@ -58,7 +84,7 @@ const Intro = ({step, location, family, member, editStep, onAvatarUpdate, onIntr
           location={location}
           onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)}
           onIntroStepUpdate={onIntroStepUpdate}
-          onSpokenLangUpdate={language => onSpokenLangUpdate(language)}
+          onSpokenLangUpdate={(memberId, type, language) => onSpokenLangUpdate(memberId, type, language)}
         />
       );
 
@@ -100,7 +126,9 @@ Intro.propTypes = {
   onSpokenLangUpdate: PropTypes.func,
   onSearchLangUpdate: PropTypes.func,
   onMembersUpdate: PropTypes.func,
-  onAvatarUpdate: PropTypes.func
+  onMemberAvatarUpdate: PropTypes.func,
+  onMemberNameUpdate: PropTypes.func,
+  onMemberCompleted: PropTypes.func
 };
 
 export default Intro;

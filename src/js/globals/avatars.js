@@ -1,15 +1,18 @@
 const avatars = [
   {
     id: 1,
-    image: `bear`
+    image: `bear`,
+    sound: `growls`
   },
   {
     id: 2,
-    image: `lion`
+    image: `lion`,
+    sound: `roars`
   },
   {
     id: 3,
-    image: `pig`
+    image: `pig`,
+    sound: `oinks`
   }
 ];
 

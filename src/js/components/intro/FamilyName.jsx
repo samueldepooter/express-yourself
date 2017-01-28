@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Next} from '../../components';
 
-const FamilyName = ({step, onIntroStepUpdate, familyName, onFamilyNameUpdate, onFamilyNameSubmit}) => {
+const FamilyName = ({step, familyName, onIntroStepUpdate, onFamilyNameUpdate, onFamilyNameSubmit}) => {
   return (
     <div>
       <h2>Which lovely family will get to play with us?</h2>

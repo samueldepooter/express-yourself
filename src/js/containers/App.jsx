@@ -50,7 +50,7 @@ class App extends Component {
     }
   }
 
-  checkIntroSteps(id) {
+  doesIntroStepExist(id) {
 
     const {totalIntroSteps} = settings;
     let storageMaxStep = localStorage.getItem(`maxStepIntro`);
@@ -112,7 +112,6 @@ class App extends Component {
       }));
     }
 
-    //0 - > 6 means 5 elements starting from index 0
     const filtered = found.slice(0, 5);
 
     this.setState({search: filtered});
@@ -162,7 +161,7 @@ class App extends Component {
               render={({params}) => {
 
                 const {id} = params;
-                const stepExists = this.checkIntroSteps(id);
+                const stepExists = this.doesIntroStepExist(id);
                 const {location, family, search} = this.state;
 
                 if (stepExists) {

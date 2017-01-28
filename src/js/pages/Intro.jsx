@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {FamilyName, Location, SpokenLanguages, Members, Details} from '../components';
+import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails} from '../components';
 
 const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, onSpokenLangUpdate, onLocationSubmit, onSearchLangUpdate, search, onFamilyNameSubmit}) => {
 
@@ -22,16 +22,44 @@ const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, o
     );
 
   case 2:
-    return <Location step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationSubmit={location => onLocationSubmit(location)} />;
+    return (
+      <Location
+        step={step}
+        onIntroStepUpdate={onIntroStepUpdate}
+        onLocationSubmit={location => onLocationSubmit(location)}
+      />
+    );
 
   case 3:
-    return <SpokenLanguages step={step} search={search} onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)} onIntroStepUpdate={onIntroStepUpdate} family={family} onSpokenLangUpdate={language => onSpokenLangUpdate(language)} location={location} />;
+    return (
+      <FamilyLanguages
+        step={step}
+        search={search}
+        onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)}
+        onIntroStepUpdate={onIntroStepUpdate}
+        family={family}
+        onSpokenLangUpdate={language => onSpokenLangUpdate(language)}
+        location={location}
+      />
+    );
 
   case 4:
-    return <Members step={step} onIntroStepUpdate={onIntroStepUpdate} familyName={family.name} />;
+    return (
+      <FamilyMembers
+        step={step}
+        onIntroStepUpdate={onIntroStepUpdate}
+        familyName={family.name}
+      />
+    );
 
   case 5:
-    return <Details step={step} onIntroStepUpdate={onIntroStepUpdate} familyName={family.name} />;
+    return (
+      <FamilyDetails
+        step={step}
+        onIntroStepUpdate={onIntroStepUpdate}
+        familyName={family.name}
+      />
+    );
   }
 };
 

@@ -7,7 +7,12 @@ const Next = ({step, onIntroStepUpdate, text}) => {
   const nextStep = step + 1;
 
   return (
-    <Link to={`/intro/${nextStep}`} className='btn btn-default' onClick={() => onIntroStepUpdate(nextStep)}>{text}</Link>
+    <Link
+      to={`/intro/${nextStep}`}
+      className='btn btn-default'
+      onClick={() => onIntroStepUpdate(nextStep)}>
+      {text}
+    </Link>
   );
 };
 

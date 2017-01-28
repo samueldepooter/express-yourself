@@ -92,8 +92,6 @@ class App extends Component {
     if (index > - 1) languages.splice(index, 1);
     else languages.push(language);
 
-    family.languages = languages;
-
     this.setState({family});
   }
 
@@ -139,6 +137,40 @@ class App extends Component {
     }
   }
 
+  onMembersUpdateHandler(status) {
+    const {family} = this.state;
+
+    if (status) {
+
+      if (family.members.length >= 5) return;
+
+      console.log(`Add member`);
+
+      const familyMember = {
+        id: family.members.length + 1,
+        name: ``,
+        avatar: `unknown`,
+        languages: [],
+        completed: false
+      };
+
+      familyMember.languages = family.languages;
+      familyMember.name = family.members.length + 1;
+
+      family.members.push(familyMember);
+
+    } else {
+
+      if (family.members.length <= 1) return;
+
+      console.log(`Remove member`);
+      family.members.pop();
+
+    }
+
+    this.setState({family});
+  }
+
   render() {
 
     console.log(this.state);
@@ -177,6 +209,7 @@ class App extends Component {
                       onLocationSubmit={location => this.onLocationSubmitHandler(location)}
                       onSpokenLangUpdate={language => this.onSpokenLangUpdateHandler(language)}
                       onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
+                      onMembersUpdate={status => this.onMembersUpdateHandler(status)}
                     />
                   );
                 } else {

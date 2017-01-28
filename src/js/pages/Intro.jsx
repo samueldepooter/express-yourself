@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails} from '../components';
 
-const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, onSpokenLangUpdate, onLocationSubmit, onSearchLangUpdate, search, onFamilyNameSubmit}) => {
+const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, onSpokenLangUpdate, onLocationSubmit, onSearchLangUpdate, search, onFamilyNameSubmit, onMembersUpdate}) => {
 
   step = parseInt(step);
 
@@ -13,9 +13,9 @@ const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, o
   case 1:
     return (
       <FamilyName
+        step={step}
         familyName={family.name}
         onFamilyNameUpdate={onFamilyNameUpdate}
-        step={step}
         onIntroStepUpdate={onIntroStepUpdate}
         onFamilyNameSubmit={onFamilyNameSubmit}
       />
@@ -34,12 +34,12 @@ const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, o
     return (
       <FamilyLanguages
         step={step}
+        family={family}
         search={search}
+        location={location}
         onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)}
         onIntroStepUpdate={onIntroStepUpdate}
-        family={family}
         onSpokenLangUpdate={language => onSpokenLangUpdate(language)}
-        location={location}
       />
     );
 
@@ -47,8 +47,10 @@ const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, o
     return (
       <FamilyMembers
         step={step}
-        onIntroStepUpdate={onIntroStepUpdate}
         familyName={family.name}
+        familyMembers={family.members}
+        onIntroStepUpdate={onIntroStepUpdate}
+        onMembersUpdate={onMembersUpdate}
       />
     );
 
@@ -56,8 +58,9 @@ const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, o
     return (
       <FamilyDetails
         step={step}
-        onIntroStepUpdate={onIntroStepUpdate}
         familyName={family.name}
+        familyMembers={family.members}
+        onIntroStepUpdate={onIntroStepUpdate}
       />
     );
   }
@@ -74,6 +77,7 @@ Intro.propTypes = {
   onLocationSubmit: PropTypes.func,
   onSpokenLangUpdate: PropTypes.func,
   onSearchLangUpdate: PropTypes.func,
+  onMembersUpdate: PropTypes.func,
 };
 
 export default Intro;

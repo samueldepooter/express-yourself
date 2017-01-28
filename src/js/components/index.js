@@ -13,3 +13,4 @@ export FamilyMembers from './intro/FamilyMembers';
 export SearchLanguages from './intro/SearchLanguages';
 export SpokenLanguages from './intro/SpokenLanguages';
 export LocationLanguages from './intro/LocationLanguages';
+export FamilyMember from './intro/FamilyMember';

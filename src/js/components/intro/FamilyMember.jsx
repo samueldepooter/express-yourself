@@ -2,21 +2,20 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 const FamilyMember = ({member, step, link}) => {
-  const {id, name, avatar, languages} = member;
-
-  console.log(name, languages);
+  const {id, name, avatar} = member;
 
   if (!link) {
     return (
       <li>
-        <img src={`../../../assets/avatar/${avatar}.svg`} />
+        <img src={`/assets/avatars/${avatar}.svg`} />
       </li>
     );
   } else {
     return (
       <li>
-        <Link to={`/intro/${step}/members/${id}`}>
-          <img src={`../../../assets/avatar/${avatar}.svg`} />
+        <Link to={`/intro/${step}/members/${id}/edit/1`}>
+          <img src={`/assets/avatars/${avatar}.svg`} />
+          <p>{name}</p>
         </Link>
       </li>
     );

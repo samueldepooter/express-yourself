@@ -55,7 +55,6 @@ class App extends Component {
     const {totalIntroSteps} = settings;
     let storageMaxStep = localStorage.getItem(`maxStepIntro`);
 
-    id = parseInt(id);
     storageMaxStep = parseInt(storageMaxStep);
 
     if (id > totalIntroSteps || id > storageMaxStep || isNaN(id)) return false;
@@ -110,7 +109,8 @@ class App extends Component {
       }));
     }
 
-    const filtered = found.slice(0, 5);
+    const {maxLanguageResults} = settings;
+    const filtered = found.slice(0, maxLanguageResults);
 
     this.setState({search: filtered});
   }
@@ -139,10 +139,11 @@ class App extends Component {
 
   onMembersUpdateHandler(status) {
     const {family} = this.state;
+    const {maxPlayers} = settings;
 
     if (status) {
 
-      if (family.members.length >= 5) return;
+      if (family.members.length >= maxPlayers) return;
 
       console.log(`Add member`);
 
@@ -155,7 +156,6 @@ class App extends Component {
       };
 
       familyMember.languages = family.languages;
-      familyMember.name = family.members.length + 1;
 
       family.members.push(familyMember);
 
@@ -169,6 +169,26 @@ class App extends Component {
     }
 
     this.setState({family});
+  }
+
+  onAvatarUpdateHandler(memberId, avatar) {
+    const {family} = this.state;
+
+    //member with id 1 id is 0 in the state
+    const stateId = memberId - 1;
+
+    family.members[stateId].avatar = avatar;
+
+    this.setState({family});
+  }
+
+  findMember(memberId) {
+    const {family} = this.state;
+    const {members} = family;
+
+    const member = members.filter(member => member.id === memberId);
+    if (member[0]) return member[0];
+    return false;
   }
 
   render() {
@@ -189,17 +209,19 @@ class App extends Component {
             />
 
             <Match
-              pattern='/intro/:id'
+              exactly pattern='/intro/:id'
               render={({params}) => {
 
-                const {id} = params;
+                let {id} = params;
+                id = parseInt(id);
+
                 const stepExists = this.doesIntroStepExist(id);
                 const {location, family, search} = this.state;
 
                 if (stepExists) {
                   return (
                     <Intro
-                      step={params.id}
+                      step={id}
                       family={family}
                       search={search}
                       location={location}
@@ -210,6 +232,33 @@ class App extends Component {
                       onSpokenLangUpdate={language => this.onSpokenLangUpdateHandler(language)}
                       onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
                       onMembersUpdate={status => this.onMembersUpdateHandler(status)}
+                    />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
+            />
+
+            <Match
+              exactly pattern='/intro/:id/members/:memberId/edit/:editId'
+              render={({params}) => {
+
+                let {id, memberId, editId} = params;
+
+                id = parseInt(id);
+                memberId = parseInt(memberId);
+                editId = parseInt(editId);
+
+                const member = this.findMember(memberId);
+
+                if (id === settings.totalIntroSteps && member) {
+                  return (
+                    <Intro
+                      step={id}
+                      editStep={editId}
+                      member={member}
+                      onAvatarUpdate={(memberId, avatar) => this.onAvatarUpdateHandler(memberId, avatar)}
                     />
                   );
                 } else {

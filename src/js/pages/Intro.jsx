@@ -1,76 +1,98 @@
 import React, {PropTypes} from 'react';
-import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails} from '../components';
+import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails, MemberAvatar} from '../components';
 
-const Intro = ({step, location, onFamilyNameUpdate, family, onIntroStepUpdate, onSpokenLangUpdate, onLocationSubmit, onSearchLangUpdate, search, onFamilyNameSubmit, onMembersUpdate}) => {
-
-  step = parseInt(step);
+const Intro = ({step, location, family, member, editStep, onAvatarUpdate, onIntroStepUpdate, onFamilyNameUpdate, onSpokenLangUpdate, onLocationSubmit, onSearchLangUpdate, search, onFamilyNameSubmit, onMembersUpdate}) => {
 
   const localLocation = localStorage.getItem(`location`);
   if (localLocation) location = localLocation;
 
-  switch (step) {
+  //check if member (details) is in the props, if not then it's not on the edit page
+  if (member) {
 
-  case 1:
-    return (
-      <FamilyName
-        step={step}
-        familyName={family.name}
-        onFamilyNameUpdate={onFamilyNameUpdate}
-        onIntroStepUpdate={onIntroStepUpdate}
-        onFamilyNameSubmit={onFamilyNameSubmit}
-      />
-    );
+    switch (editStep) {
 
-  case 2:
-    return (
-      <Location
-        step={step}
-        onIntroStepUpdate={onIntroStepUpdate}
-        onLocationSubmit={location => onLocationSubmit(location)}
-      />
-    );
+    case 1:
+      return (
+        <MemberAvatar
+          step={step}
+          member={member}
+          onAvatarUpdate={onAvatarUpdate}
+        />
+      );
 
-  case 3:
-    return (
-      <FamilyLanguages
-        step={step}
-        family={family}
-        search={search}
-        location={location}
-        onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)}
-        onIntroStepUpdate={onIntroStepUpdate}
-        onSpokenLangUpdate={language => onSpokenLangUpdate(language)}
-      />
-    );
+    case 2:
+      return (
+        <p>Verander talen van {member.id}</p>
+      );
+    }
 
-  case 4:
-    return (
-      <FamilyMembers
-        step={step}
-        familyName={family.name}
-        familyMembers={family.members}
-        onIntroStepUpdate={onIntroStepUpdate}
-        onMembersUpdate={onMembersUpdate}
-      />
-    );
+  } else {
+    switch (step) {
 
-  case 5:
-    return (
-      <FamilyDetails
-        step={step}
-        familyName={family.name}
-        familyMembers={family.members}
-        onIntroStepUpdate={onIntroStepUpdate}
-      />
-    );
+    case 1:
+      return (
+        <FamilyName
+          step={step}
+          familyName={family.name}
+          onFamilyNameUpdate={onFamilyNameUpdate}
+          onIntroStepUpdate={onIntroStepUpdate}
+          onFamilyNameSubmit={onFamilyNameSubmit}
+        />
+      );
+
+    case 2:
+      return (
+        <Location
+          step={step}
+          onIntroStepUpdate={onIntroStepUpdate}
+          onLocationSubmit={location => onLocationSubmit(location)}
+        />
+      );
+
+    case 3:
+      return (
+        <FamilyLanguages
+          step={step}
+          family={family}
+          search={search}
+          location={location}
+          onSearchLangUpdate={searchLanguage => onSearchLangUpdate(searchLanguage)}
+          onIntroStepUpdate={onIntroStepUpdate}
+          onSpokenLangUpdate={language => onSpokenLangUpdate(language)}
+        />
+      );
+
+    case 4:
+      return (
+        <FamilyMembers
+          step={step}
+          familyName={family.name}
+          familyMembers={family.members}
+          onIntroStepUpdate={onIntroStepUpdate}
+          onMembersUpdate={onMembersUpdate}
+        />
+      );
+
+    case 5:
+      return (
+        <FamilyDetails
+          step={step}
+          familyName={family.name}
+          familyMembers={family.members}
+          onIntroStepUpdate={onIntroStepUpdate}
+        />
+      );
+    }
   }
 };
 
 Intro.propTypes = {
-  step: PropTypes.string,
+  step: PropTypes.number,
+  editStep: PropTypes.number,
   location: PropTypes.string,
   family: PropTypes.object,
   search: PropTypes.array,
+  member: PropTypes.object,
   onIntroStepUpdate: PropTypes.func,
   onFamilyNameUpdate: PropTypes.func,
   onFamilyNameSubmit: PropTypes.func,
@@ -78,6 +100,7 @@ Intro.propTypes = {
   onSpokenLangUpdate: PropTypes.func,
   onSearchLangUpdate: PropTypes.func,
   onMembersUpdate: PropTypes.func,
+  onAvatarUpdate: PropTypes.func
 };
 
 export default Intro;

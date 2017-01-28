@@ -40,7 +40,6 @@ const MemberAvatar = ({step, member, onAvatarUpdate}) => {
 };
 
 const checkAvatar = (image, selectedAvatar) => {
-  console.log(image, selectedAvatar);
   if (image === selectedAvatar) return true;
   return false;
 };

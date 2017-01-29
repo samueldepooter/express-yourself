@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import {Previous, FamilyMember} from '../../components';
 
-const FamilyDetails = ({step, familyName, familyMembers, onIntroStepUpdate}) => {
+const FamilyDetails = ({step, familyName, familyMembers, onIntroStepUpdate, onIntroCompleted}) => {
 
   return (
     <div>
@@ -19,7 +19,7 @@ const FamilyDetails = ({step, familyName, familyMembers, onIntroStepUpdate}) => 
           <Previous step={step} onIntroStepUpdate={onIntroStepUpdate} />
         </li>
         <li>
-          {renderNext(familyMembers)}
+          {renderNext(onIntroCompleted)}
         </li>
       </ul>
 
@@ -27,23 +27,21 @@ const FamilyDetails = ({step, familyName, familyMembers, onIntroStepUpdate}) => 
   );
 };
 
-const renderNext = familyMembers => {
+const renderNext = onIntroCompleted => {
 
-  const done = familyMembers.map(member => {
-    return member.completed ? true : false;
-  });
+  const done = onIntroCompleted();
 
-  //is there any false in the done array -> don't show next button
-  if (done.indexOf(false) >= 0) return;
+  if (!done) return;
 
   return <Link to='/overview' className='btn btn-default'>Time for activities!</Link>;
 };
 
 FamilyDetails.propTypes = {
   step: PropTypes.number,
+  familyName: PropTypes.string,
   familyMembers: PropTypes.array,
   onIntroStepUpdate: PropTypes.func,
-  familyName: PropTypes.string
+  onIntroCompleted: PropTypes.func
 };
 
 export default FamilyDetails;

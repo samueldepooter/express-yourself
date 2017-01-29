@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
-import {Start, Intro, NoMatch} from '../pages';
+import {Start, Intro, Activities, NoMatch} from '../pages';
 import {settings, languages} from '../globals';
 
 let router = {};
@@ -73,7 +73,9 @@ class App extends Component {
       intro.maxStep = newStep;
     }
 
-    this.setState({intro});
+    const newSearch = [];
+
+    this.setState({intro, search: newSearch});
   }
 
   onLocationSubmitHandler(location) {
@@ -220,6 +222,21 @@ class App extends Component {
     this.setState({family});
   }
 
+  onIntroCompletedHandler() {
+    const {family} = this.state;
+
+    //no members -> intro not completed
+    if (family.members.length <= 0) return false;
+
+    //check if profiles are completed
+    const done = family.members.map(member => {
+      return member.completed ? true : false;
+    });
+
+    if (done.indexOf(false) >= 0) return false;
+    return true;
+  }
+
   render() {
 
     console.log(this.state);
@@ -261,6 +278,7 @@ class App extends Component {
                       onSpokenLangUpdate={(memberId, type, language) => this.onSpokenLangUpdateHandler(memberId, type, language)}
                       onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
                       onMembersUpdate={status => this.onMembersUpdateHandler(status)}
+                      onIntroCompleted={() => this.onIntroCompletedHandler()}
                     />
                   );
                 } else {
@@ -294,6 +312,22 @@ class App extends Component {
                       onSpokenLangUpdate={(memberId, type, language) => this.onSpokenLangUpdateHandler(memberId, type, language)}
                       onMemberCompleted={id => this.onMemberCompletedHandler(id)}
                     />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
+            />
+
+            <Match
+              exactly pattern='/overview'
+              render={() => {
+
+                const done = this.onIntroCompletedHandler();
+
+                if (done) {
+                  return (
+                    <Activities />
                   );
                 } else {
                   return <Redirect to='/' />;

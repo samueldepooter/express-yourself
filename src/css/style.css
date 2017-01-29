@@ -5,3 +5,30 @@ body {
   font-family: 'Helvetica neue', Helvetica, Arial, sans-serif;
   margin: 2rem;
 }
+
+.btn {
+  position: relative;
+  top: 0;
+  opacity: 0;
+
+  animation: .5s btn-fade-in ease;
+  animation-delay: .3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes btn-fade-in {
+
+  0% {
+    opacity: 0;
+    top: 1rem;
+  }
+
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+.hide {
+  display: none;
+}

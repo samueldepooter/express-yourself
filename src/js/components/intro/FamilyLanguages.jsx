@@ -4,7 +4,7 @@ import {Previous, Next, FoundLanguages, SpokenLanguages, LocationLanguages} from
 
 const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onSpokenLangUpdate, onSearchLangUpdate}) => {
   return (
-    <div>
+    <section>
       <h2>Which languages does the family speak?</h2>
 
       <SpokenLanguages
@@ -41,7 +41,6 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
             onSpokenLangUpdate={onSpokenLangUpdate}
             checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
           />
-
         </div>
 
         <ul className='list-inline'>
@@ -53,8 +52,11 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
           {renderNext(step, onIntroStepUpdate, family)}
 
         </ul>
+
+        <input type='submit' className='hide' />
+
       </form>
-    </div>
+    </section>
   );
 };
 

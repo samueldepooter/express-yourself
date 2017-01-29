@@ -1,5 +1,14 @@
 import React, {PropTypes} from 'react';
-import {FamilyName, Location, FamilyLanguages, FamilyMembers, FamilyDetails, MemberAvatar, MemberLanguages} from '../components';
+
+import {
+  FamilyName,
+  Location,
+  FamilyLanguages,
+  FamilyMembers,
+  FamilyDetails,
+  MemberAvatar,
+  MemberLanguages
+} from '../components';
 
 const Intro = ({
   step,
@@ -17,7 +26,8 @@ const Intro = ({
   search,
   onFamilyNameSubmit,
   onMembersUpdate,
-  onMemberCompleted
+  onMemberCompleted,
+  onIntroCompleted
 }) => {
 
   const localLocation = localStorage.getItem(`location`);
@@ -106,6 +116,7 @@ const Intro = ({
           familyName={family.name}
           familyMembers={family.members}
           onIntroStepUpdate={onIntroStepUpdate}
+          onIntroCompleted={onIntroCompleted}
         />
       );
     }
@@ -128,7 +139,8 @@ Intro.propTypes = {
   onMembersUpdate: PropTypes.func,
   onMemberAvatarUpdate: PropTypes.func,
   onMemberNameUpdate: PropTypes.func,
-  onMemberCompleted: PropTypes.func
+  onMemberCompleted: PropTypes.func,
+  onIntroCompleted: PropTypes.func
 };
 
 export default Intro;

@@ -29,6 +29,7 @@ class Details extends Component {
 
     return (
       <article>
+        <Link to='/activities' className='btn btn-danger'>Exit</Link>
         <h2>{title}</h2>
         <p>{description}</p>
         <Link to={`/activities/${id}/steps/1`} className='btn btn-default'>Let's play!</Link>

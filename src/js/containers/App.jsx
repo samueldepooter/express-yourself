@@ -31,7 +31,7 @@ class App extends Component {
 
   componentWillMount() {
     //check everything that's stored in local storage
-    this.checkLocalStorageData();
+    //this.checkLocalStorageData();
 
     if (settings.development) {
       this.addMember();
@@ -45,7 +45,7 @@ class App extends Component {
       id: 1,
       name: `Samuel`,
       avatar: `bear`,
-      languages: [`Dutch, French, German`],
+      languages: [`Dutch`, `French`, `German`],
       completed: false
     };
 
@@ -53,7 +53,7 @@ class App extends Component {
       id: 2,
       name: `Emiel`,
       avatar: `pig`,
-      languages: [`Dutch, French, German`],
+      languages: [`Dutch`, `French`, `German`],
       completed: false
     };
 
@@ -87,11 +87,10 @@ class App extends Component {
   doesIntroStepExist(id) {
 
     const {totalIntroSteps} = settings;
-    let storageMaxStep = localStorage.getItem(`maxStepIntro`);
+    const {intro} = this.state;
+    const {currentStep} = intro;
 
-    storageMaxStep = parseInt(storageMaxStep);
-
-    if (id > totalIntroSteps || id > storageMaxStep || isNaN(id)) return false;
+    if (id > totalIntroSteps || id > currentStep || isNaN(id)) return false;
     else return true;
 
   }
@@ -102,10 +101,7 @@ class App extends Component {
 
     intro.currentStep = newStep;
 
-    if (maxStep < newStep) {
-      localStorage.setItem(`maxStepIntro`, newStep);
-      intro.maxStep = newStep;
-    }
+    if (maxStep < newStep) intro.maxStep = newStep;
 
     const newSearch = [];
 
@@ -114,7 +110,6 @@ class App extends Component {
 
   onLocationSubmitHandler(nextStep, location) {
     if (!location) location = `denied`;
-    localStorage.setItem(`location`, location);
     this.setState({location});
     router.transitionTo(`/intro/${nextStep}`);
   }
@@ -333,8 +328,9 @@ class App extends Component {
                 editId = parseInt(editId);
 
                 const member = this.findMember(memberId);
+                const stepExists = this.doesIntroStepExist(id);
 
-                if (id === settings.totalIntroSteps && member) {
+                if (stepExists && id === settings.totalIntroSteps && member) {
                   return (
                     <Intro
                       step={id}

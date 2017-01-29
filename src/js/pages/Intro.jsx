@@ -30,9 +30,6 @@ const Intro = ({
   onIntroCompleted
 }) => {
 
-  const localLocation = localStorage.getItem(`location`);
-  if (localLocation) location = localLocation;
-
   //check if member (details) is in the props, if not then it's not on the edit page
   if (member) {
 

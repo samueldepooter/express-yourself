@@ -6,8 +6,6 @@ import {settings, languages} from '../globals';
 
 let router = {};
 
-const development = true;
-
 class App extends Component {
 
   state = {
@@ -32,25 +30,34 @@ class App extends Component {
     //check everything that's stored in local storage
     this.checkLocalStorageData();
 
-    if (development) {
+    if (settings.development) {
       this.addMember();
     }
   }
 
   addMember() {
     const {family} = this.state;
-    const member = {
+
+    const member1 = {
       id: 1,
       name: `Samuel`,
       avatar: `bear`,
-      languages: [`Dutch`],
+      languages: [`Dutch, French, German`],
+      completed: false
+    };
+
+    const member2 = {
+      id: 2,
+      name: `Emiel`,
+      avatar: `pig`,
+      languages: [`Dutch, French, German`],
       completed: false
     };
 
     const name = `De Pooter`;
 
     family.name = name;
-    family.members = [member];
+    family.members = [member1, member2];
 
     this.setState({family});
   }
@@ -350,7 +357,7 @@ class App extends Component {
 
                 let done = this.onIntroCompletedHandler();
 
-                if (development) done = true;
+                if (settings.development) done = true;
 
                 if (done) {
                   return (

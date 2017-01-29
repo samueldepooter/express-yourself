@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
-import {Start, Intro, Activities, NoMatch} from '../pages';
+import {Start, Intro, Activities, Details, NoMatch} from '../pages';
 import {settings, languages} from '../globals';
 
 let router = {};
@@ -19,7 +19,10 @@ class App extends Component {
       languages: [],
       members: []
     },
-    search: []
+    search: [],
+    activities: {
+      completed: []
+    }
   }
 
   setRouter(r) {
@@ -368,6 +371,14 @@ class App extends Component {
                 } else {
                   return <Redirect to='/' />;
                 }
+              }}
+            />
+
+            <Match
+              exactly pattern='/activities/:id/details'
+              render={({params}) => {
+                const {id} = params;
+                return <Details id={id} />;
               }}
             />
 

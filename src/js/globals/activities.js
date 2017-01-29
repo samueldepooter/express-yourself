@@ -13,7 +13,7 @@ const activities = [
   {
     name: `situational`,
     title: `I am ...`,
-    description: ``,
+    description: `Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.`,
     cover: ``,
     age: ``,
     players: ``,
@@ -24,7 +24,7 @@ const activities = [
   {
     name: `draw`,
     title: `Draw`,
-    description: ``,
+    description: `Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.`,
     cover: ``,
     age: ``,
     players: ``,

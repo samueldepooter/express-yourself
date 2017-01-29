@@ -20,4 +20,4 @@ export FamilyMember from './intro/FamilyMember';
 export MemberAvatar from './intro/MemberAvatar';
 export MemberLanguages from './intro/MemberLanguages';
 
-/* OVERVIEW */
+/* ACTIVITIES */

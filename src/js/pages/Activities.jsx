@@ -29,8 +29,8 @@ class Activities extends Component {
                 <h3>{activity.title}</h3>
                 <p>{activity.description}</p>
                 <ul className='list-inline'>
-                  <li><Link to={`activities/${id}/details`} className='btn btn-default'>Info</Link></li>
-                  <li><Link to={`/activities/${id}/steps/1`} className='btn btn-default'>Play now</Link></li>
+                  <li><Link to={`/activities/${id}/details`} className='btn btn-default'>Info</Link></li>
+                  <li><Link to={`/activities/${id}/steps/1`} className='btn btn-default'>Let's play!</Link></li>
                 </ul>
               </li>
             );

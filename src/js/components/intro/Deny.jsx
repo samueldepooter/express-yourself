@@ -1,20 +1,18 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 
 const Deny = ({step, onIntroStepUpdate, onLocationSubmit}) => {
 
   const nextStep = step + 1;
 
   return (
-    <Link
-      to={`/intro/${nextStep}`}
+    <button
       className='btn btn-danger'
       onClick={() => {
-        onLocationSubmit(false);
+        onLocationSubmit(nextStep, false);
         onIntroStepUpdate(nextStep);
       }}>
       Deny
-    </Link>
+    </button>
   );
 };
 

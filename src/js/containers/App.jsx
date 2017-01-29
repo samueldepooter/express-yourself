@@ -321,10 +321,13 @@ class App extends Component {
             />
 
             <Match
-              exactly pattern='/overview'
+              exactly pattern='/activities'
               render={() => {
 
-                const done = this.onIntroCompletedHandler();
+                let done = this.onIntroCompletedHandler();
+                const dev = true;
+                if (dev) done = true;
+                else done = false;
 
                 if (done) {
                   return (

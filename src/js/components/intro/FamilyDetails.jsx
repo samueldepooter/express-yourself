@@ -33,7 +33,7 @@ const renderNext = onIntroCompleted => {
 
   if (!done) return;
 
-  return <Link to='/overview' className='btn btn-default'>Time for activities!</Link>;
+  return <Link to='/activities' className='btn btn-default'>Time for activities!</Link>;
 };
 
 FamilyDetails.propTypes = {

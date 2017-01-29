@@ -4,7 +4,7 @@ import {SpokenLanguages, FoundLanguages} from '../../components';
 
 const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLangUpdate, onMemberCompleted}) => {
 
-  const {id: memberId, name, avatar} = member;
+  const {id: memberId, name, avatar, languages} = member;
 
   return (
     <div>
@@ -22,7 +22,7 @@ const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLang
         <div className='form-group'>
           <label htmlFor='languageSearch'>Search for a language</label>
           <input
-            type='text'
+            type='search'
             className='form-control'
             id='languageSearch'
             placeholder='Search for a language'
@@ -41,9 +41,18 @@ const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLang
         </div>
       </form>
 
-      <Link to={`/intro/${step}`} className='btn btn-default' onClick={() => onMemberCompleted(memberId)}>All done!</Link>
+      {renderDone(step, memberId, languages, onMemberCompleted)}
 
     </div>
+  );
+};
+
+const renderDone = (step, memberId, languages, onMemberCompleted) => {
+
+  if (languages.length === 0) return;
+
+  return (
+    <Link to={`/intro/${step}`} className='btn btn-default' onClick={() => onMemberCompleted(memberId)}>All done!</Link>
   );
 };
 

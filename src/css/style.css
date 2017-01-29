@@ -16,6 +16,11 @@ body {
   animation-fill-mode: forwards;
 }
 
+.checked {
+  width: 2rem;
+  height: 2rem;
+}
+
 @keyframes btn-fade-in {
 
   0% {
@@ -27,6 +32,10 @@ body {
     opacity: 1;
     top: 0;
   }
+}
+
+input[type=search]::-webkit-search-cancel-button {
+  appearance: searchfield-cancel-button;
 }
 
 .hide {

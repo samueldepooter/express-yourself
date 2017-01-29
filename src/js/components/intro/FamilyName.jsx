@@ -10,7 +10,7 @@ const FamilyName = ({step, familyName, onIntroStepUpdate, onFamilyNameUpdate, on
         <div className='form-group'>
           <label htmlFor='familyName'>Family Name</label>
           <input
-            type='text'
+            type='search'
             className='form-control'
             value={familyName}
             id='familyName'

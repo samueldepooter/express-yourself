@@ -26,7 +26,7 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
         <div className='form-group'>
           <label htmlFor='languageSearch'>Search for a language</label>
           <input
-            type='text'
+            type='search'
             className='form-control'
             id='languageSearch'
             placeholder='Search for a language'

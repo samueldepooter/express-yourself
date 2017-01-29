@@ -27,8 +27,17 @@ class App extends Component {
   }
 
   componentWillMount() {
+    this.checkConnection();
     //check everything that's stored in local storage
     this.checkLocalStorageData();
+  }
+
+  checkConnection() {
+    if (navigator.onLine) {
+      console.log(`yup`);
+    } else {
+      console.log(`neuwp`);
+    }
   }
 
   checkLocalStorageData() {

@@ -6,6 +6,8 @@ import {settings, languages} from '../globals';
 
 let router = {};
 
+const development = true;
+
 class App extends Component {
 
   state = {
@@ -29,6 +31,28 @@ class App extends Component {
   componentWillMount() {
     //check everything that's stored in local storage
     this.checkLocalStorageData();
+
+    if (development) {
+      this.addMember();
+    }
+  }
+
+  addMember() {
+    const {family} = this.state;
+    const member = {
+      id: 1,
+      name: `Samuel`,
+      avatar: `bear`,
+      languages: [`Dutch`],
+      completed: false
+    };
+
+    const name = `De Pooter`;
+
+    family.name = name;
+    family.members = [member];
+
+    this.setState({family});
   }
 
   checkLocalStorageData() {
@@ -325,13 +349,14 @@ class App extends Component {
               render={() => {
 
                 let done = this.onIntroCompletedHandler();
-                const dev = true;
-                if (dev) done = true;
-                else done = false;
+
+                if (development) done = true;
 
                 if (done) {
                   return (
-                    <Activities />
+                    <Activities
+                      family={family}
+                    />
                   );
                 } else {
                   return <Redirect to='/' />;

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {activities} from '../globals';
 
@@ -6,10 +6,15 @@ class Activities extends Component {
 
   componentDidMount() {
     console.log(`Activities mounted`);
-    console.log(activities);
   }
 
   render() {
+
+    const {family} = this.props;
+    const {members} = family;
+
+    console.log(this.props);
+
     return (
       <section>
         <h2>Activities</h2>
@@ -32,6 +37,22 @@ class Activities extends Component {
           })}
         </ul>
 
+        <section>
+
+          <h3>{family.name}</h3>
+
+          <ul className='list-inline'>
+            {members.map((member, i) => {
+              return (
+                <li key={i}>
+                  <img src={`/assets/avatars/${member.avatar}.svg`} />
+                  <p>{member.name}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
         <Link to='/' className='btn btn-danger'>End session</Link>
       </section>
     );
@@ -39,6 +60,8 @@ class Activities extends Component {
 
 }
 
-Activities.propTypes = {};
+Activities.propTypes = {
+  family: PropTypes.object
+};
 
 export default Activities;

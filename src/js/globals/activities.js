@@ -6,7 +6,8 @@ const activities = [
     description: `Connect languanges and colors to your avatars body in this fun customisation game!`,
     age: ``,
     players: ``,
-    devices: ``
+    devices: ``,
+    steps: 4
   },
 
   {
@@ -16,7 +17,8 @@ const activities = [
     cover: ``,
     age: ``,
     players: ``,
-    devices: ``
+    devices: ``,
+    steps: 4
   },
 
   {
@@ -26,7 +28,8 @@ const activities = [
     cover: ``,
     age: ``,
     players: ``,
-    devices: ``
+    devices: ``,
+    steps: 4
   }
 ];
 

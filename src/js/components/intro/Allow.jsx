@@ -1,20 +1,18 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 
 const Allow = ({step, onIntroStepUpdate, onLocationCheck}) => {
 
   const nextStep = step + 1;
 
   return (
-    <Link
-      to={`/intro/${nextStep}`}
+    <button
       className='btn btn-success'
       onClick={() => {
-        onLocationCheck();
+        onLocationCheck(nextStep);
         onIntroStepUpdate(nextStep);
       }}>
       Allow
-    </Link>
+    </button>
   );
 };
 

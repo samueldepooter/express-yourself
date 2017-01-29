@@ -16,7 +16,7 @@ const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
           <Deny step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationSubmit={onLocationSubmit} />
         </li>
         <li>
-          <Allow step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationCheck={() => onLocationCheckHandler(onLocationSubmit)} />
+          <Allow step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationCheck={nextStep => onLocationCheckHandler(nextStep, onLocationSubmit)} />
         </li>
       </ul>
 
@@ -24,10 +24,12 @@ const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
   );
 };
 
-const onLocationCheckHandler = onLocationSubmit => {
+const onLocationCheckHandler = (nextStep, onLocationSubmit) => {
+  console.log(`Fetching location`);
   fetch(`https://ipinfo.io/json`)
     .then(response => response.json())
-    .then(result => onLocationSubmit(result.country));
+    .then(result => onLocationSubmit(nextStep, result.country))
+    .then(() => console.log(`Location found`));
 };
 
 Location.propTypes = {

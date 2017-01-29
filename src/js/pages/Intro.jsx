@@ -81,7 +81,7 @@ const Intro = ({
         <Location
           step={step}
           onIntroStepUpdate={onIntroStepUpdate}
-          onLocationSubmit={location => onLocationSubmit(location)}
+          onLocationSubmit={(nextStep, location) => onLocationSubmit(nextStep, location)}
         />
       );
 

@@ -27,17 +27,8 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.checkConnection();
     //check everything that's stored in local storage
     this.checkLocalStorageData();
-  }
-
-  checkConnection() {
-    if (navigator.onLine) {
-      console.log(`yup`);
-    } else {
-      console.log(`neuwp`);
-    }
   }
 
   checkLocalStorageData() {
@@ -87,10 +78,11 @@ class App extends Component {
     this.setState({intro, search: newSearch});
   }
 
-  onLocationSubmitHandler(location) {
+  onLocationSubmitHandler(nextStep, location) {
     if (!location) location = `denied`;
     localStorage.setItem(`location`, location);
     this.setState({location});
+    router.transitionTo(`/intro/${nextStep}`);
   }
 
   onSpokenLangUpdateHandler(memberId, type, language) {
@@ -283,7 +275,7 @@ class App extends Component {
                       onIntroStepUpdate={newStep => this.onIntroStepUpdateHandler(newStep)}
                       onFamilyNameUpdate={familyName => this.onFamilyNameUpdateHandler(familyName)}
                       onFamilyNameSubmit={(e, name) => this.onFamilyNameSubmitHandler(e, name)}
-                      onLocationSubmit={location => this.onLocationSubmitHandler(location)}
+                      onLocationSubmit={(nextStep, location) => this.onLocationSubmitHandler(nextStep, location)}
                       onSpokenLangUpdate={(memberId, type, language) => this.onSpokenLangUpdateHandler(memberId, type, language)}
                       onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
                       onMembersUpdate={status => this.onMembersUpdateHandler(status)}

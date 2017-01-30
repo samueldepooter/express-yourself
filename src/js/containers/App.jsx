@@ -289,6 +289,23 @@ class App extends Component {
     router.transitionTo(url);
   }
 
+  onFinishHandler(id) {
+    const {activities} = this.state;
+    const completed = activities.completed.slice();
+
+    const alreadyCompleted = completed.indexOf(id);
+
+    //< 0 means it's not in the array yet -> push it
+    if (alreadyCompleted < 0) {
+      completed.push(id);
+      activities.completed = completed;
+
+      this.setState({activities});
+    }
+
+    router.transitionTo(`/activities`);
+  }
+
   render() {
 
     console.log(this.state);
@@ -376,7 +393,7 @@ class App extends Component {
               exactly pattern='/activities'
               render={() => {
 
-                const {confirmation} = activities;
+                const {confirmation, completed} = activities;
 
                 let done = this.onIntroCompletedHandler();
                 if (settings.development) done = true;
@@ -386,6 +403,7 @@ class App extends Component {
                     <Activities
                       family={family}
                       confirmation={confirmation}
+                      completed={completed}
                       onConfirmation={state => this.onConfirmationHandler(state)}
                       onRedirect={url => this.onRedirectHandler(url)}
                     />
@@ -399,8 +417,12 @@ class App extends Component {
             <Match
               exactly pattern='/activities/:id/details'
               render={({params}) => {
-                const {id} = params;
-                return <Details id={id} />;
+                let {id} = params;
+                const {completed} = activities;
+
+                id = parseInt(id);
+
+                return <Details id={id} completed={completed} />;
               }}
             />
 
@@ -423,6 +445,7 @@ class App extends Component {
                       onConfirmation={state => this.onConfirmationHandler(state)}
                       onSetActive={id => this.onSetActiveHandler(id)}
                       onRedirect={url => this.onRedirectHandler(url)}
+                      onFinish={id => this.onFinishHandler(id)}
                     />
                   );
                 } else {

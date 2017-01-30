@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Close, CloseConfirmation} from '../components';
+import {Close, CloseConfirmation, Finish} from '../components/activities';
 
 class Activity extends Component {
 
@@ -14,7 +14,7 @@ class Activity extends Component {
 
   render() {
 
-    const {id, step, confirmation, onSetActive, onConfirmation, onRedirect} = this.props;
+    const {id, step, confirmation, onSetActive, onConfirmation, onRedirect, onFinish} = this.props;
 
     return (
       <section>
@@ -36,6 +36,8 @@ class Activity extends Component {
 
         <h2>Activity {id} - Step {step}</h2>
 
+        <Finish id={id} onFinish={onFinish} />
+
       </section>
     );
   }
@@ -48,7 +50,8 @@ Activity.propTypes = {
   confirmation: PropTypes.bool,
   onSetActive: PropTypes.func,
   onConfirmation: PropTypes.func,
-  onRedirect: PropTypes.func
+  onRedirect: PropTypes.func,
+  onFinish: PropTypes.func
 };
 
 export default Activity;

@@ -22,6 +22,18 @@ class Details extends Component {
 
   }
 
+  renderCompleted() {
+    const {id, completed} = this.props;
+
+    const img = `https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png`;
+
+    return completed.map((activityId, i) => {
+      console.log(activityId, id);
+      if (activityId === id) return <img src={img} className='checked' key={i} />;
+      return;
+    });
+  }
+
   render() {
     const {activity} = this.state;
     const {title, description} = activity;
@@ -30,7 +42,7 @@ class Details extends Component {
     return (
       <article>
         <Link to='/activities' className='btn btn-danger'>Exit</Link>
-        <h2>{title}</h2>
+        <h2>{this.renderCompleted()}{title}</h2>
         <p>{description}</p>
         <Link to={`/activities/${id}/steps/1`} className='btn btn-default'>Let's play!</Link>
       </article>
@@ -40,7 +52,8 @@ class Details extends Component {
 }
 
 Details.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.number,
+  completed: PropTypes.array
 };
 
 export default Details;

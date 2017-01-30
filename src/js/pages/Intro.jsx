@@ -8,7 +8,7 @@ import {
   FamilyDetails,
   MemberAvatar,
   MemberLanguages
-} from '../components';
+} from '../components/intro';
 
 const Intro = ({
   step,

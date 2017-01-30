@@ -21,3 +21,9 @@ export MemberAvatar from './intro/MemberAvatar';
 export MemberLanguages from './intro/MemberLanguages';
 
 /* ACTIVITIES */
+
+export Close from './activities/Close';
+export CloseConfirmation from './activities/CloseConfirmation';
+
+export EndSession from './activities/EndSession';
+export EndSessionConfirmation from './activities/EndSessionConfirmation';

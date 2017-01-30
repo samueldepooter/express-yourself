@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
+
 import {activities} from '../globals';
+
+import {EndSession, EndSessionConfirmation} from '../components';
 
 class Activities extends Component {
 
@@ -10,13 +13,18 @@ class Activities extends Component {
 
   render() {
 
-    const {family} = this.props;
+    const {family, confirmation, onConfirmation, onRedirect} = this.props;
     const {members} = family;
-
-    console.log(this.props);
 
     return (
       <section>
+
+        <EndSessionConfirmation
+          confirmation={confirmation}
+          onRedirect={onRedirect}
+          onConfirmation={onConfirmation}
+        />
+
         <h2>Activities</h2>
 
         <ul className='list-unstyled'>
@@ -53,7 +61,12 @@ class Activities extends Component {
           </ul>
         </section>
 
-        <Link to='/' className='btn btn-danger'>End session</Link>
+        <EndSession
+          confirmation={confirmation}
+          onRedirect={onRedirect}
+          onConfirmation={onConfirmation}
+        />
+
       </section>
     );
   }
@@ -61,7 +74,10 @@ class Activities extends Component {
 }
 
 Activities.propTypes = {
-  family: PropTypes.object
+  family: PropTypes.object,
+  confirmation: PropTypes.bool,
+  onConfirmation: PropTypes.func,
+  onRedirect: PropTypes.func
 };
 
 export default Activities;

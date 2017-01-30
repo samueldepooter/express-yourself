@@ -26,10 +26,17 @@ const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
 
 const onLocationCheckHandler = (nextStep, onLocationSubmit) => {
   console.log(`Fetching location`);
-  fetch(`https://ipinfo.io/json`)
-    .then(response => response.json())
-    .then(result => onLocationSubmit(nextStep, result.country))
-    .then(() => console.log(`Location found`));
+
+  const btn = document.querySelector(`.btn-success`);
+  btn.innerHTML = `Fetching`;
+
+  setTimeout(() => {
+    fetch(`https://ipinfo.io/json`)
+      .then(response => response.json())
+      .then(result => onLocationSubmit(nextStep, result.country))
+      .then(() => console.log(`Location found`))
+      .catch(() => onLocationSubmit(nextStep, `denied`));
+  }, 1000);
 };
 
 Location.propTypes = {

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
-import {Start, Intro, Activities, Details, NoMatch} from '../pages';
+import {Start, Intro, Activities, Activity, Details, NoMatch} from '../pages';
+import {Page1} from '../pages';
 import {settings, languages} from '../globals';
 
 let router = {};
@@ -21,6 +22,8 @@ class App extends Component {
     },
     search: [],
     activities: {
+      confirmation: false,
+      active: 0,
       completed: []
     }
   }
@@ -267,10 +270,29 @@ class App extends Component {
     return true;
   }
 
+  onConfirmationHandler(state) {
+    const {activities} = this.state;
+
+    if (state) activities.confirmation = true;
+    else activities.confirmation = false;
+
+    this.setState({activities});
+  }
+
+  onSetActiveHandler(id) {
+    const {activities} = this.state;
+    activities.active = id;
+    this.setState({activities});
+  }
+
+  onRedirectHandler(url) {
+    router.transitionTo(url);
+  }
+
   render() {
 
     console.log(this.state);
-    const {location, family, search} = this.state;
+    const {location, family, search, activities} = this.state;
 
     return (
       <Router>
@@ -354,14 +376,18 @@ class App extends Component {
               exactly pattern='/activities'
               render={() => {
 
-                let done = this.onIntroCompletedHandler();
+                const {confirmation} = activities;
 
+                let done = this.onIntroCompletedHandler();
                 if (settings.development) done = true;
 
                 if (done) {
                   return (
                     <Activities
                       family={family}
+                      confirmation={confirmation}
+                      onConfirmation={state => this.onConfirmationHandler(state)}
+                      onRedirect={url => this.onRedirectHandler(url)}
                     />
                   );
                 } else {
@@ -376,6 +402,38 @@ class App extends Component {
                 const {id} = params;
                 return <Details id={id} />;
               }}
+            />
+
+            <Match
+              exactly pattern='/activities/:id/steps/:stepId'
+              render={({params}) => {
+
+                let {id, stepId} = params;
+                id = parseInt(id);
+                stepId = parseInt(stepId);
+
+                const {confirmation} = activities;
+
+                if (stepId === 1) {
+                  return (
+                    <Activity
+                      id={id}
+                      step={stepId}
+                      confirmation={confirmation}
+                      onConfirmation={state => this.onConfirmationHandler(state)}
+                      onSetActive={id => this.onSetActiveHandler(id)}
+                      onRedirect={url => this.onRedirectHandler(url)}
+                    />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
+            />
+
+            <Match
+              exactly pattern='/test/1'
+              render={() => <Page1 />}
             />
 
             <Miss component={NoMatch} />

@@ -56,3 +56,8 @@ input[type=search]::-webkit-search-cancel-button {
 .hide {
   display: none;
 }
+
+.drop-active {
+  border: 2px solid gold;
+  border-radius: 100%;
+}

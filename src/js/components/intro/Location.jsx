@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Previous, Deny, Allow} from '../../components';
+import 'whatwg-fetch';
 
 const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
   return (

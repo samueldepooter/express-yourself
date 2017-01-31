@@ -20,15 +20,17 @@ const port = 3000;
 // - json files (through fetch)
 // - fonts via WebFontLoader
 
-const copy = new CopyWebpackPlugin([{
-  from: `./src/assets`,
-  to: `assets`
-}], {
+const copy = new CopyWebpackPlugin([
+  {
+    from: `./src/assets`,
+    to: `assets`
+  }
+], {
   ignore: [ `.DS_Store` ]
 });
 
 const config = {
-  
+
   // no HTML entry points for production build (bundled in JavaScript)
   entry: [
     require.resolve(`react-dev-utils/webpackHotDevClient`),
@@ -128,7 +130,7 @@ const config = {
 
 };
 
-if(process.env.NODE_ENV === `production`){
+if (process.env.NODE_ENV === `production`) {
 
   //remove hot reloading client
   config.entry.shift();
@@ -166,7 +168,7 @@ if(process.env.NODE_ENV === `production`){
     })
   ];
 
-}else{
+} else {
 
   // only include HTMLs in NODE_ENV=development
   // for Hot Reloading

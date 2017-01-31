@@ -25,6 +25,7 @@
     "file-loader": "^0.9.0",
     "html-loader": "^0.4.4",
     "image-webpack-loader": "^3.0.0",
+    "interactjs": "^1.2.8",
     "local-web-server": "^1.2.6",
     "lodash": "^4.16.4",
     "postcss-cssnext": "^2.8.0",
@@ -46,5 +47,8 @@
     "webpack": "beta",
     "webpack-config-htmls": "^1.0.1",
     "webpack-dev-server": "beta"
+  },
+  "dependencies": {
+    "whatwg-fetch": "^2.0.2"
   }
 }

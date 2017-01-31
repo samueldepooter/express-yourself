@@ -2,16 +2,15 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import {avatars} from '../../globals';
 
-const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNameUpdate}) => {
+const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNameUpdate, onMemberAgeUpdate}) => {
 
-  const {id: memberId, avatar: selectedAvatar, name} = member;
+  const {id: memberId, avatar: selectedAvatar, name, age} = member;
 
   return (
     <div>
       <h2>Choose your avatar and give it your name!</h2>
 
       <img src={`/assets/avatars/${selectedAvatar}.svg`} />
-
 
       <form onSubmit={e => e.preventDefault()}>
         <ul className='list-inline'>
@@ -35,14 +34,28 @@ const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNam
         </ul>
 
         <div className='form-group'>
-          <label htmlFor='familyName'>My name is</label>
+          <label htmlFor='memberAge'>Your age: {age}</label>
+          <input
+            type='range'
+            className='form-control'
+            value={age}
+            min='7'
+            max='70'
+            id='memberAge'
+            ref={memberAge => this.memberAge = memberAge}
+            onChange={() => onMemberAgeUpdate(memberId, this.memberAge.value)}
+          />
+        </div>
+
+        <div className='form-group'>
+          <label htmlFor='memberName' className='hide'>Your name</label>
           <input
             type='text'
             className='form-control'
             value={name}
-            id='familyName'
+            id='memberName'
             ref={memberName => this.memberName = memberName}
-            placeholder='Samuel'
+            placeholder='Your name'
             onChange={() => onMemberNameUpdate(memberId, this.memberName.value)}
           />
         </div>
@@ -83,7 +96,8 @@ MemberAvatar.propTypes = {
   editStep: PropTypes.number,
   member: PropTypes.object,
   onMemberAvatarUpdate: PropTypes.func,
-  onMemberNameUpdate: PropTypes.func
+  onMemberNameUpdate: PropTypes.func,
+  onMemberAgeUpdate: PropTypes.func
 };
 
 export default MemberAvatar;

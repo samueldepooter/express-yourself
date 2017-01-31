@@ -49,6 +49,7 @@ class App extends Component {
       name: `Samuel`,
       avatar: `bear`,
       languages: [`Dutch`, `French`, `German`],
+      age: `21`,
       completed: false
     };
 
@@ -57,6 +58,7 @@ class App extends Component {
       name: `Emiel`,
       avatar: `pig`,
       languages: [`Dutch`, `French`, `German`],
+      age: `22`,
       completed: false
     };
 
@@ -203,6 +205,7 @@ class App extends Component {
         id: family.members.length + 1,
         name: ``,
         avatar: `unknown`,
+        age: ``,
         languages: familyLanguages,
         completed: false
       };
@@ -242,8 +245,16 @@ class App extends Component {
 
     //member with id 1 id is 0 in the state
     const stateId = memberId - 1;
-
     family.members[stateId].name = name;
+
+    this.setState({family});
+  }
+
+  onMemberAgeUpdateHandler(memberId, age) {
+    const {family} = this.state;
+
+    const stateId = memberId - 1;
+    family.members[stateId].age = age;
 
     this.setState({family});
   }
@@ -381,6 +392,7 @@ class App extends Component {
                       onSearchLangUpdate={searchLanguage => this.onSearchLangUpdateHandler(searchLanguage)}
                       onSpokenLangUpdate={(memberId, type, language) => this.onSpokenLangUpdateHandler(memberId, type, language)}
                       onMemberCompleted={id => this.onMemberCompletedHandler(id)}
+                      onMemberAgeUpdate={(memberId, age) => this.onMemberAgeUpdateHandler(memberId, age)}
                     />
                   );
                 } else {

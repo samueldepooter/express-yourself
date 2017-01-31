@@ -24,8 +24,6 @@ const FamilyMember = ({member, step, link}) => {
 
 const renderName = (name, completed) => {
 
-  console.log(completed);
-
   const img = `https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png`;
 
   return completed ? (

@@ -48,7 +48,6 @@ class Details extends Component {
       </article>
     );
   }
-
 }
 
 Details.propTypes = {

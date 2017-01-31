@@ -27,7 +27,8 @@ const Intro = ({
   onFamilyNameSubmit,
   onMembersUpdate,
   onMemberCompleted,
-  onIntroCompleted
+  onIntroCompleted,
+  onMemberAgeUpdate
 }) => {
 
   //check if member (details) is in the props, if not then it's not on the edit page
@@ -43,6 +44,7 @@ const Intro = ({
           member={member}
           onMemberAvatarUpdate={onMemberAvatarUpdate}
           onMemberNameUpdate={onMemberNameUpdate}
+          onMemberAgeUpdate={onMemberAgeUpdate}
         />
       );
 
@@ -137,7 +139,8 @@ Intro.propTypes = {
   onMemberAvatarUpdate: PropTypes.func,
   onMemberNameUpdate: PropTypes.func,
   onMemberCompleted: PropTypes.func,
-  onIntroCompleted: PropTypes.func
+  onIntroCompleted: PropTypes.func,
+  onMemberAgeUpdate: PropTypes.func
 };
 
 export default Intro;

@@ -3,7 +3,7 @@ import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 
 import {Start, Intro, Activities, Activity, Details, NoMatch} from '../pages';
 import {Page1} from '../pages';
-import {settings, languages} from '../globals';
+import {settings, languages, activitiesData} from '../globals';
 
 let router = {};
 
@@ -13,6 +13,9 @@ class App extends Component {
     intro: {
       currentStep: 1,
       maxStep: 1
+    },
+    activity: {
+      currentStep: 1
     },
     location: ``,
     family: {
@@ -317,10 +320,15 @@ class App extends Component {
     router.transitionTo(`/activities`);
   }
 
+  findActivity(id) {
+    const activity = activitiesData[id];
+    if (activity) return activity;
+  }
+
   render() {
 
     console.log(this.state);
-    const {location, family, search, activities} = this.state;
+    const {location, family, search, activities, activity} = this.state;
 
     return (
       <Router>
@@ -446,12 +454,21 @@ class App extends Component {
                 id = parseInt(id);
                 stepId = parseInt(stepId);
 
-                const {confirmation} = activities;
+                const activityDetails = this.findActivity(id - 1);
 
-                if (stepId === 1) {
+                const {confirmation} = activities;
+                const {steps} = activitiesData[id - 1];
+
+                console.log(steps);
+
+                //activity exists
+                //the step in state = step you're browsing to (so you can't go to later steps)
+                //stepId has to be lower or equal to the total steps of that activity
+                if (activityDetails && activity.currentStep === stepId && stepId <= steps) {
                   return (
                     <Activity
                       id={id}
+                      activity={activityDetails}
                       step={stepId}
                       confirmation={confirmation}
                       onConfirmation={state => this.onConfirmationHandler(state)}

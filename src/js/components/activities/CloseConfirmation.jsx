@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const CloseConfirmation = ({id, confirmation, onSetActive, onRedirect, onConfirmation}) => {
+const CloseConfirmation = ({title, confirmation, onSetActive, onRedirect, onConfirmation}) => {
 
   if (confirmation) {
     return (
@@ -8,7 +8,7 @@ const CloseConfirmation = ({id, confirmation, onSetActive, onRedirect, onConfirm
 
         <div>
 
-          <h3>Close activity {id}?</h3>
+          <h3>Close activity "{title}"?</h3>
           <p>All data from this activity will be lost!</p>
 
           <ul className='list-inline'>
@@ -37,7 +37,7 @@ const CloseConfirmation = ({id, confirmation, onSetActive, onRedirect, onConfirm
 };
 
 CloseConfirmation.propTypes = {
-  id: PropTypes.number,
+  title: PropTypes.string,
   confirmation: PropTypes.bool,
   onSetActive: PropTypes.func,
   onRedirect: PropTypes.func,

@@ -1,4 +1,4 @@
-const activities = [
+const activitiesData = [
   {
     name: `customise`,
     cover: ``,
@@ -33,4 +33,4 @@ const activities = [
   }
 ];
 
-export default activities;
+export default activitiesData;

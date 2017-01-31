@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 
 import {Activity} from './';
-import {activities} from '../../globals';
+import {activitiesData} from '../../globals';
 
 const ActivitiesList = ({completed}) => {
   return (
     <ul className='list-unstyled'>
-      {activities.map((activity, i) => <Activity key={i} i={i} activity={activity} completed={completed}  />)}
+      {activitiesData.map((activity, i) => <Activity key={i} i={i} activity={activity} completed={completed}  />)}
     </ul>
   );
 };

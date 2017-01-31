@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
-import {activities} from '../globals';
+import {activitiesData} from '../globals';
 
 class Details extends Component {
 
@@ -17,7 +17,7 @@ class Details extends Component {
     const {id} = this.props;
     const index = id - 1;
 
-    const activity = activities[index];
+    const activity = activitiesData[index];
     this.setState({activity});
 
   }

@@ -39,6 +39,7 @@ const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNam
             type='range'
             className='form-control'
             value={age}
+            step='1'
             min='7'
             max='70'
             id='memberAge'

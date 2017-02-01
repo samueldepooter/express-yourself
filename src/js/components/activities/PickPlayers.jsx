@@ -4,10 +4,6 @@ import {interact} from 'interactjs';
 
 class PickPlayers extends Component {
 
-  state = {
-    dropzonesHaveIds: false
-  }
-
   componentDidMount() {
     this.enableDrag();
   }

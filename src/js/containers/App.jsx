@@ -209,7 +209,7 @@ class App extends Component {
         id: family.members.length + 1,
         name: ``,
         avatar: `unknown`,
-        age: ``,
+        age: `7`,
         languages: familyLanguages,
         completed: false
       };
@@ -484,7 +484,14 @@ class App extends Component {
 
                 id = parseInt(id);
 
-                return <Details id={id} completed={completed} />;
+                let done = this.onIntroCompletedHandler();
+                if (settings.development) done = true;
+
+                if (done) {
+                  return <Details id={id} completed={completed} />;
+                } else {
+                  return <Redirect to='/' />;
+                }
               }}
             />
 
@@ -505,28 +512,33 @@ class App extends Component {
 
                 const {steps} = activitiesData[id - 1];
 
-                //activity exists
-                //the step in state = step you're browsing to (so you can't go to later steps)
-                //stepId has to be lower or equal to the total steps of that activity
-                if (activityDetails && activity.currentStep >= stepId && stepId <= steps) {
-                  return (
-                    <Activity
-                      id={id}
-                      activity={activityDetails}
-                      step={stepId}
-                      members={members}
-                      confirmation={confirmation}
-                      players={players}
-                      onConfirmation={state => this.onConfirmationHandler(state)}
-                      onSetActive={id => this.onSetActiveHandler(id)}
-                      onRedirect={url => this.onRedirectHandler(url)}
-                      onPlayersSubmit={(id, step, playerIds) => this.onPlayersSubmitHandler(id, step, playerIds)}
-                      onFinish={id => this.onFinishHandler(id)}
-                      onActivityStepUpdate={newStep => this.onActivityStepUpdateHandler(newStep)}
-                    />
-                  );
+                let done = this.onIntroCompletedHandler();
+                if (settings.development) done = true;
+
+                if (done) {
+                  //activity exists
+                  //the step in state = step you're browsing to (so you can't go to later steps)
+                  //stepId has to be lower or equal to the total steps of that activity
+                  if (activityDetails && activity.currentStep >= stepId && stepId <= steps) {
+                    return (
+                      <Activity
+                        id={id}
+                        activity={activityDetails}
+                        step={stepId}
+                        members={members}
+                        confirmation={confirmation}
+                        players={players}
+                        onConfirmation={state => this.onConfirmationHandler(state)}
+                        onSetActive={id => this.onSetActiveHandler(id)}
+                        onRedirect={url => this.onRedirectHandler(url)}
+                        onPlayersSubmit={(id, step, playerIds) => this.onPlayersSubmitHandler(id, step, playerIds)}
+                        onFinish={id => this.onFinishHandler(id)}
+                        onActivityStepUpdate={newStep => this.onActivityStepUpdateHandler(newStep)}
+                      />
+                    );
+                  }
                 } else {
-                  return <Redirect to='/' />;
+                  return <Redirect to='/activities' />;
                 }
               }}
             />

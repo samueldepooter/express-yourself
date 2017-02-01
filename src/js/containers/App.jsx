@@ -15,7 +15,8 @@ class App extends Component {
       maxStep: 1
     },
     activity: {
-      currentStep: 1
+      currentStep: 1,
+      playerIds: []
     },
     location: ``,
     family: {
@@ -294,8 +295,11 @@ class App extends Component {
   }
 
   onSetActiveHandler(id) {
-    const {activities} = this.state;
+    const {activities, activity} = this.state;
+
     activities.active = id;
+    activity.currentStep = 1;
+
     this.setState({activities});
   }
 
@@ -323,6 +327,44 @@ class App extends Component {
   findActivity(id) {
     const activity = activitiesData[id];
     if (activity) return activity;
+  }
+
+  onActivityStepUpdateHandler(newStep) {
+    const {activity} = this.state;
+
+    activity.currentStep = newStep;
+    this.setState({activity});
+  }
+
+  onPlayersSubmitHandler(id, step, playerIds) {
+    const {activity} = this.state;
+    const {playerIds: oldIds} = activity;
+
+    let ids = oldIds.slice();
+    ids = playerIds;
+
+    activity.playerIds = ids;
+
+    this.setState({activity});
+
+    this.onActivityStepUpdateHandler(step + 1);
+    this.onRedirectHandler(`/activities/${id}/steps/${step + 1}`);
+  }
+
+  findPlayers(playerIds) {
+    const {family} = this.state;
+    const {members} = family;
+
+    const players = [];
+
+    members.map((member, i) => {
+      playerIds.map(id => {
+        id = parseInt(id);
+        if (i === id) players.push(member);
+      });
+    });
+
+    return players;
   }
 
   render() {
@@ -454,27 +496,33 @@ class App extends Component {
                 id = parseInt(id);
                 stepId = parseInt(stepId);
 
-                const activityDetails = this.findActivity(id - 1);
-
                 const {confirmation} = activities;
-                const {steps} = activitiesData[id - 1];
+                const {playerIds} = activity;
+                const {members} = family;
 
-                console.log(steps);
+                const activityDetails = this.findActivity(id - 1);
+                const players = this.findPlayers(playerIds);
+
+                const {steps} = activitiesData[id - 1];
 
                 //activity exists
                 //the step in state = step you're browsing to (so you can't go to later steps)
                 //stepId has to be lower or equal to the total steps of that activity
-                if (activityDetails && activity.currentStep === stepId && stepId <= steps) {
+                if (activityDetails && activity.currentStep >= stepId && stepId <= steps) {
                   return (
                     <Activity
                       id={id}
                       activity={activityDetails}
                       step={stepId}
+                      members={members}
                       confirmation={confirmation}
+                      players={players}
                       onConfirmation={state => this.onConfirmationHandler(state)}
                       onSetActive={id => this.onSetActiveHandler(id)}
                       onRedirect={url => this.onRedirectHandler(url)}
+                      onPlayersSubmit={(id, step, playerIds) => this.onPlayersSubmitHandler(id, step, playerIds)}
                       onFinish={id => this.onFinishHandler(id)}
+                      onActivityStepUpdate={newStep => this.onActivityStepUpdateHandler(newStep)}
                     />
                   );
                 } else {

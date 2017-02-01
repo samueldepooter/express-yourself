@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Close, CloseConfirmation, Finish, Customise, AnimationReaction, DrawSomething} from '../components/activities';
+import {Close, CloseConfirmation, Customise, AnimationReaction, DrawSomething} from '../components/activities';
 
 class Activity extends Component {
 
@@ -9,22 +9,37 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, activity} = this.props;
+    const {id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit} = this.props;
 
     switch (id) {
     case 1:
       return (
-        <Customise step={step} activity={activity} />
+        <Customise
+          id={id}
+          step={step}
+          members={members}
+          players={players}
+          activity={activity}
+          onFinish={onFinish}
+          onActivityStepUpdate={onActivityStepUpdate}
+          onPlayersSubmit={onPlayersSubmit}
+        />
       );
 
     case 2:
       return (
-        <AnimationReaction step={step} activity={activity} />
+        <AnimationReaction
+          step={step}
+          activity={activity}
+        />
       );
 
     case 3:
       return (
-        <DrawSomething step={step} activity={activity} />
+        <DrawSomething
+          step={step}
+          activity={activity}
+        />
       );
 
     }
@@ -33,7 +48,7 @@ class Activity extends Component {
 
   render() {
 
-    const {id, activity, confirmation, onSetActive, onConfirmation, onRedirect, onFinish} = this.props;
+    const {activity, confirmation, onSetActive, onConfirmation, onRedirect} = this.props;
 
     return (
       <section>
@@ -57,8 +72,6 @@ class Activity extends Component {
 
         {this.renderActivity()}
 
-        <Finish id={id} onFinish={onFinish} />
-
       </section>
     );
   }
@@ -67,12 +80,16 @@ class Activity extends Component {
 Activity.propTypes = {
   id: PropTypes.number,
   activity: PropTypes.object,
+  members: PropTypes.array,
+  players: PropTypes.array,
   step: PropTypes.number,
   confirmation: PropTypes.bool,
   onSetActive: PropTypes.func,
   onConfirmation: PropTypes.func,
   onRedirect: PropTypes.func,
-  onFinish: PropTypes.func
+  onPlayersSubmit: PropTypes.func,
+  onFinish: PropTypes.func,
+  onActivityStepUpdate: PropTypes.func
 };
 
 export default Activity;

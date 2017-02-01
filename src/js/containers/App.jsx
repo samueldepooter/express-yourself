@@ -536,6 +536,8 @@ class App extends Component {
                         onActivityStepUpdate={newStep => this.onActivityStepUpdateHandler(newStep)}
                       />
                     );
+                  } else {
+                    return <Redirect to='/activities' />;
                   }
                 } else {
                   return <Redirect to='/activities' />;

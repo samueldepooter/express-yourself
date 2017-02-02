@@ -18,3 +18,4 @@ export AnimationReaction from './AnimationReaction';
 export DrawSomething from './DrawSomething';
 
 export ColorLanguages from './activityCustomise/ColorLanguages';
+export CustomiseAvatar from './activityCustomise/CustomiseAvatar';

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {ExplanationVideo, PickPlayers, ColorLanguages} from './';
+import {ExplanationVideo, PickPlayers, ColorLanguages, CustomiseAvatar} from './';
 
 const Customise = ({id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate}) => {
 
@@ -36,6 +36,14 @@ const Customise = ({id, step, members, players, activity, onFinish, onActivitySt
         onLanguagesUpdate={onLanguagesUpdate}
         onLanguageColorUpdate={onLanguageColorUpdate}
         onActivityStepUpdate={onActivityStepUpdate}
+      />
+    );
+
+  case 4:
+    return (
+      <CustomiseAvatar
+        id={id}
+        step={step}
       />
     );
 

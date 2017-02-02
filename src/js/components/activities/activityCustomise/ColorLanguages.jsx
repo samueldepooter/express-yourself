@@ -1,10 +1,15 @@
 import React, {Component, PropTypes} from 'react';
+import {Next} from '../.';
 import {activitiesData} from '../../../globals';
 import {interact} from 'interactjs';
 
 let colors = [];
 
 class ColorLanguages extends Component {
+
+  state = {
+    showNext: false
+  }
 
   componentWillMount() {
     this.setColors();
@@ -13,52 +18,44 @@ class ColorLanguages extends Component {
 
   componentDidMount() {
     this.enableDrag();
+    this.checkSelectedLanguageColors();
+    this.checkRenderNext();
+  }
+
+  checkSelectedLanguageColors() {
+    const languageColors = document.querySelectorAll(`.languageColor`);
+    const dropzones = document.querySelectorAll(`.dropzone`);
+
+    for (let i = 0;i < languageColors.length;i ++) {
+      for (let j = 0;j < dropzones.length;j ++) {
+        if (languageColors[i].getAttribute(`data-selectedColor`) === dropzones[j].getAttribute(`data-color`)) {
+          dropzones[j].classList.add(`inactive`);
+          dropzones[j].classList.remove(`dropzone`);
+        }
+      }
+    }
   }
 
   enableDrag() {
     interact(`.draggable`)
       .draggable({
-
-        // enable inertial throwing
         inertia: true,
-
-        // keep the element within the area of parent
         restrict: {
           endOnly: true,
           elementRect: {top: 0, left: 0, bottom: 1, right: 1}
         },
-
-        // enable autoScroll
         autoScroll: true,
-
-        // call this function on every dragmove event
         onmove: e => this.dragMoveListener(e),
-
-        // call this function on every dragend event
         onend: e => this.dragEndListener(e)
       });
 
     interact(`.dropzone`)
       .dropzone({
-
-        // only accept elements matching this CSS selector
         accept: `.draggable`,
-
-        // Require a % element overlap for a drop to be possible
         overlap: .5,
-
         ondrop: e => this.onDropHandler(e),
-
-        ondropactivate: event => {
-          // toon visueel waar je kan droppen
-          event.target.classList.add(`drop-active`);
-        },
-
-        ondropdeactivate: event => {
-          // verwijder visuele ding van hierboven
-          event.target.classList.remove(`drop-active`);
-        },
-
+        ondropactivate: event => event.target.classList.add(`drop-active`),
+        ondropdeactivate: event => event.target.classList.remove(`drop-active`),
         ondragenter: event => {
           const draggableElement = event.relatedTarget;
           const dropzoneElement = event.target;
@@ -68,13 +65,11 @@ class ColorLanguages extends Component {
           dropzoneElement.classList.add(`drop-target`);
           draggableElement.classList.add(`can-drop`);
         },
-
         ondragleave: event => {
           // verwijder visuele ding van hierboven
           event.target.classList.remove(`drop-target`);
           event.relatedTarget.classList.remove(`can-drop`);
         }
-
       });
   }
 
@@ -86,10 +81,37 @@ class ColorLanguages extends Component {
     const language = el.getAttribute(`data-languageName`);
     const color = target.getAttribute(`data-color`);
 
+    const selected = el.childNodes[0].getAttribute(`data-selectedColor`);
+    if (selected) {
+      const colors = document.querySelectorAll(`.possibleColor`);
+      for (let i = 0;i < colors.length;i ++) {
+        if (selected === colors[i].getAttribute(`data-color`)) {
+          colors[i].classList.add(`dropzone`);
+          colors[i].classList.remove(`inactive`);
+        }
+      }
+    }
+
     // juist gedropt -> functie triggeren die state goed zet
     console.log(`Dropped language ${language} in color ${color}`);
 
+    target.classList.remove(`dropzone`);
+    target.classList.add(`inactive`);
+
     onLanguageColorUpdate(language, color);
+
+    this.checkRenderNext();
+  }
+
+  checkRenderNext() {
+    const languageColors = document.querySelectorAll(`.languageColor`);
+    let render = true;
+
+    for (let i = 0;i < languageColors.length;i ++) {
+      if (!languageColors[i].getAttribute(`data-selectedColor`)) render = false;
+    }
+
+    this.setState({showNext: render});
   }
 
   dragEndListener(e) {
@@ -150,6 +172,22 @@ class ColorLanguages extends Component {
     }
   }
 
+  renderNext() {
+    const {showNext} = this.state;
+    const {id, step, onActivityStepUpdate} = this.props;
+
+    if (!showNext) return;
+
+    return (
+      <Next
+        id={id}
+        step={step}
+        text='Customise avatar'
+        onActivityStepUpdate={onActivityStepUpdate}
+      />
+    );
+  }
+
   render() {
 
     const {players} = this.props;
@@ -166,7 +204,7 @@ class ColorLanguages extends Component {
           {languages.map(((language, i) => {
             return (
               <li key={i} className='language draggable' data-languageName={language.language}>
-                <div className='languageColor' style={{backgroundColor: language.color}}></div>
+                <div className='languageColor' data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
                 {language.language}
               </li>
             );
@@ -176,6 +214,8 @@ class ColorLanguages extends Component {
         <ul className='list-inline'>
           {colors.map((color, i) => <li key={i} className='possibleColor dropzone' style={{backgroundColor: color}} data-color={color}><span className='hide'>{color}</span></li>)}
         </ul>
+
+        {this.renderNext()}
 
         <div>
           <img src={`/assets/avatars/${avatar}.svg`} />
@@ -188,10 +228,13 @@ class ColorLanguages extends Component {
 }
 
 ColorLanguages.propTypes = {
+  id: PropTypes.number,
+  step: PropTypes.number,
   players: PropTypes.array,
   onLanguagesUpdate: PropTypes.func,
   activityName: PropTypes.string,
-  onLanguageColorUpdate: PropTypes.func
+  onLanguageColorUpdate: PropTypes.func,
+  onActivityStepUpdate: PropTypes.func
 };
 
 export default ColorLanguages;

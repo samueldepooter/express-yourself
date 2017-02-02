@@ -39,6 +39,10 @@ body {
 .possibleColor {
   width: 10rem;
   height: 10rem;
+
+  &.inactive {
+    opacity: .5;
+  }
 }
 
 .colorLanguagesList {

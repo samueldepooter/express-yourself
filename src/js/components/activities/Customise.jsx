@@ -29,10 +29,13 @@ const Customise = ({id, step, members, players, activity, onFinish, onActivitySt
   case 3:
     return (
       <ColorLanguages
+        id={id}
+        step={step}
         activityName={activity.name}
         players={players}
         onLanguagesUpdate={onLanguagesUpdate}
         onLanguageColorUpdate={onLanguageColorUpdate}
+        onActivityStepUpdate={onActivityStepUpdate}
       />
     );
 

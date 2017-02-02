@@ -395,13 +395,10 @@ class App extends Component {
   onLanguageColorUpdateHandler(language, color) {
     const {family} = this.state;
 
-    const member = this.getPlayer(0);
     const oldLanguage = this.getLanguage(0, language);
     oldLanguage.color = color;
 
     this.setState({family});
-
-    console.log(`update ${language} to new color ${color} for member ${member.name}`);
   }
 
   render() {

@@ -36,6 +36,32 @@ body {
   align-items: center;
 }
 
+.possibleColor {
+  width: 10rem;
+  height: 10rem;
+}
+
+.colorLanguagesList {
+
+  display: flex;
+  flex-direction: column;
+
+  .language {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+  }
+
+  .languageColor {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 100%;
+    background-color: white;
+    margin-right: .5rem;
+    border: 2px solid grey;
+  }
+}
+
 @keyframes btn-fade-in {
 
   0% {

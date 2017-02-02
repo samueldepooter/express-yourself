@@ -367,6 +367,43 @@ class App extends Component {
     return players;
   }
 
+  onLanguagesUpdateHandler(convertedLanguages) {
+    const {family} = this.state;
+
+    const member = this.getPlayer(0);
+    member.languages = convertedLanguages;
+
+    this.setState({family});
+  }
+
+  getPlayer(n) {
+    const {family, activity} = this.state;
+    const {members} = family;
+    const {playerIds} = activity;
+
+    return members[playerIds[n]];
+  }
+
+  getLanguage(memberId, language) {
+    const player = this.getPlayer(memberId);
+    const {languages} = player;
+
+    const foundLanguage = languages.find(l => l.language === language);
+    return foundLanguage;
+  }
+
+  onLanguageColorUpdateHandler(language, color) {
+    const {family} = this.state;
+
+    const member = this.getPlayer(0);
+    const oldLanguage = this.getLanguage(0, language);
+    oldLanguage.color = color;
+
+    this.setState({family});
+
+    console.log(`update ${language} to new color ${color} for member ${member.name}`);
+  }
+
   render() {
 
     console.log(this.state);
@@ -534,6 +571,8 @@ class App extends Component {
                         onPlayersSubmit={(id, step, playerIds) => this.onPlayersSubmitHandler(id, step, playerIds)}
                         onFinish={id => this.onFinishHandler(id)}
                         onActivityStepUpdate={newStep => this.onActivityStepUpdateHandler(newStep)}
+                        onLanguagesUpdate={languages => this.onLanguagesUpdateHandler(languages)}
+                        onLanguageColorUpdate={(language, color) => this.onLanguageColorUpdateHandler(language, color)}
                       />
                     );
                   } else {

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ExplanationVideo, PickPlayers, ColorLanguages} from './';
 
-const Customise = ({id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit}) => {
+const Customise = ({id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate}) => {
 
   switch (step) {
   case 1:
@@ -29,7 +29,10 @@ const Customise = ({id, step, members, players, activity, onFinish, onActivitySt
   case 3:
     return (
       <ColorLanguages
+        activityName={activity.name}
         players={players}
+        onLanguagesUpdate={onLanguagesUpdate}
+        onLanguageColorUpdate={onLanguageColorUpdate}
       />
     );
 
@@ -44,7 +47,9 @@ Customise.propTypes = {
   activity: PropTypes.object,
   onFinish: PropTypes.func,
   onActivityStepUpdate: PropTypes.func,
-  onPlayersSubmit: PropTypes.func
+  onPlayersSubmit: PropTypes.func,
+  onLanguagesUpdate: PropTypes.func,
+  onLanguageColorUpdate: PropTypes.func
 };
 
 export default Customise;

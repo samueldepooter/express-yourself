@@ -21,7 +21,8 @@ body {
   height: 2rem;
 }
 
-.confirmationBox {
+.confirmationBox,
+.customAvatarsOverview {
   z-index: 99999999;
   position: absolute;
   top: 0;
@@ -57,12 +58,118 @@ body {
   }
 
   .languageColor {
-    width: 5rem;
-    height: 5rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 100%;
     background-color: white;
     margin-right: .5rem;
     border: 2px solid grey;
+  }
+}
+
+.avatars {
+  position: relative;
+  width: 384px;
+  height: 485px;
+}
+
+.draggable {
+  z-index: 99999;
+}
+
+.customOverviewAvatar {
+
+  .armLeft {
+    transform: translate(6rem, 6rem);
+  }
+
+  .armRight {
+    transform: translate(-7rem, 6rem);
+  }
+
+  .head,
+  .ear,
+  .mouth,
+  .cheeck,
+  .braw,
+  .eye,
+  .nose,
+  .teeth,
+  .tongue {
+    transform: translate(0, 12rem);
+  }
+
+  .body,
+  .pants,
+  .nipple,
+  .bellybutton {
+    transform: translate(0, 6rem);
+  }
+}
+
+.customAvatar {
+
+  position: absolute;
+  transition: all .5s ease;
+
+  .dropzone {
+    transition: all .5s ease;
+
+    path,
+    ellipse,
+    circle {
+      transition: all .5s ease;
+    }
+  }
+
+  &.interactable {
+    opacity: 0;
+  }
+
+  &.nonInteractable {
+
+    .armLeft {
+      transform: translate(6rem, 6rem);
+
+      &.drop-active {
+        transform: translate(0, 0);
+      }
+    }
+
+    .armRight {
+      transform: translate(-7rem, 6rem);
+
+      &.drop-active {
+        transform: translate(0, 0);
+      }
+    }
+
+    .head,
+    .ear,
+    .mouth,
+    .cheeck,
+    .braw,
+    .eye,
+    .nose,
+    .teeth,
+    .tongue {
+      transform: translate(0, 12rem);
+
+      &.drop-active {
+        transform: translate(0, 0);
+      }
+    }
+
+    .body,
+    .pants,
+    .nipple,
+    .bellybutton {
+      transform: translate(0, 6rem);
+
+      &.drop-active {
+        transform: translate(0, 0);
+      }
+    }
   }
 }
 

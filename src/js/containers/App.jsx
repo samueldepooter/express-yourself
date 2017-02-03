@@ -51,7 +51,7 @@ class App extends Component {
     const member1 = {
       id: 1,
       name: `Samuel`,
-      avatar: `bear`,
+      avatar: `lion`,
       languages: [`Dutch`, `French`, `German`],
       age: `21`,
       completed: false
@@ -401,6 +401,22 @@ class App extends Component {
     this.setState({family});
   }
 
+  onCustomAvatarUpdateHandler(avatar) {
+    console.log(avatar);
+    //find right member, add custom avatar
+
+    const {activity} = this.state;
+    const {playerIds} = activity;
+
+    let memberId = playerIds[0];
+    memberId = parseInt(memberId);
+    const member = this.findMember(memberId + 1);
+
+    member.customAvatar = avatar;
+
+    this.setState({activity});
+  }
+
   render() {
 
     console.log(this.state);
@@ -570,6 +586,7 @@ class App extends Component {
                         onActivityStepUpdate={newStep => this.onActivityStepUpdateHandler(newStep)}
                         onLanguagesUpdate={languages => this.onLanguagesUpdateHandler(languages)}
                         onLanguageColorUpdate={(language, color) => this.onLanguageColorUpdateHandler(language, color)}
+                        onCustomAvatarUpdate={avatar => this.onCustomAvatarUpdateHandler(avatar)}
                       />
                     );
                   } else {

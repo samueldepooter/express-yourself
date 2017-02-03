@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Next} from '../.';
+import {Next, Playing} from '../.';
 import {activitiesData} from '../../../globals';
 import {interact} from 'interactjs';
 
@@ -153,8 +153,7 @@ class ColorLanguages extends Component {
   }
 
   checkLanguageColors() {
-    const {players, onLanguagesUpdate} = this.props;
-    const player = players[0];
+    const {player, onLanguagesUpdate} = this.props;
     const {languages} = player;
 
     if (!languages[0].language) {
@@ -190,11 +189,8 @@ class ColorLanguages extends Component {
 
   render() {
 
-    const {players} = this.props;
-
-    //only need 1 player in this game so will always be index 0
-    const player = players[0];
-    const {name, languages, avatar} = player;
+    const {player} = this.props;
+    const {languages} = player;
 
     return (
       <section>
@@ -217,10 +213,7 @@ class ColorLanguages extends Component {
 
         {this.renderNext()}
 
-        <div>
-          <img src={`/assets/avatars/${avatar}.svg`} />
-          <p>{name} is playing...</p>
-        </div>
+        <Playing player={player} />
       </section>
     );
   }
@@ -230,7 +223,7 @@ class ColorLanguages extends Component {
 ColorLanguages.propTypes = {
   id: PropTypes.number,
   step: PropTypes.number,
-  players: PropTypes.array,
+  player: PropTypes.object,
   onLanguagesUpdate: PropTypes.func,
   activityName: PropTypes.string,
   onLanguageColorUpdate: PropTypes.func,

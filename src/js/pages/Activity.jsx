@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate} = this.props;
+    const {id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -25,6 +25,7 @@ class Activity extends Component {
           onPlayersSubmit={onPlayersSubmit}
           onLanguagesUpdate={onLanguagesUpdate}
           onLanguageColorUpdate={onLanguageColorUpdate}
+          onCustomAvatarUpdate={onCustomAvatarUpdate}
         />
       );
 
@@ -93,7 +94,8 @@ Activity.propTypes = {
   onFinish: PropTypes.func,
   onActivityStepUpdate: PropTypes.func,
   onLanguagesUpdate: PropTypes.func,
-  onLanguageColorUpdate: PropTypes.func
+  onLanguageColorUpdate: PropTypes.func,
+  onCustomAvatarUpdate: PropTypes.func
 };
 
 export default Activity;

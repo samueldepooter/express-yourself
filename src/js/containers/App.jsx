@@ -52,7 +52,7 @@ class App extends Component {
       id: 1,
       name: `Samuel`,
       avatar: `lion`,
-      languages: [`Dutch`, `French`, `German`],
+      languages: [`Dutch`, `French`],
       age: `21`,
       completed: false
     };
@@ -61,7 +61,7 @@ class App extends Component {
       id: 2,
       name: `Emiel`,
       avatar: `pig`,
-      languages: [`Dutch`, `French`, `German`],
+      languages: [`Dutch`],
       age: `22`,
       completed: false
     };
@@ -402,9 +402,7 @@ class App extends Component {
   }
 
   onCustomAvatarUpdateHandler(avatar) {
-    console.log(avatar);
     //find right member, add custom avatar
-
     const {activity} = this.state;
     const {playerIds} = activity;
 

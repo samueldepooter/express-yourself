@@ -398,3 +398,43 @@ input[type=search] {
     top: 8.5rem;
   }
 }
+
+.overlay {
+  display: none;
+}
+
+/* --- QUERIES --- */
+
+@media all and (max-width: 1023px) {
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999999999999;
+
+    font-size: 3rem;
+    color: $white;
+    text-align: center;
+    line-height: 4rem;
+
+    &.error {
+      background: $bg;
+    }
+
+    .text {
+      max-width: 90vw;
+    }
+
+    .bold {
+      color: $textMain;
+    }
+  }
+}

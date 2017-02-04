@@ -428,6 +428,10 @@ class App extends Component {
 
             {this.setRouter(router)}
 
+            <div className='overlay error'>
+              <p className='text'>Please use a <span className='bold'>tablet</span> and put it in <span className='bold'>landscape view</span>!</p>
+            </div>
+
             <header className='hide'>
               <h1>Express yourself!</h1>
             </header>

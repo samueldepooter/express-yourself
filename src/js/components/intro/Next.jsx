@@ -9,9 +9,10 @@ const Next = ({step, onIntroStepUpdate, text}) => {
   return (
     <Link
       to={`/intro/${nextStep}`}
-      className='btn btn-default'
+      className='btn'
       onClick={() => onIntroStepUpdate(nextStep)}>
-      {text}
+      <img className='icon' src='/assets/icons/check.svg' />
+      <span className='text'>{text}</span>
     </Link>
   );
 };

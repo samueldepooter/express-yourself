@@ -3,29 +3,37 @@ import {Next} from '../../components';
 
 const FamilyName = ({step, familyName, onIntroStepUpdate, onFamilyNameUpdate, onFamilyNameSubmit}) => {
   return (
-    <div>
-      <h2>Which lovely family will get to play with us?</h2>
+    <section className='intro familyName fullPage'>
 
-      <form onSubmit={e => onFamilyNameSubmit(e, this.familyName.value)}>
-        <div className='form-group'>
-          <label htmlFor='familyName'>Family Name</label>
-          <input
-            type='search'
-            className='form-control'
-            value={familyName}
-            id='familyName'
-            ref={name => this.familyName = name}
-            placeholder='De Pooter'
-            onChange={() => onFamilyNameUpdate(this.familyName.value)}
-          />
-        </div>
+      <div className='headerBg'></div>
+      <img className='headerBgExtra' src='/assets/headers/familyName/family.svg' />
 
-        <input type='submit' className='hide' />
+      <div className='content'>
+        <h2 className='title'>Family</h2>
 
-        {renderNext(step, onIntroStepUpdate, familyName)}
-      </form>
+        <p className='subtitle'>Which <span className='bold'>lovely family</span> will get to play with us?</p>
 
-    </div>
+        <form className='form' onSubmit={e => onFamilyNameSubmit(e, this.familyName.value)}>
+          <div className='formGroup'>
+            <label className='hide' htmlFor='familyName'>Family Name</label>
+            <input
+              type='text'
+              className='textInput'
+              value={familyName}
+              id='familyName'
+              ref={name => this.familyName = name}
+              placeholder='De Pooter'
+              onChange={() => onFamilyNameUpdate(this.familyName.value)}
+            />
+          </div>
+
+          <input type='submit' className='hide' />
+
+          {renderNext(step, onIntroStepUpdate, familyName)}
+        </form>
+      </div>
+
+    </section>
   );
 };
 

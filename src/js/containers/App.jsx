@@ -428,6 +428,10 @@ class App extends Component {
 
             {this.setRouter(router)}
 
+            <header className='hide'>
+              <h1>Express yourself!</h1>
+            </header>
+
             <Match
               exactly pattern='/'
               component={Start}

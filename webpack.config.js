@@ -104,7 +104,7 @@ const config = {
         ]
       },
       {
-        test: /\.(svg|png|jpe?g|gif|webp)$/,
+        test: /\.(svg|woff|woff2|eot|ttf|png|jpe?g|gif|webp)$/,
         loader: `url-loader`,
         options: {
           limit: 1000, // inline if < 1 kb

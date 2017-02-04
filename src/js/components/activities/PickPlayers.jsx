@@ -50,11 +50,13 @@ class PickPlayers extends Component {
         ondropactivate: event => {
           // toon visueel waar je kan droppen
           event.target.classList.add(`drop-active`);
+          //event.relatedTarget.classList.add('');
         },
 
         ondropdeactivate: event => {
           // verwijder visuele ding van hierboven
           event.target.classList.remove(`drop-active`);
+          //event.relatedTarget.classList.remove('');
         },
 
         ondragenter: event => {

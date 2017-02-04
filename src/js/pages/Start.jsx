@@ -3,11 +3,16 @@ import {Link} from 'react-router';
 
 const Start = () => {
   return (
-    <header>
-      <h1>Express yourself!</h1>
-      <p>Intro screen of application</p>
-      <Link to='/intro/1' className='btn btn-default'>Start session</Link>
-    </header>
+    <section className='start fullPage'>
+      <h2 className='logo'>Express yourself logo</h2>
+
+      <p>The application that assists you in analysing emotion in language.</p>
+
+      <Link className='btn' to='/intro/1'>
+        <img className='icon' src='/assets/icons/check.svg' />
+        <span className='text'>Start session</span>
+      </Link>
+    </section>
   );
 };
 

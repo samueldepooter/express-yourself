@@ -11,7 +11,7 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
       <img className='headerBgExtra' src='/assets/headers/familyLanguages/talk.svg' />
 
       <div className='content'>
-        <h2 className='title'>Spoken languages</h2>
+        <h2 className='title'>Family languages</h2>
 
         <form onSubmit={e => e.preventDefault()}>
 

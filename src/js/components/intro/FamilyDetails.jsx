@@ -5,25 +5,31 @@ import {Previous, FamilyMember} from '../../components';
 const FamilyDetails = ({step, familyName, familyMembers, onIntroStepUpdate, onIntroCompleted}) => {
 
   return (
-    <div>
+    <section className='intro familyDetails fullPage'>
 
-      <h2>The {familyName} family</h2>
-      <p>Tap on a family member to fill in the details</p>
+      <div className='headerBg'></div>
+      <img className='headerBgExtra' src='/assets/headers/familyDetails/family.svg' />
 
-      <ul className='list-inline'>
-        {familyMembers.map((member, i) => <FamilyMember key={i} member={member} link={true} step={step} />)}
-      </ul>
+      <div className='content'>
+        <h2 className='title' data-before={`The ${familyName} family`}>The {familyName} family</h2>
 
-      <ul className='list-inline'>
-        <li>
-          <Previous step={step} onIntroStepUpdate={onIntroStepUpdate} />
-        </li>
-        <li>
-          {renderNext(onIntroCompleted)}
-        </li>
-      </ul>
+        <div className='membersList'>
+          <ul className='list-inline'>
+            {familyMembers.map((member, i) => <FamilyMember key={i} member={member} link={true} step={step} />)}
+          </ul>
+        </div>
 
-    </div>
+        <ul className='list-inline buttons'>
+          <li>
+            <Previous step={step} text='Family members' onIntroStepUpdate={onIntroStepUpdate} />
+          </li>
+          <li>
+            {renderNext(onIntroCompleted)}
+          </li>
+        </ul>
+      </div>
+
+    </section>
   );
 };
 
@@ -33,7 +39,12 @@ const renderNext = onIntroCompleted => {
 
   if (!done) return;
 
-  return <Link to='/activities' className='btn btn-default'>Time for activities!</Link>;
+  return (
+    <Link to='/activities' className='btn'>
+      <img className='icon' src='/assets/icons/check.svg' />
+      <span className='text'>Time for activities!</span>
+    </Link>
+  );
 };
 
 FamilyDetails.propTypes = {

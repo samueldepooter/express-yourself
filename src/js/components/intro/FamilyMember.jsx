@@ -6,28 +6,35 @@ const FamilyMember = ({member, step, link}) => {
 
   if (!link) {
     return (
-      <li className='unknown'>?</li>
+      <li className='member'>?</li>
     );
   } else {
     return (
       <li>
-        <Link to={`/intro/${step}/members/${id}/edit/1`}>
-          <img src={`/assets/avatars/${avatar}.svg`} />
-          {renderName(name, completed)}
+        <Link to={`/intro/${step}/members/${id}/edit/1`} className='member'>
+          {renderCompleted(completed)}
+          {renderAvatar(avatar)}
+          <p className='name'>{name}</p>
         </Link>
       </li>
     );
   }
 };
 
-const renderName = (name, completed) => {
+const renderAvatar = avatar => {
+  if (avatar === `unknown`) {
+    return <p className='avatar'>?</p>;
+  } else {
+    return <img src={`/assets/avatars/${avatar}.svg`} className='avatar avatarFound' />;
+  }
+};
 
-  const img = `https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png`;
-
-  return completed ? (
-    <p><img src={img} className='checked' /> {name}</p>
-  ) : (
-    <p>{name}</p>
+const renderCompleted = completed => {
+  if (completed) return (
+    <div className='completed'>
+      <img src='/assets/icons/check.svg' className='icon' />
+      <span className='hide'>Completed!</span>
+    </div>
   );
 };
 

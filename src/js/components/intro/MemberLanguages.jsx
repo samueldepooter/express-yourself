@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import {SpokenLanguages, FoundLanguages} from '../../components';
+import {languages as allLanguages} from '../../globals';
 
 const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLangUpdate, onMemberCompleted}) => {
 
@@ -16,6 +17,7 @@ const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLang
         member={member}
         onSpokenLangUpdate={onSpokenLangUpdate}
         checkLanguageSelected={(memberLanguages, language) => checkLanguageSelected(memberLanguages, language)}
+        checkFlag={language => checkFlag(language)}
       />
 
       <form onSubmit={e => e.preventDefault()}>
@@ -36,6 +38,7 @@ const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLang
             searchLanguage={checkSeachLanguage()}
             onSpokenLangUpdate={onSpokenLangUpdate}
             checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
+            checkFlag={language => checkFlag(language)}
           />
 
         </div>
@@ -45,6 +48,16 @@ const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLang
 
     </div>
   );
+};
+
+const checkFlag = language => {
+  const lang = allLanguages.all.find(l => l.name === language);
+
+  let img = ``;
+  if (lang.flag) img = lang.flag;
+  else img = `global`;
+
+  return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
 };
 
 const renderDone = (step, memberId, languages, onMemberCompleted) => {

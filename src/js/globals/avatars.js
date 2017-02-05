@@ -30,6 +30,21 @@ const avatars = [
       darkGrey: `#282828`,
       accent: `#FF5BED`
     }
+  },
+  {
+    id: 4,
+    image: `elephant`,
+    sound: `trumpets`
+  },
+  {
+    id: 5,
+    image: `mouse`,
+    sound: `squeaks`
+  },
+  {
+    id: 6,
+    image: `monkey`,
+    sound: `screams`
   }
 ];
 

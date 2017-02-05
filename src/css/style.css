@@ -84,6 +84,7 @@ input[type=search] {
   text-decoration: none;
 
   padding: 1.5rem 5rem 1.5rem 2.5rem;
+  margin: 0 1rem;
 
   border: none;
   border-radius: 10rem;
@@ -118,6 +119,7 @@ input[type=search] {
   &.backBtn {
 
     padding: 1rem 3rem 1rem 1.5rem;
+    background: $titleShadow;
 
     .icon {
       width: 3rem;
@@ -125,6 +127,8 @@ input[type=search] {
     }
 
     .text {
+      position: relative;
+      top: 2px;
       margin-left: 1rem;
       font-size: 1.8rem;
     }
@@ -198,6 +202,11 @@ input[type=search] {
 
       margin-bottom: 8rem;
     }
+  }
+
+  .buttons {
+    justify-content: center;
+    height: 8rem;
   }
 
   .title {
@@ -292,7 +301,7 @@ input[type=search] {
       align-items: center;
       margin-bottom: 6rem;
 
-      .unknown {
+      .member {
         width: 12rem;
         height: 12rem;
         border-radius: 10rem;
@@ -307,11 +316,107 @@ input[type=search] {
         margin: 0 1rem;
       }
     }
+  }
 
-    .buttons {
-      justify-content: space-around;
-      height: 8rem;
-      width: 70rem;
+  &.familyDetails {
+
+    .title {
+
+      margin-bottom: 4rem;
+
+      &::before {
+        content: attr(data-before);
+      }
+    }
+
+    .membersList {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5rem;
+
+      .member {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        color: $textMain;
+      }
+
+      .completed {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 12rem;
+        height: 12rem;
+
+        margin: 0 1rem;
+        border-radius: 10rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: rgba(0, 0, 0, .75);
+
+        .icon {
+          position: relative;
+          top: -6rem;
+          width: 4rem;
+          height: 4rem;
+        }
+      }
+
+      .name {
+        margin-top: .5rem;
+      }
+
+      .avatar {
+        width: 12rem;
+        height: 12rem;
+        border-radius: 10rem;
+        border: .5rem solid $textMain;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: rgba(0, 0, 0, .5);
+        font-size: 4rem;
+        color: $white;
+        margin: 0 1rem;
+      }
+
+      .avatarFound {
+        border: none;
+      }
+    }
+
+    .headerBg {
+      position: absolute;
+      top: 1rem;
+
+      width: 100%;
+      height: 33rem;
+
+      background: url(/assets/headers/familyDetails/bg.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    .headerBgExtra {
+      position: relative;
+      height: 25rem;
+      opacity: 0;
+      left: -.5rem;
+
+      animation: .5s family-fade-in ease;
+      animation-delay: 1s;
+      animation-fill-mode: forwards;
     }
   }
 
@@ -322,13 +427,8 @@ input[type=search] {
       margin-bottom: 2rem;
 
       &::before {
-        content: 'Spoken languages';
+        content: 'Family languages';
       }
-    }
-
-    .buttons {
-      justify-content: space-around;
-      height: 8rem;
     }
 
     .headerBg {

@@ -7,6 +7,9 @@ const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onS
   return (
     <section className='intro familyLanguages fullPage'>
 
+      <div className='headerBg'></div>
+      <img className='headerBgExtra' src='/assets/headers/familyLanguages/talk.svg' />
+
       <div className='content'>
         <h2 className='title'>Spoken languages</h2>
 

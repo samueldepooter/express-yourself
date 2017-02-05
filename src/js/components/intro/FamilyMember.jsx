@@ -6,9 +6,7 @@ const FamilyMember = ({member, step, link}) => {
 
   if (!link) {
     return (
-      <li>
-        <img src={`/assets/avatars/${avatar}.svg`} />
-      </li>
+      <li className='unknown'>?</li>
     );
   } else {
     return (

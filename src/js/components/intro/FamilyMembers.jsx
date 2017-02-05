@@ -14,27 +14,39 @@ class FamilyMembers extends Component {
     const {step, familyName, familyMembers, onIntroStepUpdate, onMembersUpdate} = this.props;
 
     return (
-      <div>
+      <section className='intro familyMembers fullPage'>
 
-        <h2>How many of the {familyName} family are joining this session?</h2>
+        <div className='headerBg'></div>
+        <img className='headerBgExtra' src='/assets/headers/familyMembers/family.svg' />
 
-        <button className='btn btn-default' onClick={() => onMembersUpdate(false)}>-</button>
-        <button className='btn btn-default' onClick={() => onMembersUpdate(true)}>+</button>
+        <div className='content'>
+          <h2 className='title' data-before={`${familyName} members`}>{familyName} members</h2>
 
-        <ul className='list-inline'>
-          {familyMembers.map((member, i) => <FamilyMember key={i} member={member} link={false} step={step} />)}
-        </ul>
+          <div className='membersList'>
+            <button className='btn iconBtn memberBtn' onClick={() => onMembersUpdate(false)}>
+              <img src='/assets/icons/delete_2.svg' className='icon' />
+              <span className='hide'>Remove</span>
+            </button>
+            <ul className='list-inline'>
+              {familyMembers.map((member, i) => <FamilyMember key={i} member={member} link={false} step={step} />)}
+            </ul>
+            <button className='btn iconBtn memberBtn' onClick={() => onMembersUpdate(true)}>
+              <img src='/assets/icons/add_2.svg' className='icon' />
+              <span className='hide'>Add</span>
+            </button>
+          </div>
 
-        <ul className='list-inline'>
-          <li>
-            <Previous step={step} onIntroStepUpdate={onIntroStepUpdate} />
-          </li>
-          <li>
-            {renderNext(step, onIntroStepUpdate, familyMembers)}
-          </li>
-        </ul>
+          <ul className='list-inline buttons'>
+            <li>
+              <Previous step={step} text='Languages' onIntroStepUpdate={onIntroStepUpdate} />
+            </li>
+            <li>
+              {renderNext(step, onIntroStepUpdate, familyMembers)}
+            </li>
+          </ul>
+        </div>
 
-      </div>
+      </section>
     );
   }
 }

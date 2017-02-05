@@ -6,12 +6,13 @@ const Deny = ({step, onIntroStepUpdate, onLocationSubmit}) => {
 
   return (
     <button
-      className='btn btn-danger'
+      className='btn iconBtn'
       onClick={() => {
         onLocationSubmit(nextStep, false);
         onIntroStepUpdate(nextStep);
       }}>
-      Deny
+      <img className='icon' src='/assets/icons/close.svg' />
+      <span className='text hide'>Deny</span>
     </button>
   );
 };

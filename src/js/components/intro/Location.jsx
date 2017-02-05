@@ -4,40 +4,46 @@ import 'whatwg-fetch';
 
 const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
   return (
-    <div>
+    <section className='intro allowLocation fullPage'>
 
-      <h2>Can we check your location?</h2>
-      <p>This information is used to determine the most spoken languages in this region.</p>
+      <div className='headerBg'></div>
+      <img className='headerBgExtra' src='/assets/headers/location/world.svg' />
 
-      <ul className='list-inline'>
-        <li>
-          <Previous step={step} onIntroStepUpdate={onIntroStepUpdate} />
-        </li>
-        <li>
-          <Deny step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationSubmit={onLocationSubmit} />
-        </li>
-        <li>
-          <Allow step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationCheck={nextStep => onLocationCheckHandler(nextStep, onLocationSubmit)} />
-        </li>
-      </ul>
+      <div className='content'>
 
-    </div>
+        <div className='contentText'>
+          <h2 className='title'>Country?</h2>
+
+          <div className='subtitle'>
+            <p>Can we check from <span className='bold'>which country</span> your location?</p>
+            <p>This information is used to determine the most spoken languages in this region.</p>
+          </div>
+        </div>
+
+
+        <ul className='btnList list-inline'>
+          <li>
+            <Previous step={step} text='Family name' onIntroStepUpdate={onIntroStepUpdate} />
+          </li>
+          <li>
+            <Allow step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationCheck={nextStep => onLocationCheckHandler(nextStep, onLocationSubmit)} />
+          </li>
+          <li>
+            <Deny step={step} onIntroStepUpdate={onIntroStepUpdate} onLocationSubmit={onLocationSubmit} />
+          </li>
+        </ul>
+      </div>
+
+    </section>
   );
 };
 
 const onLocationCheckHandler = (nextStep, onLocationSubmit) => {
-  console.log(`Fetching location`);
 
-  const btn = document.querySelector(`.btn-success`);
-  btn.innerHTML = `Fetching`;
-
-  setTimeout(() => {
-    fetch(`https://ipinfo.io/json`)
-      .then(response => response.json())
-      .then(result => onLocationSubmit(nextStep, result.country))
-      .then(() => console.log(`Location found`))
-      .catch(() => onLocationSubmit(nextStep, `denied`));
-  }, 1000);
+  fetch(`https://ipinfo.io/json`)
+    .then(response => response.json())
+    .then(result => onLocationSubmit(nextStep, result.country))
+    .catch(() => onLocationSubmit(nextStep, `denied`));
 };
 
 Location.propTypes = {

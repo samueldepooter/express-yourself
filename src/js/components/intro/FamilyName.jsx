@@ -23,6 +23,7 @@ const FamilyName = ({step, familyName, onIntroStepUpdate, onFamilyNameUpdate, on
               id='familyName'
               ref={name => this.familyName = name}
               placeholder='De Pooter'
+              maxLength='25'
               onChange={() => onFamilyNameUpdate(this.familyName.value)}
             />
           </div>

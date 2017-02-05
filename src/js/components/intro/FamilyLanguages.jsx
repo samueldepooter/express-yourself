@@ -1,63 +1,86 @@
 import React, {PropTypes} from 'react';
 
+import {languages as allLanguages} from '../../globals';
 import {Previous, Next, FoundLanguages, SpokenLanguages, LocationLanguages} from '../../components';
 
 const FamilyLanguages = ({step, family, location, search, onIntroStepUpdate, onSpokenLangUpdate, onSearchLangUpdate}) => {
   return (
-    <section>
-      <h2>Which languages does the family speak?</h2>
+    <section className='intro familyLanguages fullPage'>
 
-      <SpokenLanguages
-        family={family}
-        onSpokenLangUpdate={onSpokenLangUpdate}
-        checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
-      />
+      <div className='content'>
+        <h2 className='title'>Spoken languages</h2>
 
-      <form onSubmit={e => e.preventDefault()}>
-        <h3>Most spoken languages</h3>
+        <form onSubmit={e => e.preventDefault()}>
 
-        <LocationLanguages
-          location={location}
-          family={family}
-          onSpokenLangUpdate={onSpokenLangUpdate}
-          checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
-        />
-
-        <div className='form-group'>
-          <label htmlFor='languageSearch'>Search for a language</label>
-          <input
-            type='search'
-            className='form-control'
-            id='languageSearch'
-            placeholder='Search for a language'
-            ref={searchLanguage => this.searchLanguage = searchLanguage}
-            onChange={() => onSearchLangUpdate(this.searchLanguage.value)}
-          />
-
-          <FoundLanguages
-            found={search}
+          <SpokenLanguages
             family={family}
-            searchLanguage={checkSeachLanguage()}
             onSpokenLangUpdate={onSpokenLangUpdate}
             checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
+            checkFlag={language => checkFlag(language)}
           />
-        </div>
 
-        <ul className='list-inline'>
+          <div className='selectLanguages'>
+            <div className='mostSpokenLanguage'>
+              <h3 className='title'>Most spoken languages</h3>
 
-          <li>
-            <Previous step={step} onIntroStepUpdate={onIntroStepUpdate} />
-          </li>
+              <LocationLanguages
+                location={location}
+                family={family}
+                onSpokenLangUpdate={onSpokenLangUpdate}
+                checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
+                checkFlag={language => checkFlag(language)}
+              />
+            </div>
 
-          {renderNext(step, onIntroStepUpdate, family)}
+            <div className='searchLanguage'>
+              <label htmlFor='languageSearch' className='hide'>Search for a language</label>
+              <input
+                type='text'
+                maxLength='15'
+                className='search'
+                id='languageSearch'
+                placeholder='Type your language'
+                ref={searchLanguage => this.searchLanguage = searchLanguage}
+                onChange={() => onSearchLangUpdate(this.searchLanguage.value)}
+              />
 
-        </ul>
+              <FoundLanguages
+                found={search}
+                family={family}
+                searchLanguage={checkSeachLanguage()}
+                onSpokenLangUpdate={onSpokenLangUpdate}
+                checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
+                checkFlag={language => checkFlag(language)}
+              />
+            </div>
+          </div>
 
-        <input type='submit' className='hide' />
+          <ul className='list-inline buttons'>
 
-      </form>
+            <li>
+              <Previous step={step} text='Location' onIntroStepUpdate={onIntroStepUpdate} />
+            </li>
+
+            {renderNext(step, onIntroStepUpdate, family)}
+
+          </ul>
+
+          <input type='submit' className='hide' />
+
+        </form>
+      </div>
     </section>
   );
+};
+
+const checkFlag = language => {
+  const lang = allLanguages.all.find(l => l.name === language);
+
+  let img = ``;
+  if (lang.flag) img = lang.flag;
+  else img = `global`;
+
+  return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
 };
 
 const checkSeachLanguage = () => {

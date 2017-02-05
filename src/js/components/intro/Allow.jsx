@@ -6,12 +6,13 @@ const Allow = ({step, onIntroStepUpdate, onLocationCheck}) => {
 
   return (
     <button
-      className='btn btn-success'
+      className='btn iconBtn'
       onClick={() => {
         onLocationCheck(nextStep);
         onIntroStepUpdate(nextStep);
       }}>
-      Allow
+      <img className='icon' src='/assets/icons/check.svg' />
+      <span className='text hide'>Allow</span>
     </button>
   );
 };

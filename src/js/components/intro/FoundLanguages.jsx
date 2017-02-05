@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const FoundLanguages = ({found, family, member, searchLanguage, onSpokenLangUpdate, checkLanguageSelected}) => {
+const FoundLanguages = ({found, family, member, searchLanguage, onSpokenLangUpdate, checkLanguageSelected, checkFlag}) => {
 
   let languages = [];
   let spokenLangUpdate = ``;
@@ -17,27 +17,27 @@ const FoundLanguages = ({found, family, member, searchLanguage, onSpokenLangUpda
   }
 
   if (searchLanguage) {
-    if (found.length === 0 && searchLanguage.length > 0) return <p>Nothing found</p>;
+    if (found.length === 0 && searchLanguage.length > 0) return <p className='searchResult'>Oops, no results :(</p>;
   }
 
-  if (found.length === 0) return <p>Type something to search</p>;
+  if (found.length === 0) return <p className='searchResult'>Type to find your language!</p>;
 
   return (
-    <ul>
+    <ul className='searchResult'>
       {found.map((language, i) => {
         return (
-          <li className='checkbox' key={i}>
-            <label htmlFor={language}>
-
-              <input
-                type='checkbox'
-                checked={checkLanguageSelected(languages, language)}
-                value={language}
-                id={language}
-                onChange={() => onSpokenLangUpdate(memberId, spokenLangUpdate, language)}
-              />
+          <li className='item' key={i}>
+            <input
+              type='checkbox'
+              className='checkbox hide'
+              checked={checkLanguageSelected(languages, language)}
+              value={language}
+              id={language}
+              onChange={() => onSpokenLangUpdate(memberId, spokenLangUpdate, language)}
+            />
+            <label htmlFor={language} className='language'>
+              {checkFlag(language)}
               {language}
-
             </label>
           </li>
         );
@@ -52,7 +52,8 @@ FoundLanguages.propTypes = {
   member: PropTypes.object,
   searchLanguage: PropTypes.string,
   onSpokenLangUpdate: PropTypes.func,
-  checkLanguageSelected: PropTypes.func
+  checkLanguageSelected: PropTypes.func,
+  checkFlag: PropTypes.func
 };
 
 export default FoundLanguages;

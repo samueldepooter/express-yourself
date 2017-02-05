@@ -23,3 +23,24 @@
     top: 8.5rem;
   }
 }
+
+@keyframes show-language {
+
+  0% {
+    opacity: 0;
+    height: 2.1rem;
+    max-width: 0;
+  }
+
+  50% {
+    opacity: 0;
+    height: 5.6rem;
+    max-width: 20rem;
+  }
+
+  100% {
+    opacity: 1;
+    height: 5.6rem;
+    max-width: 20rem;
+  }
+}

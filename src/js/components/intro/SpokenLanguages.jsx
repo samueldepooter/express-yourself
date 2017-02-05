@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const SpokenLanguages = ({family, member, onSpokenLangUpdate, checkLanguageSelected}) => {
+const SpokenLanguages = ({family, member, onSpokenLangUpdate, checkLanguageSelected, checkFlag}) => {
 
   let languages = [];
   let spokenLangUpdate = ``;
@@ -16,21 +16,23 @@ const SpokenLanguages = ({family, member, onSpokenLangUpdate, checkLanguageSelec
     spokenLangUpdate = `member`;
   }
 
-  if (languages.length === 0) return <p>No languages added yet.</p>;
+  if (languages.length === 0) return <p className='selectedLanguages'>Tap on a language to select it :)</p>;
 
   return (
-    <ul className='list-inline checkbox'>
+    <ul className='list-inline selectedLanguages'>
       {languages.map((lang, i) => {
         return (
-          <li key={i}>
-            <label htmlFor={lang}>
-              <input
-                type='checkbox'
-                checked={checkLanguageSelected(languages, lang)}
-                value={lang}
-                id={lang}
-                onChange={() => onSpokenLangUpdate(memberId, spokenLangUpdate, lang)}
-              />
+          <li className='item' key={i}>
+            <input
+              type='checkbox'
+              className='checkbox hide'
+              checked={checkLanguageSelected(languages, lang)}
+              value={lang}
+              id={lang}
+              onChange={() => onSpokenLangUpdate(memberId, spokenLangUpdate, lang)}
+            />
+            <label htmlFor={lang} className='language'>
+              {checkFlag(lang)}
               {lang}
             </label>
           </li>
@@ -44,7 +46,8 @@ SpokenLanguages.propTypes = {
   family: PropTypes.object,
   member: PropTypes.object,
   onSpokenLangUpdate: PropTypes.func,
-  checkLanguageSelected: PropTypes.func
+  checkLanguageSelected: PropTypes.func,
+  checkFlag: PropTypes.func
 };
 
 export default SpokenLanguages;

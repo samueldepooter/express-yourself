@@ -32,6 +32,14 @@ input[type=search]::-webkit-search-cancel-button {
   appearance: searchfield-cancel-button;
 }
 
+button,
+input {
+
+  &:focus {
+    outline: none;
+  }
+}
+
 input[type=text],
 input[type=search] {
   background-color: $inputBg;
@@ -43,10 +51,6 @@ input[type=search] {
   font-size: 3.3rem;
   font-weight: 500;
   color: $white;
-
-  &:focus {
-    outline: none;
-  }
 
   &::placeholder {
     color: $inputShadow;
@@ -66,6 +70,8 @@ input[type=search] {
   flex-direction: row;
   align-items: center;
 
+  transition: all .3s ease;
+
   position: relative;
   top: 0;
   opacity: 0;
@@ -73,6 +79,8 @@ input[type=search] {
   text-decoration: none;
 
   padding: 1.5rem 5rem 1.5rem 2.5rem;
+
+  border: none;
   border-radius: 10rem;
 
   animation: .5s btn-fade-in ease;
@@ -81,6 +89,10 @@ input[type=search] {
 
   background: $btnBg;
   box-shadow: 0 .5rem 0 0 $btnShadow;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   .icon {
     width: 5rem;
@@ -93,6 +105,35 @@ input[type=search] {
     font-size: 2.4rem;
     color: $white;
   }
+
+  &.iconBtn {
+    padding: 1rem;
+  }
+
+  &.backBtn {
+
+    padding: 1rem 3rem 1rem 1.5rem;
+
+    .icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .text {
+      margin-left: 1rem;
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.smallIcon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.list-inline {
+  display: flex;
+  align-items: center;
 }
 
 .checked {
@@ -139,6 +180,19 @@ input[type=search] {
     width: 100%;
     position: absolute;
     bottom: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .contentText {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      margin-bottom: 8rem;
+    }
   }
 
   .title {
@@ -160,12 +214,182 @@ input[type=search] {
 
   .subtitle {
     margin-bottom: 3rem;
+    text-align: center;
   }
 
   .form {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 5rem;
+  }
+
+  &.familyLanguages {
+
+    .title {
+
+      &::before {
+        content: 'Spoken languages';
+      }
+    }
+
+    .buttons {
+      justify-content: space-around;
+      height: 8rem;
+    }
+
+    .selectLanguages {
+      display: flex;
+      justify-content: space-between;
+      width: 80vw;
+      height: 20rem;
+      margin-bottom: 5rem;
+    }
+
+    .searchLanguage {
+      width: 40rem;
+      overflow-y: scroll;
+
+      .search {
+        height: 6rem;
+        font-size: 1.8rem;
+        text-align: left;
+        padding: 0 2rem;
+      }
+    }
+
+    .searchResult,
+    .locationResult,
+    .selectedLanguages {
+      margin-top: 2rem;
+
+      .flag {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-right: 1rem;
+      }
+
+      .item {
+        display: inline-block;
+        margin-right: 3rem;
+        opacity: 0;
+        height: 0;
+        max-width: 0;
+
+        animation: .5s show-language ease;
+        animation-fill-mode: forwards;
+      }
+
+      .language {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: $white;
+        padding: 1rem 3rem 1rem 1rem;
+        color: $black;
+        box-shadow: 0 .5rem 0 0 $btnShadow;
+        border-radius: 10rem;
+
+        margin-bottom: 1.5rem;
+
+        &::after {
+          position: absolute;
+          right: -1rem;
+          content: '';
+          min-width: 1rem;
+          min-height: 1rem;
+          padding: 1rem;
+          background-image: url(/assets/icons/add.svg);
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+        }
+      }
+
+      .checkbox:checked + .language::after {
+        background-image: url(/assets/icons/delete.svg);
+      }
+    }
+
+    .mostSpokenLanguage {
+      width: 50rem;
+      margin-right: 5rem;
+
+      .title {
+        font-size: 2.6rem;
+
+        &::before {
+          content: '';
+        }
+      }
+    }
+
+    .languagesDisabled {
+
+      .text {
+        margin-left: 1rem;
+      }
+    }
+
+    .selectedLanguages {
+      margin-bottom: 5rem;
+      max-width: 80vw;
+      text-align: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+
+  &.allowLocation {
+
+    .headerBg {
+      position: absolute;
+      top: 1rem;
+
+      width: 100%;
+      height: 36rem;
+
+      background: url(/assets/headers/location/bg.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    .headerBgExtra {
+      position: relative;
+      top: 8.5rem;
+      width: 43rem;
+      height: 28rem;
+      opacity: 0;
+
+      animation: .5s family-fade-in ease;
+      animation-delay: 1s;
+      animation-fill-mode: forwards;
+    }
+
+    .title {
+
+      &::before {
+        content: 'Country?';
+      }
+    }
+
+    .subtitle {
+
+      p:first-child {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .btnList {
+      width: 40rem;
+      justify-content: space-between;
+    }
   }
 
   &.familyName {
@@ -194,25 +418,11 @@ input[type=search] {
       animation-fill-mode: forwards;
     }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
     .title {
 
       &::before {
         content: 'Family';
       }
-    }
-
-    .formGroup {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-bottom: 5rem;
     }
   }
 

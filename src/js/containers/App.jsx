@@ -448,7 +448,8 @@ class App extends Component {
                 let {id} = params;
                 id = parseInt(id);
 
-                const stepExists = this.doesIntroStepExist(id);
+                let stepExists = this.doesIntroStepExist(id);
+                if (settings.development) stepExists = true;
 
                 if (stepExists) {
                   return (

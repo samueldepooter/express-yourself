@@ -538,7 +538,7 @@ class App extends Component {
               exactly pattern='/activities/:id/details'
               render={({params}) => {
                 let {id} = params;
-                const {completed} = activities;
+                const {confirmation, completed} = activities;
 
                 id = parseInt(id);
 
@@ -546,7 +546,16 @@ class App extends Component {
                 if (settings.development) done = true;
 
                 if (done) {
-                  return <Details id={id} completed={completed} />;
+                  return (
+                    <Details
+                      id={id}
+                      family={family}
+                      confirmation={confirmation}
+                      completed={completed}
+                      onConfirmation={state => this.onConfirmationHandler(state)}
+                      onRedirect={url => this.onRedirectHandler(url)}
+                    />
+                  );
                 } else {
                   return <Redirect to='/' />;
                 }

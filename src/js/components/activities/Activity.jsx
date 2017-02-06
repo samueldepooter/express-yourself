@@ -16,7 +16,7 @@ const Activity = ({i, activity, completed}) => {
         <div className='cover'>
           <img src={`/assets/activities/covers/${activity.cover}.svg`} />
         </div>
-        <p className='activityTitle'>{renderCompleted(id, completed)}<span className='text'>{activity.title}</span></p>
+        <p className='activityTitle'>{renderCompleted(id, completed)}<span className='text' style={{color: activity.color}}>{activity.title}</span></p>
       </Link>
     </li>
   );

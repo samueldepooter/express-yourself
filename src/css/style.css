@@ -932,7 +932,8 @@ input[type=search] {
 
 /* --- ACTIVITIES OVERVIEW --- */
 
-.activities {
+.activities,
+.activityDetails {
 
   display: flex;
   flex-direction: column;
@@ -945,6 +946,18 @@ input[type=search] {
     &::before {
       content: 'Activities';
     }
+  }
+
+  .headerBg {
+    position: absolute;
+    top: 1rem;
+
+    width: 100%;
+    height: 100%;
+
+    background: url(/assets/activities/bg.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
   }
 
   .clouds {
@@ -1029,7 +1042,7 @@ input[type=search] {
     margin: 2.5rem 0;
 
     &.disabled {
-      opacity: .1;
+      opacity: .5;
     }
 
     &:nth-child(3n + 2) {
@@ -1117,11 +1130,13 @@ input[type=search] {
     background: $inputBg;
 
     .btn {
+      opacity: 1;
       width: 8rem;
       height: 8rem;
       padding: 1rem;
       background: $inputBg;
       box-shadow: none;
+      animation: none;
     }
 
     .icon {
@@ -1148,6 +1163,197 @@ input[type=search] {
       align-items: center;
       justify-content: space-between;
     }
+  }
+}
+
+.popup {
+  z-index: 99999999;
+  position: absolute;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+
+  animation: .4s fade-in ease;
+  animation-fill-mode: forwards;
+
+  background: rgba(0, 0, 0, .75);
+
+  .title {
+    margin-top: 1rem;
+    z-index: 9999999999;
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .explanation {
+    line-height: 3rem;
+    margin: 0 2rem 3rem;
+  }
+
+  .close {
+    position: absolute;
+    top: -3rem;
+    right: -3rem;
+
+    .btn {
+      background: url(/assets/icons/close_2.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+      box-shadow: 0 .5rem 0 0 $btnShadow;
+
+      width: 6rem;
+      height: 6rem;
+
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .content {
+    position: relative;
+    width: 60vw;
+    height: auto;
+    background: $bg;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    box-shadow: 0 1rem 0 0 $btnShadow;
+    border-radius: 2rem;
+
+    padding: 2rem;
+
+    animation: .4s popup ease;
+    animation-fill-mode: forwards;
+  }
+
+}
+
+/* --- ACTIVITY DETAILS --- */
+
+.activityDetails {
+
+  .details {
+    position: relative;
+    top: 32rem;
+
+    max-width: 75vw;
+    display: flex;
+    justify-content: center;
+    max-height: 32rem;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+    line-height: 3rem;
+
+    .title {
+      font-size: 2rem;
+      color: $btnBg;
+      margin: 0;
+      text-align: left;
+      background: none;
+
+      &::before {
+        content: '';
+      }
+    }
+  }
+
+  .sidebar {
+    overflow: hidden;
+    min-width: 14rem;
+    margin-right: 5rem;
+
+    .btn {
+      margin: 0;
+      padding: 1rem 2rem 1rem 1rem;
+      animation: none;
+      opacity: 1;
+    }
+
+    .icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .text {
+      margin-left: 1rem;
+    }
+  }
+
+  .main {
+    overflow-y: scroll;
+  }
+
+  .header {
+    position: fixed;
+    width: 100%;
+    height: 28rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      margin: 3rem 0 0;
+      z-index: 10;
+
+      background: $bg;
+
+      &::before {
+        content: attr(data-before);
+      }
+    }
+
+    .bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20rem;
+      background: url(/assets/activities/covers/bg.svg) no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+
+    .cover {
+      padding: 1rem;
+      box-shadow: 0 1rem 0 0 $btnShadow;
+    }
+
+    .image {
+      height: 200%;
+      position: relative;
+      left: 5rem;
+    }
+  }
+
+  .closeBtn {
+    width: 5rem;
+    height: 5rem;
+
+    padding: 0;
+    margin: 2rem 2rem 0 0;
+
+    position: absolute;
+    right: 0;
+
+    z-index: 999;
+
+    background: url(/assets/icons/close_2.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
   }
 }
 

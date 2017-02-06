@@ -16,6 +16,8 @@ class Activities extends Component {
     return (
       <section className='activities fullPage'>
 
+        <div className='headerBg'></div>
+
         <EndSessionConfirmation
           confirmation={confirmation}
           onRedirect={onRedirect}

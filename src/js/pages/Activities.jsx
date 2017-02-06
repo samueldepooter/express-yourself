@@ -14,9 +14,7 @@ class Activities extends Component {
     const {members} = family;
 
     return (
-      <section>
-
-        <h2>Activities</h2>
+      <section className='activities fullPage'>
 
         <EndSessionConfirmation
           confirmation={confirmation}
@@ -24,26 +22,41 @@ class Activities extends Component {
           onConfirmation={onConfirmation}
         />
 
+        <div className='clouds'>
+          <div className='cloud'></div>
+          <div className='cloud'></div>
+          <div className='cloud'></div>
+          <div className='cloud'></div>
+          <div className='cloud'></div>
+        </div>
+
+        <h2 className='title'>Activities</h2>
+
         <ActivitiesList
           completed={completed}
         />
 
-        <FamilyMembers
-          members={members}
-        />
+        <div className='footer'>
+          <div className='content'>
+            <FamilyMembers members={members} />
 
-        <ul className='list-inline'>
-          <li>
-            <a href='/assets/download/report.png' target='_blank' className='btn btn-default'>Download report</a>
-          </li>
-          <li>
-            <EndSession
-              confirmation={confirmation}
-              onRedirect={onRedirect}
-              onConfirmation={onConfirmation}
-            />
-          </li>
-        </ul>
+            <ul className='list-inline'>
+              <li>
+                <a href='/assets/download/report.png' target='_blank' className='btn'>
+                  <img src='/assets/icons/download.svg' className='icon dl' />
+                  <span className='hide'>Download report</span>
+                </a>
+              </li>
+              <li>
+                <EndSession
+                  confirmation={confirmation}
+                  onRedirect={onRedirect}
+                  onConfirmation={onConfirmation}
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
 
       </section>
     );

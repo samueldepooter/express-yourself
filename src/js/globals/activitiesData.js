@@ -1,7 +1,8 @@
 const activitiesData = [
   {
     name: `customise`,
-    cover: ``,
+    cover: `customise`,
+    color: `#8b25ff`,
     title: `Customise avatar`,
     description: `Connect languanges and colors to your avatars body in this fun customisation game!`,
     age: ``,
@@ -13,9 +14,10 @@ const activitiesData = [
 
   {
     name: `situational`,
+    cover: `situational`,
+    color: `#ea27ff`,
     title: `I am ...`,
     description: `Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.`,
-    cover: ``,
     age: ``,
     players: ``,
     devices: ``,
@@ -23,10 +25,11 @@ const activitiesData = [
   },
 
   {
-    name: `draw`,
-    title: `Draw`,
+    name: `pictionary`,
+    cover: `pictionary`,
+    color: `#27ff7e`,
+    title: `Pictionary`,
     description: `Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.`,
-    cover: ``,
     age: ``,
     players: ``,
     devices: ``,

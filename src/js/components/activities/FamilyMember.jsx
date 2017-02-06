@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react';
 
 const FamilyMember = ({member}) => {
   return (
-    <li>
+    <li className='member'>
       <img src={`/assets/avatars/${member.avatar}.svg`} />
-      <p>{member.name}</p>
+      <p className='hide'>{member.name}</p>
     </li>
   );
 };

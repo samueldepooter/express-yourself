@@ -7,65 +7,99 @@ const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNam
   const {id: memberId, avatar: selectedAvatar, name, age} = member;
 
   return (
-    <div>
-      <h2>Choose your avatar and give it your name!</h2>
+    <section className='intro memberAvatar fullPage'>
 
-      <img src={`/assets/avatars/${selectedAvatar}.svg`} />
+      <div className='headerBg'></div>
 
-      <form onSubmit={e => e.preventDefault()}>
-        <ul className='list-inline'>
-          {avatars.map((avatar, i) => {
-            const {image} = avatar;
-            return (
-              <li className='checkbox' key={i}>
-                <label htmlFor={image}>
+      <div className='content'>
+        <h2 className='hide'>Choose your avatar and give it your name!</h2>
+
+        <div className='avatarWrap'>
+          <div className='icon'><span className='hide'>Crown</span></div>
+          {renderSelectedAvatar(selectedAvatar)}
+        </div>
+
+        <form onSubmit={e => e.preventDefault()}>
+          <ul className='list-inline avatars'>
+            {avatars.map((avatar, i) => {
+              const {image} = avatar;
+              return (
+                <li key={i}>
                   <input
+                    className='checkbox hide'
                     type='radio'
                     name='avatar'
                     id={image}
                     checked={checkAvatar(image, selectedAvatar)}
                     onChange={() => onMemberAvatarUpdate(memberId, image)}
                   />
-                  <img src={`/assets/avatars/${image}.svg`} />
-                </label>
-              </li>
-            );
-          })}
-        </ul>
+                  <label htmlFor={image} className='possibleAvatarWrap'>
+                    {renderChecked(selectedAvatar, image)}
+                    <img src={`/assets/avatars/${image}.svg`} className='possibleAvatar' />
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
 
-        <div className='form-group'>
-          <label htmlFor='memberAge'>Your age: {age}</label>
-          <input
-            type='range'
-            className='form-control'
-            value={age}
-            step='1'
-            min='7'
-            max='70'
-            id='memberAge'
-            ref={memberAge => this.memberAge = memberAge}
-            onChange={() => onMemberAgeUpdate(memberId, this.memberAge.value)}
-          />
-        </div>
+          <div className='formGroup'>
+            <input
+              type='range'
+              className='ageSlider'
+              value={age}
+              step='1'
+              min='7'
+              max='70'
+              id='memberAge'
+              ref={memberAge => this.memberAge = memberAge}
+              onChange={() => onMemberAgeUpdate(memberId, this.memberAge.value)}
+            />
+            <label htmlFor='memberAge' className='memberAge'>{age}</label>
+            <p>years old</p>
+          </div>
 
-        <div className='form-group'>
-          <label htmlFor='memberName' className='hide'>Your name</label>
-          <input
-            type='text'
-            className='form-control'
-            value={name}
-            id='memberName'
-            ref={memberName => this.memberName = memberName}
-            placeholder='Your name'
-            onChange={() => onMemberNameUpdate(memberId, this.memberName.value)}
-          />
-        </div>
-      </form>
+          <div className='formGroup'>
+            <label htmlFor='memberName' className='hide'>Your name</label>
+            <input
+              type='text'
+              className='textInput'
+              maxLength='20'
+              value={name}
+              id='memberName'
+              ref={memberName => this.memberName = memberName}
+              placeholder='Your name'
+              onChange={() => onMemberNameUpdate(memberId, this.memberName.value)}
+            />
+          </div>
+        </form>
 
-      {renderContinueBtn(name, selectedAvatar, step, memberId, editStep)}
+        {renderContinueBtn(name, selectedAvatar, step, memberId, editStep)}
+      </div>
 
+    </section>
+  );
+};
+
+const renderChecked = (selectedAvatar, image) => {
+  if (selectedAvatar !== image) return;
+
+  return (
+    <div className='checked'>
+      <img src='/assets/icons/check.svg' className='icon' />
     </div>
   );
+};
+
+const renderSelectedAvatar = selectedAvatar => {
+  if (selectedAvatar === `unknown`) {
+    return (
+      <div className='avatar'>
+        <p>?</p>
+      </div>
+    );
+  } else {
+    return <img src={`/assets/avatars/${selectedAvatar}.svg`} className='avatar' />;
+  }
 };
 
 const renderContinueBtn = (name, selectedAvatar, step, memberId, editStep) => {
@@ -73,8 +107,9 @@ const renderContinueBtn = (name, selectedAvatar, step, memberId, editStep) => {
     return (
       <Link
         to={`/intro/${step}/members/${memberId}/edit/${editStep + 1}`}
-        className='btn btn-default'>
-        {name} {checkSound(selectedAvatar)}!
+        className='btn'>
+        <img className='icon' src='/assets/icons/check.svg' />
+        <span className='text'>{`${name} ${checkSound(selectedAvatar)}!`}</span>
       </Link>
     );
   }

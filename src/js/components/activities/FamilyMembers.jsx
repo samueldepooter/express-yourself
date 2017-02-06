@@ -3,9 +3,9 @@ import {FamilyMember} from './';
 
 const FamilyMembers = ({members}) => {
   return (
-    <section>
+    <section className='members'>
 
-      <h3>The family</h3>
+      <h3 className='hide'>The family</h3>
 
       <ul className='list-inline'>
         {members.map((member, i) => <FamilyMember key={i} member={member} />)}

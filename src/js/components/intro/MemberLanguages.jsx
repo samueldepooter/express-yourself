@@ -5,48 +5,54 @@ import {languages as allLanguages} from '../../globals';
 
 const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLangUpdate, onMemberCompleted}) => {
 
-  const {id: memberId, name, avatar, languages} = member;
+  const {id: memberId, name, languages} = member;
 
   return (
-    <div>
-      <h2 className='hide'>{name}</h2>
-      <img src={`/assets/avatars/${avatar}.svg`} />
-      <p>{name} speaks...</p>
+    <section className='intro memberLanguages fullPage'>
 
-      <SpokenLanguages
-        member={member}
-        onSpokenLangUpdate={onSpokenLangUpdate}
-        checkLanguageSelected={(memberLanguages, language) => checkLanguageSelected(memberLanguages, language)}
-        checkFlag={language => checkFlag(language)}
-      />
+      <div className='headerBg'></div>
+      <img className='headerBgExtra' src='/assets/headers/familyLanguages/talk.svg' />
 
-      <form onSubmit={e => e.preventDefault()}>
-        <div className='form-group'>
-          <label htmlFor='languageSearch'>Search for a language</label>
-          <input
-            type='search'
-            className='form-control'
-            id='languageSearch'
-            placeholder='Search for a language'
-            ref={searchLanguage => this.searchLanguage = searchLanguage}
-            onChange={() => onSearchLangUpdate(this.searchLanguage.value)}
-          />
+      <div className='content'>
+        <h2 className='title' data-before={`${name} speaks...`}>{name} speaks...</h2>
 
-          <FoundLanguages
-            found={search}
+        <div className='selectLanguages'>
+          <SpokenLanguages
             member={member}
-            searchLanguage={checkSeachLanguage()}
             onSpokenLangUpdate={onSpokenLangUpdate}
-            checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
+            checkLanguageSelected={(memberLanguages, language) => checkLanguageSelected(memberLanguages, language)}
             checkFlag={language => checkFlag(language)}
           />
 
+          <form onSubmit={e => e.preventDefault()}>
+            <div className='searchLanguage'>
+              <label htmlFor='languageSearch' className='hide'>Search for a language</label>
+              <input
+                type='text'
+                className='search'
+                id='languageSearch'
+                placeholder='Search for a language'
+                ref={searchLanguage => this.searchLanguage = searchLanguage}
+                onChange={() => onSearchLangUpdate(this.searchLanguage.value)}
+              />
+
+              <FoundLanguages
+                found={search}
+                member={member}
+                searchLanguage={checkSeachLanguage()}
+                onSpokenLangUpdate={onSpokenLangUpdate}
+                checkLanguageSelected={(familyLanguages, language) => checkLanguageSelected(familyLanguages, language)}
+                checkFlag={language => checkFlag(language)}
+              />
+
+            </div>
+          </form>
         </div>
-      </form>
 
-      {renderDone(step, memberId, languages, onMemberCompleted)}
+        {renderDone(name, step, memberId, languages, onMemberCompleted)}
+      </div>
 
-    </div>
+    </section>
   );
 };
 
@@ -60,12 +66,18 @@ const checkFlag = language => {
   return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
 };
 
-const renderDone = (step, memberId, languages, onMemberCompleted) => {
+const renderDone = (name, step, memberId, languages, onMemberCompleted) => {
 
   if (languages.length === 0) return;
 
   return (
-    <Link to={`/intro/${step}`} className='btn btn-default' onClick={() => onMemberCompleted(memberId)}>All done!</Link>
+    <Link
+      to={`/intro/${step}`}
+      className='btn'
+      onClick={() => onMemberCompleted(memberId)}>
+      <img className='icon' src='/assets/icons/check.svg' />
+      <span className='text'>{`${name} is done!`}</span>
+    </Link>
   );
 };
 

@@ -267,7 +267,8 @@ class App extends Component {
     const {family} = this.state;
     const member = this.findMember(id);
     member.completed = true;
-    this.setState({family});
+    const newSearch = [];
+    this.setState({family, search: newSearch});
   }
 
   onIntroCompletedHandler() {

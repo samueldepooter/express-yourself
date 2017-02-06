@@ -11,6 +11,7 @@ $titleShadow: #f2b406;
 
 $btnBg: #8b25ff;
 $btnShadow: #dd9f07;
+$infoBtnShadow: #551cc4;
 
 $inputBg: #f2b406;
 $inputShadow: #dd9f07;
@@ -56,6 +57,7 @@ input[type=search] {
   font-size: 3.3rem;
   font-weight: 500;
   color: $white;
+  font-family: 'din_rounded', 'Helvetica neue', Helvetica, Arial, sans-serif;
 
   &::placeholder {
     color: $inputShadow;
@@ -158,6 +160,25 @@ input[type=search] {
   max-width: 100vw;
   min-height: 100vh;
   max-height: 100vh;
+
+  overflow: hidden;
+}
+
+.title {
+  position: relative;
+  color: $white;
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 4rem;
+
+  &::before {
+    color: $titleShadow;
+    position: absolute;
+    top: .2rem;
+    z-index: -1;
+    left: 0;
+    -webkit-text-stroke: 1.5rem $titleShadow;
+  }
 }
 
 /* --- START --- */
@@ -207,23 +228,6 @@ input[type=search] {
   .buttons {
     justify-content: center;
     height: 8rem;
-  }
-
-  .title {
-    position: relative;
-    color: $white;
-    font-size: 5rem;
-    font-weight: bold;
-    margin-bottom: 4rem;
-
-    &::before {
-      color: $titleShadow;
-      position: absolute;
-      top: .2rem;
-      z-index: -1;
-      left: 0;
-      -webkit-text-stroke: 1.5rem $titleShadow;
-    }
   }
 
   .subtitle {
@@ -318,6 +322,257 @@ input[type=search] {
     }
   }
 
+  &.memberLanguages {
+
+    .headerBg {
+      position: absolute;
+
+      width: 100%;
+      height: 33rem;
+
+      background: url(/assets/headers/familyLanguages/bg.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    .headerBgExtra {
+      position: relative;
+      height: 22rem;
+      top: 2rem;
+      z-index: -1;
+    }
+
+    .title {
+
+      margin-bottom: 2rem;
+
+      &::before {
+        content: attr(data-before);
+      }
+    }
+
+    .selectLanguages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80vw;
+      margin-bottom: 2rem;
+    }
+
+    .searchLanguage {
+      width: 60rem;
+      overflow-y: scroll;
+      margin-top: 2rem;
+
+      .search {
+        width: 100%;
+        height: 6rem;
+        font-size: 1.8rem;
+        text-align: left;
+        padding: 0 2rem;
+      }
+    }
+
+    .searchResult {
+      min-height: 5.6rem;
+    }
+
+    .searchResult,
+    .locationResult,
+    .selectedLanguages {
+      margin: 2rem 0;
+
+      .flag {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-right: 1rem;
+      }
+
+      .item {
+        display: inline-block;
+        margin-right: 3rem;
+        opacity: 0;
+        height: 0;
+        max-width: 0;
+
+        animation: .5s show-language ease;
+        animation-fill-mode: forwards;
+      }
+
+      .language {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: $white;
+        padding: 1rem 3rem 1rem 1rem;
+        color: $black;
+        box-shadow: 0 .5rem 0 0 $btnShadow;
+        border-radius: 10rem;
+
+        margin-bottom: 1.5rem;
+
+        &::after {
+          position: absolute;
+          right: -1rem;
+          content: '';
+          min-width: 1rem;
+          min-height: 1rem;
+          padding: 1rem;
+          background-image: url(/assets/icons/add.svg);
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+        }
+      }
+
+      .checkbox:checked + .language::after {
+        background-image: url(/assets/icons/delete.svg);
+      }
+    }
+  }
+
+  &.memberAvatar {
+
+    .headerBg {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 22rem;
+
+      background: url(/assets/headers/memberAvatar/bg.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    input[type=range] {
+      appearance: none;
+      background: $inputBg;
+      box-shadow: inset 0 .5rem 0 0 $inputShadow;
+      border-radius: 10rem;
+      width: 48rem;
+      height: 1.5rem;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      border: .5rem solid $btnBg;
+      height: 3rem;
+      width: 3rem;
+      border-radius: 50%;
+      background: $white;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    .avatars {
+      width: 100%;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .formGroup {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .memberAge {
+      margin: 0 2rem;
+      width: 8rem;
+      height: 5rem;
+      text-align: center;
+      background: $inputBg;
+      box-shadow: inset 0 .5rem 0 0 $inputShadow;
+      border-radius: 10rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+      color: $white;
+    }
+
+    .ageSlider {
+      height: 1.5rem;
+      background: $inputBg;
+    }
+
+    .possibleAvatarWrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      width: 10rem;
+      height: 10rem;
+      margin: 0 .5rem;
+    }
+
+    .checked {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, .75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 10rem;
+      height: 10rem;
+      border-radius: 10rem;
+
+      .icon {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    .possibleAvatar {
+      width: 10rem;
+      height: 10rem;
+    }
+
+    .avatarWrap {
+      position: relative;
+      border: 1rem solid $btnBg;
+      border-radius: 10rem;
+      width: 20rem;
+      height: 20rem;
+
+      .icon {
+        position: absolute;
+        top: -4rem;
+        right: 3rem;
+
+        width: 6.8rem;
+        height: 5.9rem;
+        background: url(/assets/headers/memberAvatar/crown.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      font-size: 4rem;
+      color: $white;
+      background: rgba(0, 0, 0, .75);
+
+      width: 18rem;
+      height: 18rem;
+
+      border: 1rem solid $white;
+      border-radius: 10rem;
+    }
+  }
+
   &.familyDetails {
 
     .title {
@@ -345,6 +600,44 @@ input[type=search] {
         text-align: center;
         text-decoration: none;
         color: $textMain;
+      }
+
+      .clickmeWrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 12rem;
+        height: 12rem;
+
+        margin: 0 1rem;
+        border-radius: 10rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .clickme {
+        position: relative;
+        width: 4rem;
+        height: 4rem;
+        top: -6rem;
+        border-radius: 10rem;
+        background-color: $textMain;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+          position: relative;
+          animation: 1s click-me ease;
+          animation-iteration-count: infinite;
+          width: 2rem;
+          height: 2rem;
+          transform: rotate(-45deg);
+        }
       }
 
       .completed {
@@ -637,6 +930,227 @@ input[type=search] {
   }
 }
 
+/* --- ACTIVITIES OVERVIEW --- */
+
+.activities {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    text-align: center;
+    margin-top: 5rem;
+
+    &::before {
+      content: 'Activities';
+    }
+  }
+
+  .clouds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 14rem;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: absolute;
+
+    background: url(/assets/activities/cloud.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 12rem;
+    height: 7rem;
+    opacity: 0;
+
+    z-index: -1;
+
+    animation: cloud-float;
+    animation-duration: 40s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    &:nth-child(1) {
+      top: 1rem;
+    }
+
+    &:nth-child(2) {
+      top: 2rem;
+      animation-delay: 10s;
+      animation-duration: 38s;
+    }
+
+    &:nth-child(3) {
+      top: 1.5rem;
+      animation-delay: 15s;
+      animation-duration: 30s;
+    }
+
+    &:nth-child(4) {
+      top: .6rem;
+      animation-delay: 35s;
+      animation-duration: 20s;
+    }
+
+    &:nth-child(5) {
+      top: 1.25rem;
+      animation-delay: 24s;
+      animation-duration: 25s;
+    }
+  }
+
+  .activitiesList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90vw;
+    margin: 0 auto;
+  }
+
+  .cover {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 3rem;
+  }
+
+  .activity {
+    position: relative;
+    display: block;
+    width: 22rem;
+    height: 20rem;
+    border-radius: 2rem;
+    background: $btnBg;
+    box-shadow: 0 .5rem 0 0 $btnShadow;
+    margin: 2.5rem 0;
+
+    &.disabled {
+      opacity: .1;
+    }
+
+    &:nth-child(3n + 2) {
+      margin: 2.5rem 5rem;
+    }
+  }
+
+  .activityTitle {
+    position: absolute;
+    bottom: 0;
+
+    width: 100%;
+    height: 5rem;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: url(/assets/activities/clouds.svg) no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    border-radius: 0 0 2rem 2rem;
+
+    font-weight: bold;
+    text-align: center;
+    color: $btnBg;
+
+    .text {
+      position: relative;
+      top: .6rem;
+    }
+  }
+
+  .infoBtn {
+    position: absolute;
+    top: -1.5rem;
+    left: -1.5rem;
+
+    z-index: 5;
+
+    background: $btnBg;
+    box-shadow: 0 .4rem 0 0 $infoBtnShadow;
+
+    width: 5rem;
+    height: 5rem;
+    border-radius: 10rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3rem;
+    text-align: center;
+    color: $white;
+    text-decoration: none;
+    font-weight: bold;
+
+    .text {
+      position: relative;
+      top: 3px;
+    }
+  }
+
+  .members {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .member {
+    position: relative;
+    width: 10rem;
+    height: 10rem;
+    padding: 1rem;
+    background: $inputBg;
+    border-radius: 10rem;
+  }
+
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5rem;
+    background: $inputBg;
+
+    .btn {
+      width: 8rem;
+      height: 8rem;
+      padding: 1rem;
+      background: $inputBg;
+      box-shadow: none;
+    }
+
+    .icon {
+      width: 100%;
+      height: 100%;
+      border-radius: 10rem;
+    }
+
+    .complete {
+      padding: 2rem;
+      background: #67c928;
+    }
+
+    .dl {
+      padding: 1.5rem;
+      background: $btnBg;
+    }
+
+    .content {
+      position: relative;
+      top: -5rem;
+      margin: 0 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+
 .confirmationBox,
 .customAvatarsOverview {
   z-index: 99999999;
@@ -681,12 +1195,6 @@ input[type=search] {
     margin-right: .5rem;
     border: 2px solid grey;
   }
-}
-
-.avatars {
-  position: relative;
-  width: 384px;
-  height: 485px;
 }
 
 .draggable {

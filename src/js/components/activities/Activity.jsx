@@ -6,13 +6,18 @@ const Activity = ({i, activity, completed}) => {
   const id = i + 1;
 
   return (
-    <li>
-      <h3>{renderCompleted(id, completed)}{activity.title}</h3>
-      <p>{activity.description}</p>
-      <ul className='list-inline'>
-        <li><Link to={`/activities/${id}/details`} className='btn btn-default'>Info</Link></li>
-        <li><Link to={`/activities/${id}/steps/1`} className='btn btn-default'>Let's play!</Link></li>
-      </ul>
+    <li className={`activity ${activity.name}`} style={{background: activity.color}}>
+      <Link to={`/activities/${id}/details`} className='infoBtn'>
+        <p className='text'>i</p>
+        <span className='hide'>Info</span>
+      </Link>
+
+      <Link to={`/activities/${id}/steps/1`}>
+        <div className='cover'>
+          <img src={`/assets/activities/covers/${activity.cover}.svg`} />
+        </div>
+        <p className='activityTitle'>{renderCompleted(id, completed)}<span className='text'>{activity.title}</span></p>
+      </Link>
     </li>
   );
 };

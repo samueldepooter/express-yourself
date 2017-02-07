@@ -35,18 +35,6 @@ class Details extends Component {
     else return `${devices} device`;
   }
 
-  renderCompleted() {
-    const {id, completed} = this.props;
-
-    const img = `https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png`;
-
-    return completed.map((activityId, i) => {
-      console.log(activityId, id);
-      if (activityId === id) return <img src={img} className='checked' key={i} />;
-      return;
-    });
-  }
-
   render() {
     const {activity} = this.state;
     const {title, description} = activity;
@@ -72,7 +60,7 @@ class Details extends Component {
             <img src={`/assets/activities/covers/${activity.name}.svg`} className='image' />
           </div>
 
-          <h2 className='title' data-before={title}>{this.renderCompleted()}{title}</h2>
+          <h2 className='title' data-before={title}>{title}</h2>
         </header>
 
         <div className='details'>

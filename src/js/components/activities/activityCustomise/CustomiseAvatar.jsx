@@ -296,7 +296,7 @@ class CustomiseAvatar extends Component {
     const {languages} = player;
 
     return (
-      <section>
+      <section className='customiseAvatar fullPage'>
         <h3>Color your avatar</h3>
 
         <ul className='list-unstyled colorLanguagesList'>

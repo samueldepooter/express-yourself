@@ -497,6 +497,18 @@ class PickPlayers extends Component {
     return;
   }
 
+  renderHeader(activityId) {
+
+    if (activityId === 1) {
+      return (
+        <div>
+          <div className='headerBg'></div>
+          <img className='headerBgExtra' src='/assets/headers/pickPlayers/drawing.svg' />
+        </div>
+      );
+    }
+  }
+
   render() {
 
     const {id, members, activity, onFinish} = this.props;
@@ -506,8 +518,7 @@ class PickPlayers extends Component {
 
         {this.checkCustomAvatars()}
 
-        <div className='headerBg'></div>
-        <img className='headerBgExtra' src='/assets/headers/pickPlayers/drawing.svg' />
+        {this.renderHeader(id)}
 
         <div className='main'>
           <h3 className='title' data-before={activity.title}>{activity.title}</h3>

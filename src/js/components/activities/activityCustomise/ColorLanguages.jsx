@@ -193,27 +193,37 @@ class ColorLanguages extends Component {
     const {languages} = player;
 
     return (
-      <section>
-        <h3>Color your languages</h3>
+      <section className='colorLanguages fullPage'>
 
-        <ul className='list-unstyled colorLanguagesList'>
-          {languages.map(((language, i) => {
-            return (
-              <li key={i} className='language draggable' data-languageName={language.language}>
-                <div className='languageColor' data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
-                {language.language}
-              </li>
-            );
-          }))}
-        </ul>
+        <div className='headerBg'></div>
+        <img className='headerBgExtra' src='/assets/headers/pickPlayers/drawing.svg' />
 
-        <ul className='list-inline'>
-          {colors.map((color, i) => <li key={i} className='possibleColor dropzone' style={{backgroundColor: color}} data-color={color}><span className='hide'>{color}</span></li>)}
-        </ul>
+        <div className='main'>
+          <h3 className='title' data-before='Color your languages'>Color your languages</h3>
 
-        {this.renderNext()}
+          <div className='list'>
+            <ul className='list-unstyled colorLanguagesList'>
+              {languages.map(((language, i) => {
+                return (
+                  <li key={i} className='language draggable' data-languageName={language.language}>
+                    <div className='languageColor' data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
+                    {language.language}
+                  </li>
+                );
+              }))}
+            </ul>
 
-        <Playing player={player} />
+            <ul className='list-inline possibleColorList'>
+              {colors.map((color, i) => <li key={i} className='possibleColor dropzone' style={{backgroundColor: color}} data-color={color}><span className='hide'>{color}</span></li>)}
+            </ul>
+          </div>
+
+          <div className='footer'>
+            {this.renderNext()}
+
+            <Playing player={player} />
+          </div>
+        </div>
       </section>
     );
   }

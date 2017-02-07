@@ -5,9 +5,9 @@ const Playing = ({player}) => {
   const {name, avatar} = player;
 
   return (
-    <div>
-      <img src={`/assets/avatars/${avatar}.svg`} />
-      <p>{name} is playing...</p>
+    <div className='playing'>
+      <p className='btn name'><span className='bold'>{name}</span>&nbsp;is playing</p>
+      <img src={`/assets/avatars/${avatar}.svg`} className='avatar' />
     </div>
   );
 };

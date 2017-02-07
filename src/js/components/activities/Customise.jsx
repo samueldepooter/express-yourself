@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ExplanationVideo, PickPlayers, ColorLanguages, CustomiseAvatar} from './';
 
-const Customise = ({id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate}) => {
+const Customise = ({id, step, members, players, onRedirect, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate}) => {
 
   switch (step) {
   case 1:
@@ -11,6 +11,7 @@ const Customise = ({id, step, members, players, activity, onFinish, onActivitySt
         step={step}
         activity={activity}
         onActivityStepUpdate={onActivityStepUpdate}
+        onRedirect={onRedirect}
       />
     );
 
@@ -63,7 +64,8 @@ Customise.propTypes = {
   onPlayersSubmit: PropTypes.func,
   onLanguagesUpdate: PropTypes.func,
   onLanguageColorUpdate: PropTypes.func,
-  onCustomAvatarUpdate: PropTypes.func
+  onCustomAvatarUpdate: PropTypes.func,
+  onRedirect: PropTypes.func
 };
 
 export default Customise;

@@ -1197,6 +1197,7 @@ input[type=search] {
   .explanation {
     line-height: 3rem;
     margin: 0 2rem 3rem;
+    color: $textMain;
   }
 
   .close {
@@ -1271,7 +1272,6 @@ input[type=search] {
   }
 
   .sidebar {
-    overflow: hidden;
     min-width: 14rem;
     margin-right: 5rem;
 
@@ -1354,6 +1354,114 @@ input[type=search] {
     background: url(/assets/icons/close_2.svg) no-repeat;
     background-position: center;
     background-size: contain;
+  }
+}
+
+/* ACTIVITY: GENERAL */
+
+.activity {
+  position: relative;
+
+  .closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 5rem;
+    height: 5rem;
+
+    padding: 0;
+    margin: 2rem 2rem 0 0;
+
+    z-index: 999;
+
+    background: url(/assets/icons/close_2.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+}
+
+.introVideo {
+
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    height: 12rem;
+    box-shadow: 0 .5rem 0 0 $btnShadow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+
+  .controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    .left {
+      display: flex;
+      align-items: center;
+    }
+
+    .time {
+      margin-left: 2rem;
+      font-weight: bold;
+      color: $white;
+    }
+  }
+
+  .playBtn {
+
+    .btn {
+      margin: 0;
+      padding: 1rem;
+    }
+  }
+
+  .skipBtn {
+
+    .btn {
+      margin: 0;
+      padding: 1rem 3rem 1rem 1.5rem;
+      background: $bg;
+
+      .icon {
+        transform: rotate(180deg);
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .text {
+        position: relative;
+        top: 2px;
+        margin-left: 1rem;
+        font-size: 1.8rem;
+      }
+    }
+  }
+
+  .title {
+    margin-bottom: 0;
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .video {
+    width: 100%;
+    flex: 1;
+    background: $black;
   }
 }
 

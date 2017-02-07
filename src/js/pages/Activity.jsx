@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, onFinish, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
+    const {id, step, members, players, activity, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -26,6 +26,7 @@ class Activity extends Component {
           onLanguagesUpdate={onLanguagesUpdate}
           onLanguageColorUpdate={onLanguageColorUpdate}
           onCustomAvatarUpdate={onCustomAvatarUpdate}
+          onRedirect={onRedirect}
         />
       );
 
@@ -54,7 +55,7 @@ class Activity extends Component {
     const {activity, confirmation, onSetActive, onConfirmation, onRedirect} = this.props;
 
     return (
-      <section>
+      <div className='activity fullPage'>
 
         <CloseConfirmation
           title={activity.title}
@@ -71,11 +72,11 @@ class Activity extends Component {
           onConfirmation={onConfirmation}
         />
 
-        <h2>{activity.title}</h2>
+        <h2 className='hide'>{activity.title}</h2>
 
         {this.renderActivity()}
 
-      </section>
+      </div>
     );
   }
 }

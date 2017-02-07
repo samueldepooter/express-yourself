@@ -4,29 +4,27 @@ const CloseConfirmation = ({title, confirmation, onSetActive, onRedirect, onConf
 
   if (confirmation) {
     return (
-      <section className='confirmationBox'>
+      <section className='confirmationBox popup'>
 
-        <div>
+        <div className='content'>
 
-          <h3>Close activity "{title}"?</h3>
-          <p>All data from this activity will be lost!</p>
+          <div className='close'>
+            <button
+              onClick={() => onConfirmation(false)}
+              className='btn'>
+              <span className='hide'>Close</span>
+            </button>
+          </div>
 
-          <ul className='list-inline'>
-            <li>
-              <button
-                onClick={() => onConfirmation(false)}
-                className='btn btn-default'>
-                Cancel
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {onSetActive(0);onConfirmation(false);onRedirect(`/activities`);}}
-                className='btn btn-danger'>
-                Yes, I'm sure
-              </button>
-            </li>
-          </ul>
+          <h3 className='title' data-before={`Stop ${title} ?`}>Stop {title} ?</h3>
+          <p className='explanation'>You will be taken back to the activities overview. Don't worry, <span className='bold'>your data will not be lost</span>!</p>
+
+          <button
+            onClick={() => {onSetActive(0);onConfirmation(false);onRedirect(`/activities`);}}
+            className='btn'>
+            <img className='icon' src='/assets/icons/check.svg' />
+            <span className='text'>Stop activity</span>
+          </button>
         </div>
 
       </section>

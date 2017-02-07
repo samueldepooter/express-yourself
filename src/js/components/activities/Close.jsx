@@ -3,7 +3,9 @@ import React, {PropTypes} from 'react';
 const Close = ({onConfirmation}) => {
 
   return (
-    <button className='btn btn-danger' onClick={() => onConfirmation(true)}>Close</button>
+    <button className='btn closeBtn' onClick={() => onConfirmation(true)}>
+      <span className='hide'>Close</span>
+    </button>
   );
 };
 

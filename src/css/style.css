@@ -167,9 +167,9 @@ input[type=search] {
 .title {
   position: relative;
   color: $white;
-  font-size: 5rem;
+  font-size: 4.5rem;
   font-weight: bold;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 
   &::before {
     color: $titleShadow;
@@ -894,7 +894,7 @@ input[type=search] {
 
     .headerBg {
       position: absolute;
-      top: 1rem;
+      top: 0;
 
       width: 100%;
       height: 36rem;
@@ -908,7 +908,7 @@ input[type=search] {
       position: relative;
       top: 8.5rem;
       width: 43rem;
-      height: 28rem;
+      height: 27rem;
       opacity: 0;
 
       animation: .5s family-fade-in ease;
@@ -1185,6 +1185,14 @@ input[type=search] {
 
   background: rgba(0, 0, 0, .75);
 
+  .btn {
+
+    .text {
+      display: flex;
+      align-items: center;
+    }
+  }
+
   .title {
     margin-top: 1rem;
     z-index: 9999999999;
@@ -1221,7 +1229,7 @@ input[type=search] {
 
   .content {
     position: relative;
-    width: 60vw;
+    width: 70rem;
     height: auto;
     background: $bg;
 

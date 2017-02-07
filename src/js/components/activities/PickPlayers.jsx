@@ -50,13 +50,13 @@ class PickPlayers extends Component {
         ondropactivate: event => {
           // toon visueel waar je kan droppen
           event.target.classList.add(`drop-active`);
-          //event.relatedTarget.classList.add('');
+          event.relatedTarget.classList.add(`dragging`);
         },
 
         ondropdeactivate: event => {
           // verwijder visuele ding van hierboven
           event.target.classList.remove(`drop-active`);
-          //event.relatedTarget.classList.remove('');
+          event.relatedTarget.classList.remove(`dragging`);
         },
 
         ondragenter: event => {
@@ -144,8 +144,10 @@ class PickPlayers extends Component {
     return dzs.map((dz, i) => {
       return (
         <li key={i}>
-          <img src='/assets/avatars/unknown.svg' className='dropzone' data-memberId={- 1} data-dropzoneId={i} />
-          <p>Player {i + 1}</p>
+          <p className='hide'>Dropzone</p>
+          <div className='dropzone' data-memberId={- 1} data-dropzoneId={i}>
+            <div className='inner'>start</div>
+          </div>
         </li>
       );
     });
@@ -443,14 +445,40 @@ class PickPlayers extends Component {
 
     //if there is a custom avatar -> show button
     if (avatars.includes(true)) {
-      return <button className='btn btn-default' onClick={e => this.toggleShowAvatars(e, true)}>Show avatars</button>;
+      return (
+        <button
+          className='btn iconBtn avatarBtn'
+          onClick={e => this.toggleShowAvatars(e, true)}>
+          <img className='icon' src='/assets/icons/avatars.svg' />
+          <span className='text hide'>Show avatars</span>
+        </button>
+      );
     }
-    return;
+
+    return (
+      <button className='btn iconBtn avatarBtn disabled'>
+        <img className='icon' src='/assets/icons/avatars.svg' />
+        <span className='text hide'>Show avatars</span>
+      </button>
+    );
   }
 
   toggleShowAvatars(e, state) {
     e.preventDefault();
     this.setState({showAvatars: state});
+  }
+
+  renderDragMe(member) {
+    if (member.customAvatar) return;
+
+    return (
+      <div className='dragmeWrap'>
+        <div className='dragme'>
+          <img src='/assets/icons/drag.svg' className='icon' />
+          <p><span className='hide'>Drag me</span></p>
+        </div>
+      </div>
+    );
   }
 
   checkDone(activityId, member) {
@@ -471,41 +499,49 @@ class PickPlayers extends Component {
 
   render() {
 
-    const {id, members, onFinish} = this.props;
+    const {id, members, activity, onFinish} = this.props;
 
     return (
-      <section>
+      <section className={`${activity.name}Activity pickPlayers fullPage`}>
 
         {this.checkCustomAvatars()}
 
-        <h3>Pick players</h3>
+        <div className='headerBg'></div>
+        <img className='headerBgExtra' src='/assets/headers/pickPlayers/drawing.svg' />
 
-        <section>
-          <h4>Family members</h4>
+        <div className='main'>
+          <h3 className='title' data-before={activity.title}>{activity.title}</h3>
 
-          <ul className='list-inline'>
-            {members.map((member, i) => {
-              return (
-                <li key={i}>
-                  <img src={`/assets/avatars/${member.avatar}.svg`} data-memberId={i} className='draggable' />
-                  <p>{this.checkDone(id, member)} {member.name}</p>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
+          <section className='members'>
+            <h4 className='hide'>Pick out a family member</h4>
 
-        <section>
-          <h4>Dropzones</h4>
+            <ul className='list-inline'>
+              {members.map((member, i) => {
+                return (
+                  <li key={i} className='member'>
+                    {/* {this.renderDragMe(member)} */}
+                    <div className='avatarWrap'>
+                      <img src={`/assets/avatars/${member.avatar}.svg`} data-memberId={i} className='draggable avatar' />
+                    </div>
+                    <p className='name'>{this.checkDone(id, member)} {member.name}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
 
-          <ul className='list-inline'>
-            {this.renderDropZones()}
-          </ul>
-        </section>
 
-        {this.showAvatarsBtn()}
+          <div className='buttons'>
+            <Finish id={id} onFinish={onFinish} />
 
-        <Finish id={id} onFinish={onFinish} />
+            <ul className='list-inline dropzones'>
+              {this.renderDropZones()}
+            </ul>
+
+            {this.showAvatarsBtn()}
+          </div>
+
+        </div>
       </section>
     );
   }
@@ -515,6 +551,7 @@ class PickPlayers extends Component {
 PickPlayers.propTypes = {
   id: PropTypes.number,
   step: PropTypes.number,
+  activity: PropTypes.object,
   members: PropTypes.array,
   numberOfPlayers: PropTypes.number,
   onFinish: PropTypes.func,

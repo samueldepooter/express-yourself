@@ -20,6 +20,7 @@ const Customise = ({id, step, members, players, onRedirect, activity, onFinish, 
       <PickPlayers
         id={id}
         step={step}
+        activity={activity}
         members={members}
         numberOfPlayers={1}
         onFinish={onFinish}

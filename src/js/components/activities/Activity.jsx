@@ -12,22 +12,27 @@ const Activity = ({i, activity, completed}) => {
         <span className='hide'>Info</span>
       </Link>
 
-      <Link to={`/activities/${id}/steps/1`}>
+      <Link to={`/activities/${id}/steps/1`} className='activityLink'>
+
+        {renderCompleted(id, completed)}
+
         <div className='cover'>
           <img src={`/assets/activities/covers/${activity.cover}.svg`} />
         </div>
-        <p className='activityTitle'>{renderCompleted(id, completed)}<span className='text' style={{color: activity.color}}>{activity.title}</span></p>
+        <p className='activityTitle'><span className='text' style={{color: activity.color}}>{activity.title}</span></p>
       </Link>
     </li>
   );
 };
 
 const renderCompleted = (id, completed) => {
-  const img = `https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png`;
-
   return completed.map((activityId, i) => {
-    if (activityId === id) return <img src={img} className='checked' key={i} />;
-    return;
+    if (activityId === id) return (
+      <div className='checkedBtn' key={i}>
+        <img src='/assets/icons/check.svg' className='icon' />
+        <p className='hide'>Done</p>
+      </div>
+    );
   });
 };
 

@@ -17,7 +17,11 @@ const CloseConfirmation = ({title, confirmation, onSetActive, onRedirect, onConf
           </div>
 
           <h3 className='title' data-before={`Stop ${title} ?`}>Stop {title} ?</h3>
-          <p className='explanation'>You will be taken back to the activities overview. Don't worry, <span className='bold'>your data will not be lost</span>!</p>
+          <p className='explanation'>
+            You will be taken back to the activities overview.
+            <br />
+            Don't worry, <span className='bold'>your data will not be lost</span>!
+          </p>
 
           <button
             onClick={() => {onSetActive(0);onConfirmation(false);onRedirect(`/activities`);}}

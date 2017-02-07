@@ -14,13 +14,25 @@ class Details extends Component {
   }
 
   fetchActivity() {
-
     const {id} = this.props;
     const index = id - 1;
 
     const activity = activitiesData[index];
     this.setState({activity});
+  }
 
+  renderPlayers(players) {
+    players = parseInt(players);
+
+    if (players >= 2) return `${players} players`;
+    else return `${players} player`;
+  }
+
+  renderDevices(devices) {
+    devices = parseInt(devices);
+
+    if (devices >= 2) return `${devices} devices`;
+    else return `${devices} device`;
   }
 
   renderCompleted() {
@@ -73,13 +85,13 @@ class Details extends Component {
             </section>
 
             <section className='section'>
-              <h3 className='title'>Players</h3>
-              <p>{activity.players} players</p>
+              <h3 className='title'>Max players</h3>
+              <p>{this.renderPlayers(activity.players)}</p>
             </section>
 
             <section className='section'>
-              <h3 className='title'>Devices</h3>
-              <p>{activity.devices} devices</p>
+              <h3 className='title'>Max devices</h3>
+              <p>{this.renderDevices(activity.devices)}</p>
             </section>
 
             <Link to={`/activities/${id}/steps/1`} className='btn'>

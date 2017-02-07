@@ -1256,14 +1256,11 @@ input[type=search] {
 .activityDetails {
 
   .details {
-    position: relative;
-    top: 32rem;
-
     max-width: 75vw;
     display: flex;
     justify-content: center;
     max-height: 32rem;
-    background: $bg;
+    margin-top: 3rem;
   }
 
   .section {
@@ -1309,7 +1306,6 @@ input[type=search] {
   }
 
   .header {
-    position: fixed;
     width: 100%;
     height: 28rem;
 

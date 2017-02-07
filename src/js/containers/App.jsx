@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
+import IO from 'socket.io-client';
 
 import {Start, Intro, Activities, Activity, Details, NoMatch} from '../pages';
 import {Page1} from '../pages';
@@ -36,7 +37,14 @@ class App extends Component {
     router = r;
   }
 
+  initSocket() {
+    this.socket = IO(`/`);
+  }
+
   componentWillMount() {
+
+    this.initSocket();
+
     //check everything that's stored in local storage
     //this.checkLocalStorageData();
 

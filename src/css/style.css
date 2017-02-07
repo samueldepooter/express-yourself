@@ -1322,8 +1322,6 @@ input[type=search] {
       margin: 3rem 0 0;
       z-index: 10;
 
-      background: $bg;
-
       &::before {
         content: attr(data-before);
       }

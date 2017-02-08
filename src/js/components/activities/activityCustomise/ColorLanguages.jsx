@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Next, Playing} from '../.';
-import {activitiesData} from '../../../globals';
+import {activitiesData, languages as allLanguages} from '../../../globals';
 import {interact} from 'interactjs';
 
 let colors = [];
@@ -52,7 +52,7 @@ class ColorLanguages extends Component {
     interact(`.dropzone`)
       .dropzone({
         accept: `.draggable`,
-        overlap: .5,
+        overlap: .25,
         ondrop: e => this.onDropHandler(e),
         ondropactivate: event => event.target.classList.add(`drop-active`),
         ondropdeactivate: event => event.target.classList.remove(`drop-active`),
@@ -81,7 +81,8 @@ class ColorLanguages extends Component {
     const language = el.getAttribute(`data-languageName`);
     const color = target.getAttribute(`data-color`);
 
-    const selected = el.childNodes[0].getAttribute(`data-selectedColor`);
+    const selected = el.getAttribute(`data-selectedColor`);
+
     if (selected) {
       const colors = document.querySelectorAll(`.possibleColor`);
       for (let i = 0;i < colors.length;i ++) {
@@ -187,6 +188,16 @@ class ColorLanguages extends Component {
     );
   }
 
+  checkFlag(language) {
+    const lang = allLanguages.all.find(l => l.name === language);
+
+    let img = ``;
+    if (lang.flag) img = lang.flag;
+    else img = `global`;
+
+    return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
+  }
+
   render() {
 
     const {player} = this.props;
@@ -205,13 +216,18 @@ class ColorLanguages extends Component {
             <ul className='list-unstyled colorLanguagesList'>
               {languages.map(((language, i) => {
                 return (
-                  <li key={i} className='language draggable' data-languageName={language.language}>
-                    <div className='languageColor' data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
-                    {language.language}
+                  <li key={i} className='language'>
+                    <div className='languageText'>
+                      {this.checkFlag(language.language)}
+                      {language.language}
+                    </div>
+                    <div className='languageColor draggable' data-languageName={language.language} data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
                   </li>
                 );
               }))}
             </ul>
+
+            <div className='dragIcon'><span className='hide'>Drag language to color</span></div>
 
             <ul className='list-inline possibleColorList'>
               {colors.map((color, i) => <li key={i} className='possibleColor dropzone' style={{backgroundColor: color}} data-color={color}><span className='hide'>{color}</span></li>)}

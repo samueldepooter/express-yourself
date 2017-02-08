@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Playing, ConfirmCustomAvatar} from '../.';
 import {interact} from 'interactjs';
-import {avatars as avatarsSettings} from '../../../globals';
+import {avatars as avatarsSettings, languages as allLanguages} from '../../../globals';
 
 class CustomiseAvatar extends Component {
 
@@ -290,6 +290,16 @@ class CustomiseAvatar extends Component {
     }
   }
 
+  checkFlag(language) {
+    const lang = allLanguages.all.find(l => l.name === language);
+
+    let img = ``;
+    if (lang.flag) img = lang.flag;
+    else img = `global`;
+
+    return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
+  }
+
   render() {
     const {avatar} = this.state;
     const {id, player, onCustomAvatarUpdate} = this.props;
@@ -297,31 +307,49 @@ class CustomiseAvatar extends Component {
 
     return (
       <section className='customiseAvatar fullPage'>
-        <h3>Color your avatar</h3>
 
-        <ul className='list-unstyled colorLanguagesList'>
-          {languages.map((language, i) => {
-            return (
-              <li key={i} className='language' data-languageName={language.language}>
-                <div className='languageColor draggable' data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
-                {language.language}
-              </li>
-            );
-          })}
-        </ul>
+        <header className='header'>
+          <h3 className='title'>Color your avatar !</h3>
+          <div className='headerBg'></div>
+        </header>
 
-        <div className='avatars'>
-          {this.renderAvatar(false)}
-          {this.renderAvatar(true)}
+        <div className='main'>
+
+          <div className='list'>
+            <ul className='list-unstyled colorLanguagesList'>
+              {languages.map((language, i) => {
+                return (
+                  <li key={i} className='language'>
+                    <div className='languageText'>
+                      {this.checkFlag(language.language)}
+                      {language.language}
+                    </div>
+                    <div className='languageColor draggable' data-languageName={language.language} data-selectedColor={language.color} style={{backgroundColor: language.color}}></div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className='avatarsWrap'>
+              <div className='pedestal'><span className='hide'>Pedestal</span></div>
+
+              <div className='avatars'>
+                {this.renderAvatar(false)}
+                {this.renderAvatar(true)}
+              </div>
+            </div>
+          </div>
+
+          <div className='footer'>
+            <ConfirmCustomAvatar
+              id={id}
+              avatar={avatar}
+              onCustomAvatarUpdate={onCustomAvatarUpdate}
+            />
+
+            <Playing player={player} />
+          </div>
         </div>
-
-        <ConfirmCustomAvatar
-          id={id}
-          avatar={avatar}
-          onCustomAvatarUpdate={onCustomAvatarUpdate}
-        />
-
-        <Playing player={player} />
       </section>
     );
   }

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Finish} from './';
 import {interact} from 'interactjs';
-import {avatars as avatarsSettings} from '../../globals';
+import {avatars as avatarsSettings, languages as allLanguages} from '../../globals';
 
 class PickPlayers extends Component {
 
@@ -182,6 +182,16 @@ class PickPlayers extends Component {
 
   }
 
+  checkFlag(language) {
+    const lang = allLanguages.all.find(l => l.name === language);
+
+    let img = ``;
+    if (lang.flag) img = lang.flag;
+    else img = `global`;
+
+    return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
+  }
+
   checkCustomAvatars() {
     const {id} = this.props;
     if (id !== 1) return;
@@ -200,23 +210,30 @@ class PickPlayers extends Component {
     return (
       <section className='customAvatarsOverview'>
 
-        <div>
-          <h4>Custom avatars</h4>
+        <button className='btn closeBtn' onClick={e => this.toggleShowAvatars(e, false)}><span className='hide'>Close</span></button>
 
-          <ul className='list-inline'>
+        <div>
+          <h4 className='hide'>Custom avatars</h4>
+
+          <ul className='list-inline avatarLanguages'>
             {membersWithAvatar.map((member, i) => {
               const {languages} = member;
               return (
-                <li key={i}>
-                  {this.renderCustomAvatar(member.avatar, member.customAvatar)}
-                  <p>{member.name}</p>
+                <li key={i} className='avatarWrap'>
+                  <div className='avatar'>
+                    {this.renderCustomAvatar(member.avatar, member.customAvatar)}
+                    <p className='name'>{member.name}</p>
+                  </div>
 
                   <ul className='list-unstyled colorLanguagesList'>
                     {languages.map((language, i) => {
                       return (
                         <li key={i} className='language'>
                           <div className='languageColor' style={{backgroundColor: language.color}}></div>
-                          {language.language}
+                          <div className='languageText'>
+                            {this.checkFlag(language.language)}
+                            {language.language}
+                          </div>
                         </li>
                       );
                     })}
@@ -226,8 +243,6 @@ class PickPlayers extends Component {
               );
             })}
           </ul>
-
-          <button className='btn btn-danger' onClick={e => this.toggleShowAvatars(e, false)}>Close</button>
         </div>
 
       </section>
@@ -324,8 +339,8 @@ class PickPlayers extends Component {
           <circle className='eye' style={{fill: eyeRight3}} cx='223.8' cy='64' r='3.1' />
 
           <path className='nose' style={{fill: nose}} d='M207,94.6h-29.1c-6.7,0-12.2-5.5-12.2-12.2v-5.5c0-6.7,5.5-12.2,12.2-12.2H207c6.7,0,12.2,5.5,12.2,12.2v5.5C219.1,89.2,213.6,94.6,207,94.6z' />
-          <path className='nose' style={{fill: nose}} d='M205.8,86L205.8,86c-3.5,0-6.3-2.8-6.3-6.3v0c0-3.5,2.8-6.3,6.3-6.3h0c3.5,0,6.3,2.8,6.3,6.3v0C212,83.2,209.2,86,205.8,86z' />
-          <path className='nose' style={{fill: nose}} d='M179,86L179,86c-3.5,0-6.3-2.8-6.3-6.3v0c0-3.5,2.8-6.3,6.3-6.3h0c3.5,0,6.3,2.8,6.3,6.3v0C185.3,83.2,182.5,86,179,86z' />
+          <path className='nose' style={{fill: darkGrey}} d='M205.8,86L205.8,86c-3.5,0-6.3-2.8-6.3-6.3v0c0-3.5,2.8-6.3,6.3-6.3h0c3.5,0,6.3,2.8,6.3,6.3v0C212,83.2,209.2,86,205.8,86z' />
+          <path className='nose' style={{fill: darkGrey}} d='M179,86L179,86c-3.5,0-6.3-2.8-6.3-6.3v0c0-3.5,2.8-6.3,6.3-6.3h0c3.5,0,6.3,2.8,6.3,6.3v0C185.3,83.2,182.5,86,179,86z' />
       </svg>
       );
 
@@ -481,13 +496,17 @@ class PickPlayers extends Component {
     );
   }
 
-  checkDone(activityId, member) {
-    const img = `https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png`;
+  renderCompleted(activityId, member) {
 
     //checkdone for activity 1
     if (activityId === 1) {
       if (!member.customAvatar) return;
-      return <img src={img} className='checked' />;
+      return (
+        <div className='completed'>
+          <img src='/assets/icons/check.svg' className='icon' />
+          <span className='hide'>Completed!</span>
+        </div>
+      );
     } else if (activityId === 2) {
       console.log(`check done for activity 2`);
     } else if (activityId === 3) {
@@ -531,10 +550,11 @@ class PickPlayers extends Component {
                 return (
                   <li key={i} className='member'>
                     {/* {this.renderDragMe(member)} */}
+                    {this.renderCompleted(id, member)}
                     <div className='avatarWrap'>
                       <img src={`/assets/avatars/${member.avatar}.svg`} data-memberId={i} className='draggable avatar' />
                     </div>
-                    <p className='name'>{this.checkDone(id, member)} {member.name}</p>
+                    <p className='name'>{member.name}</p>
                   </li>
                 );
               })}

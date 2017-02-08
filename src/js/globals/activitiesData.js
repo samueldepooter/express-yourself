@@ -9,7 +9,7 @@ const activitiesData = [
     players: `1`,
     devices: `1`,
     steps: 4,
-    colors: [`#79F744`, `#FDD642`, `#DC372C`, `#FF5BED`, `#002395`, `#1CFCF4`]
+    colors: [`#DC372C`, `#F27A1C`, `#F8E81C`, `#5AD321`, `#1CFCF4`, `#008ACC`, `#7600CC`, `#FF5BED`]
   },
 
   {

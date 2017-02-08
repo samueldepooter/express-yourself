@@ -6,9 +6,11 @@ const ConfirmCustomAvatar = ({id, avatar, onCustomAvatarUpdate}) => {
   return (
     <Link
       to={`/activities/${id}/steps/2`}
-      className='btn btn-default'
-      onClick={() => onCustomAvatarUpdate(avatar)}
-    >Confirm avatar</Link>
+      className='btn'
+      onClick={() => onCustomAvatarUpdate(avatar)}>
+      <img className='icon' src={`/assets/icons/check.svg`} />
+      <span className='text'>Confirm avatar</span>
+    </Link>
   );
 };
 

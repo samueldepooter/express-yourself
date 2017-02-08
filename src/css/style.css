@@ -351,6 +351,14 @@ input[type=search] {
       }
     }
 
+    .selectedLanguages {
+      margin-bottom: 5rem;
+      max-width: 80vw;
+      text-align: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
     .selectLanguages {
       display: flex;
       flex-direction: column;
@@ -1244,7 +1252,7 @@ input[type=search] {
       background: url(/assets/icons/close_2.svg) no-repeat;
       background-position: center;
       background-size: contain;
-      box-shadow: 0 .5rem 0 0 $btnShadow;
+      box-shadow: 0 .25rem 0 0 $btnShadow;
 
       width: 6rem;
       height: 6rem;
@@ -1385,6 +1393,8 @@ input[type=search] {
     background: url(/assets/icons/close_2.svg) no-repeat;
     background-position: center;
     background-size: contain;
+
+    box-shadow: 0 .25rem 0 0 $btnShadow;
   }
 }
 
@@ -1434,6 +1444,8 @@ input[type=search] {
     background: url(/assets/icons/close_2.svg) no-repeat;
     background-position: center;
     background-size: contain;
+
+    box-shadow: 0 .25rem 0 0 $btnShadow;
   }
 }
 
@@ -1522,6 +1534,164 @@ input[type=search] {
   }
 }
 
+/* --- CUSTOMISE --- */
+
+.customiseAvatar {
+
+  position: relative;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  .title {
+
+    z-index: 5;
+
+    top: 7rem;
+    left: 0;
+
+    width: 70rem;
+    margin: 0 auto;
+
+    &::before {
+      content: 'Color your avatar !';
+    }
+  }
+
+  .headerBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: url(/assets/headers/customiseAvatar/bg.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .avatarsWrap {
+    position: relative;
+    left: 6rem;
+  }
+
+  .list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70rem;
+  }
+
+  .avatars {
+    position: relative;
+    bottom: 6rem;
+    width: 384px;
+    height: 485px;
+  }
+
+  .pedestal {
+    position: absolute;
+    bottom: -15rem;
+    right: 10rem;
+    background: url(/assets/activities/customise/pedestal.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 191px;
+    height: 23rem;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 70rem;
+    height: 8rem;
+
+    margin-top: 3rem;
+  }
+
+  .playing {
+
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    .name {
+      background: $inputBg;
+      color: $white;
+      font-size: 1.6rem;
+      font-weight: lighter;
+      animation: none;
+      opacity: 1;
+    }
+
+    .avatar {
+      position: absolute;
+      top: -1rem;
+      right: -2rem;
+      width: 7rem;
+      height: 7rem;
+      z-index: 5;
+    }
+  }
+
+  .header {
+    position: relative;
+    width: 100%;
+    height: 19rem;
+  }
+
+  .colorLanguagesList {
+
+    position: relative;
+    left: 6rem;
+
+    display: flex;
+    flex-direction: column;
+
+    .language {
+      display: flex;
+      align-items: center;
+      align-self: flex-end;
+
+      &:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    .languageColor {
+      width: 4rem;
+      height: 4rem;
+
+      border-radius: 100%;
+      background-color: #e0e0e0;
+      margin-left: .5rem;
+      border: .75rem solid $white;
+      box-shadow: 0 .25rem 0 0 $btnShadow;
+    }
+
+    .languageText {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: $white;
+      padding: 1rem 2rem 1rem 1rem;
+      color: $black;
+      box-shadow: 0 .25rem 0 0 $btnShadow;
+      border-radius: 10rem;
+    }
+
+    .flag {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 1rem;
+    }
+  }
+}
+
 .colorLanguages {
 
   display: flex;
@@ -1530,8 +1700,68 @@ input[type=search] {
 
   .title {
 
+    z-index: 5;
+
     &::before {
       content: attr(data-before);
+    }
+  }
+
+  .dragIcon {
+    position: relative;
+
+    width: 3rem;
+    height: 3rem;
+    background: url(/assets/icons/drag.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    transform: rotate(-90deg);
+    animation: 1.5s drag-language ease;
+    animation-iteration-count: infinite;
+  }
+
+  .colorLanguagesList {
+
+    display: flex;
+    flex-direction: column;
+
+    .language {
+      display: flex;
+      align-items: center;
+      align-self: flex-end;
+
+      &:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    .languageColor {
+      width: 4rem;
+      height: 4rem;
+
+      border-radius: 100%;
+      background-color: #e0e0e0;
+      margin-left: .5rem;
+      border: .75rem solid $white;
+      box-shadow: 0 .25rem 0 0 $btnShadow;
+    }
+
+    .languageText {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: $white;
+      padding: 1rem 2rem 1rem 1rem;
+      color: $black;
+      box-shadow: 0 .25rem 0 0 $btnShadow;
+      border-radius: 10rem;
+    }
+
+    .flag {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 1rem;
     }
   }
 
@@ -1551,13 +1781,11 @@ input[type=search] {
   .headerBgExtra {
     position: relative;
     height: 21rem;
-    opacity: 0;
     margin-top: 3rem;
-    left: -.5rem;
+    opacity: 1;
 
-    animation: .5s familyMembers-fade-in ease;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
+    top: 3.5rem;
+    left: -.5rem;
   }
 
   .list {
@@ -1569,17 +1797,25 @@ input[type=search] {
   }
 
   .possibleColorList {
-    width: 30rem;
+    width: 40rem;
+    height: 20rem;
     display: block;
   }
 
   .possibleColor {
+    transition: all .4s ease;
+
+    opacity: 1;
     margin: 1rem;
     float: left;
     width: 8rem;
     height: 8rem;
     border-radius: 2rem;
     box-shadow: 0 .5rem 0 0 $btnShadow;
+
+    &.inactive {
+      opacity: .25;
+    }
   }
 
   .footer {
@@ -1627,6 +1863,102 @@ input[type=search] {
 
     &::before {
       content: attr(data-before);
+    }
+  }
+
+  .customAvatarsOverview {
+
+    .customOverviewAvatar {
+      position: relative;
+      left: 3px;
+    }
+
+    .avatarWrap {
+      display: flex;
+      flex-direction: column;
+      margin: 0 2rem;
+    }
+
+    .avatar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .name {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .avatarLanguages {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+
+      .language {
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) {
+          margin-bottom: 1.5rem;
+        }
+      }
+
+      .languageColor {
+        width: 4rem;
+        height: 4rem;
+
+        border-radius: 100%;
+        background-color: #e0e0e0;
+        margin-right: .5rem;
+        border: .75rem solid $white;
+        box-shadow: 0 .25rem 0 0 $btnShadow;
+      }
+
+      .languageText {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: $white;
+        padding: 1rem 2rem 1rem 1rem;
+        color: $black;
+        box-shadow: 0 .25rem 0 0 $btnShadow;
+        border-radius: 10rem;
+      }
+
+      .flag {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  .completed {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 12rem;
+    height: 0;
+
+    border-radius: 10rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, .75);
+
+    .icon {
+      position: relative;
+      top: 0;
+      width: 4rem;
+      height: 4rem;
+      z-index: 999991;
     }
   }
 
@@ -1797,36 +2129,6 @@ input[type=search] {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.possibleColor {
-  width: 10rem;
-  height: 10rem;
-
-  &.inactive {
-    opacity: .5;
-  }
-}
-
-.colorLanguagesList {
-
-  display: flex;
-  flex-direction: column;
-
-  .language {
-    display: flex;
-    align-items: center;
-    align-self: flex-start;
-  }
-
-  .languageColor {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 100%;
-    background-color: white;
-    margin-right: .5rem;
-    border: 2px solid grey;
-  }
 }
 
 .draggable {

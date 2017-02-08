@@ -24,7 +24,7 @@ const EndSessionConfirmation = ({confirmation, onRedirect, onConfirmation}) => {
             </li>
             <li>
               <button
-                onClick={() => {onConfirmation(false);onRedirect(`/`);}}
+                onClick={() => {onConfirmation(false);onRedirect(`/`);window.open(`/assets/download/report.pdf`);}}
                 className='btn'>
                 <img className='icon' src='/assets/icons/check.svg' />
                 <span className='text'>Complete session</span>

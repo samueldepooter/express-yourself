@@ -50,8 +50,12 @@ class ExplanationVideo extends Component {
     const {id, step, onRedirect, onActivityStepUpdate} = this.props;
     const nextStep = step + 1;
 
+    //activity 2 is only intro;
+    if (id === 2) return;
+
     onActivityStepUpdate(nextStep);
-    onRedirect(`/activities/${id}/steps/${nextStep}`);
+
+    setTimeout(() => onRedirect(`/activities/${id}/steps/${nextStep}`), 1000);
   }
 
   togglePause() {
@@ -60,9 +64,25 @@ class ExplanationVideo extends Component {
     this.setState({paused: player.paused});
   }
 
+  renderSkipBtn() {
+
+    const {id, step, onActivityStepUpdate} = this.props;
+
+    console.log(this.props);
+
+    //activity 2 has nothing to skip to
+    if (id === 2) return;
+
+    return (
+      <div className='skipBtn'>
+        <Next id={id} step={step} text='Skip intro' icon='back' onActivityStepUpdate={onActivityStepUpdate} />
+      </div>
+    );
+  }
+
   render() {
 
-    const {id, step, activity, onActivityStepUpdate} = this.props;
+    const {activity} = this.props;
     const {timeLeft} = this.state;
 
     return (
@@ -81,7 +101,7 @@ class ExplanationVideo extends Component {
           onTimeUpdate={() => this.onTimeUpdate()}
           onEnded={() => this.onEnded()}
           >
-          <source src='/assets/videos/customise.mp4' type='video/mp4' />
+          <source src={`/assets/videos/${activity.video}`} type='video/mp4' />
           Your browser does not support the video tag.
         </video>
 
@@ -95,9 +115,7 @@ class ExplanationVideo extends Component {
             <div className='time'>{timeLeft}</div>
           </div>
 
-          <div className='skipBtn'>
-            <Next id={id} step={step} text='Skip intro' icon='back' onActivityStepUpdate={onActivityStepUpdate} />
-          </div>
+          {this.renderSkipBtn()}
         </div>
       </section>
     );

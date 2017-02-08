@@ -33,6 +33,7 @@ class Activity extends Component {
     case 2:
       return (
         <AnimationReaction
+          id={id}
           step={step}
           activity={activity}
         />

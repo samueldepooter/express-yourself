@@ -73,7 +73,9 @@ const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNam
           </div>
         </form>
 
-        {renderContinueBtn(name, selectedAvatar, step, memberId, editStep)}
+        <div className='nextWrap'>
+          {renderContinueBtn(name, selectedAvatar, step, memberId, editStep)}
+        </div>
       </div>
 
     </section>

@@ -1,18 +1,23 @@
 import React, {PropTypes} from 'react';
 import {ExplanationVideo} from './';
 
-const AnimationReaction = ({step, activity}) => {
+const AnimationReaction = ({id, step, activity}) => {
 
   switch (step) {
   case 1:
     return (
-      <ExplanationVideo activity={activity} />
+      <ExplanationVideo
+        id={id}
+        step={step}
+        activity={activity}
+      />
     );
   }
 
 };
 
 AnimationReaction.propTypes = {
+  id: PropTypes.number,
   step: PropTypes.number,
   activity: PropTypes.object
 };

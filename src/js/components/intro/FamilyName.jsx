@@ -30,7 +30,10 @@ const FamilyName = ({step, familyName, onIntroStepUpdate, onFamilyNameUpdate, on
 
           <input type='submit' className='hide' />
 
-          {renderNext(step, onIntroStepUpdate, familyName)}
+          <div className='nextWrap'>
+            {renderNext(step, onIntroStepUpdate, familyName)}
+          </div>
+
         </form>
       </div>
 

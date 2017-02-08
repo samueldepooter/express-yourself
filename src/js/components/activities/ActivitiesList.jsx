@@ -10,30 +10,24 @@ const ActivitiesList = ({completed}) => {
       {activitiesData.map((activity, i) => <Activity key={i} i={i} activity={activity} completed={completed} />)}
 
       <li className='activity disabled'>
-        <div className='infoBtn'>
-          <p className='text'>i</p>
-          <span className='hide'>Info</span>
+        <div className='cover'>
+          <img src={`/assets/icons/construction.svg`} className='icon' />
         </div>
-
-        <p className='activityTitle'><span className='text'>Activity</span></p>
+        <p className='activityTitle'><span className='text'>Under construction</span></p>
       </li>
 
       <li className='activity disabled'>
-        <div className='infoBtn'>
-          <p className='text'>i</p>
-          <span className='hide'>Info</span>
+        <div className='cover'>
+          <img src={`/assets/icons/construction.svg`} className='icon' />
         </div>
-
-        <p className='activityTitle'><span className='text'>Activity</span></p>
+        <p className='activityTitle'><span className='text'>Under construction</span></p>
       </li>
 
       <li className='activity disabled'>
-        <div className='infoBtn'>
-          <p className='text'>i</p>
-          <span className='hide'>Info</span>
+        <div className='cover'>
+          <img src={`/assets/icons/construction.svg`} className='icon' />
         </div>
-
-        <p className='activityTitle'><span className='text'>Activity</span></p>
+        <p className='activityTitle'><span className='text'>Under construction</span></p>
       </li>
     </ul>
   );

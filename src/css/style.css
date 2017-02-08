@@ -16,6 +16,8 @@ $infoBtnShadow: #551cc4;
 $inputBg: #f2b406;
 $inputShadow: #dd9f07;
 
+$videoBg: #ffcc2f;
+
 /* --- GENERAL --- */
 
 body {
@@ -87,12 +89,12 @@ input[type=search] {
 
   padding: 1.5rem 5rem 1.5rem 2.5rem;
   margin: 0 1rem;
+  max-width: 40rem;
 
   border: none;
   border-radius: 10rem;
 
   animation: .5s btn-fade-in ease;
-  animation-delay: .5s;
   animation-fill-mode: forwards;
 
   background: $btnBg;
@@ -135,6 +137,15 @@ input[type=search] {
       font-size: 1.8rem;
     }
   }
+}
+
+.logo {
+  width: 90vw;
+  height: 36rem;
+  background: url(/assets/logo.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .smallIcon {
@@ -188,13 +199,45 @@ input[type=search] {
   justify-content: center;
   align-items: center;
 
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5rem;
+
+    .btn {
+      animation: none;
+      opacity: 1;
+      width: auto;
+      height: auto;
+    }
+  }
+
+  .or {
+    color: $textMain;
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 0 2rem;
+  }
+
+  .existing {
+    background: $inputBg;
+    padding: 1.5rem 4rem 1.5rem 1.5rem;
+
+    .text {
+      font-size: 2rem;
+    }
+
+    .icon {
+      transform: rotate(180deg);
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
   .logo {
     font-size: 4rem;
     margin-bottom: 2rem;
-  }
-
-  .btn {
-    margin-top: 5rem;
   }
 }
 
@@ -318,6 +361,9 @@ input[type=search] {
         font-size: 4rem;
         color: $white;
         margin: 0 1rem;
+
+        animation: .4s member-pop ease;
+        animation-fill-mode: forwards;
       }
     }
   }
@@ -638,9 +684,17 @@ input[type=search] {
         justify-content: center;
         align-items: center;
 
+        transform: scale(0);
+
+        animation: .4s popup ease;
+        animation-iteration-count: 1;
+        animation-delay: .5s;
+        animation-fill-mode: forwards;
+
         .icon {
           position: relative;
           animation: 1s click-me ease;
+          animation-delay: 1.5s;
           animation-iteration-count: infinite;
           width: 2rem;
           height: 2rem;
@@ -940,6 +994,16 @@ input[type=search] {
 
 /* --- ACTIVITIES OVERVIEW --- */
 
+.activities {
+
+  .activity {
+    opacity: 0;
+    transform: scale(0);
+    animation: popup .4s, fade-in .4s;
+    animation-fill-mode: forwards, forwards;
+  }
+}
+
 .activities,
 .activityDetails {
 
@@ -1053,14 +1117,23 @@ input[type=search] {
     border-radius: 2rem;
     background: $btnBg;
     box-shadow: 0 .5rem 0 0 $btnShadow;
-    margin: 2.5rem 0;
+    margin: 2.5rem;
 
     &.disabled {
       opacity: .5;
-    }
 
-    &:nth-child(3n + 2) {
-      margin: 2.5rem 5rem;
+      .activityTitle {
+        font-size: 1.4rem;
+      }
+
+      .cover {
+        padding: 7rem;
+
+        .icon {
+          position: relative;
+          top: -3rem;
+        }
+      }
     }
   }
 
@@ -1069,7 +1142,7 @@ input[type=search] {
     bottom: 0;
 
     width: 100%;
-    height: 5rem;
+    height: 7rem;
     overflow: hidden;
 
     display: flex;
@@ -1077,8 +1150,8 @@ input[type=search] {
     justify-content: center;
 
     background: url(/assets/activities/clouds.svg) no-repeat;
-    background-size: cover;
-    background-position: 0 0;
+    background-size: 23rem;
+    background-position: center 1.5rem;
     border-radius: 0 0 2rem 2rem;
 
     font-weight: bold;
@@ -1087,7 +1160,7 @@ input[type=search] {
 
     .text {
       position: relative;
-      top: .6rem;
+      top: 1.5rem;
     }
   }
 
@@ -1453,6 +1526,8 @@ input[type=search] {
 
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background: $videoBg;
 
   .header {
     height: 12rem;
@@ -1463,6 +1538,7 @@ input[type=search] {
     align-items: center;
     z-index: 5;
     width: 100%;
+    background: $bg;
   }
 
   .controls {
@@ -1528,9 +1604,9 @@ input[type=search] {
   }
 
   .video {
-    width: 100%;
+    width: 60%;
     flex: 1;
-    background: $black;
+    background: $videoBg;
   }
 }
 
@@ -1867,6 +1943,9 @@ input[type=search] {
   }
 
   .customAvatarsOverview {
+
+    animation: .4s fade-in ease;
+    animation-fill-mode: forwards;
 
     .customOverviewAvatar {
       position: relative;
@@ -2233,6 +2312,41 @@ input[type=search] {
       &.drop-active {
         transform: translate(0, 0);
       }
+    }
+  }
+}
+
+.nextWrap {
+  height: 8rem;
+}
+
+/* --- NO MATCH --- */
+
+.noMatch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .logo {
+    height: 18rem;
+    margin-bottom: 4rem;
+  }
+
+  .title {
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .btn {
+      margin-top: 5rem;
+      background: $inputBg;
     }
   }
 }

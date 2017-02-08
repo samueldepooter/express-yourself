@@ -49,7 +49,9 @@ const MemberLanguages = ({step, member, search, onSpokenLangUpdate, onSearchLang
           </form>
         </div>
 
-        {renderDone(name, step, memberId, languages, onMemberCompleted)}
+        <div className='nextWrap'>
+          {renderDone(name, step, memberId, languages, onMemberCompleted)}
+        </div>
       </div>
 
     </section>

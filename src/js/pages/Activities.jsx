@@ -5,7 +5,11 @@ import {EndSession, EndSessionConfirmation, ActivitiesList, FamilyMembers} from 
 class Activities extends Component {
 
   componentDidMount() {
-    console.log(`Activities mounted`);
+    const els = document.querySelectorAll(`.activity`);
+
+    for (let i = 0;i < els.length;i ++) {
+      els[i].style.animationDelay = `${(i / 6) + .5}s`;
+    }
   }
 
   render() {

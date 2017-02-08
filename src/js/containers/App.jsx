@@ -438,6 +438,11 @@ class App extends Component {
             {this.setRouter(router)}
 
             <div className='overlay error'>
+              <div className='tabletWrap'>
+                <div className='wrong'></div>
+                <div className='right'></div>
+                <img src='/assets/icons/tablet.svg' className='tablet' />
+              </div>
               <p className='text'>Please use a <span className='bold'>tablet</span> and put it in <span className='bold'>landscape view</span>!</p>
             </div>
 

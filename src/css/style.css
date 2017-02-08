@@ -16,7 +16,7 @@ $infoBtnShadow: #551cc4;
 $inputBg: #f2b406;
 $inputShadow: #dd9f07;
 
-$videoBg: #ffcc2f;
+$videoBg: #ffc600;
 
 /* --- GENERAL --- */
 
@@ -1542,9 +1542,9 @@ input[type=search] {
   }
 
   .controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    // position: absolute;
+    // bottom: 0;
+    // left: 0;
     padding: 2rem;
 
     display: flex;

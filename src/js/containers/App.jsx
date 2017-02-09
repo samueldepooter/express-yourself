@@ -61,7 +61,11 @@ class App extends Component {
 
     const {room} = this.state;
     room.devices = devices;
-    this.setState({room});
+
+    const message = `A device disconnected from your session`;
+    setTimeout(() => this.setState({message: ``}), 5000);
+
+    this.setState({room, message});
   }
 
   joinedRoomWSHandler(devices) {
@@ -100,7 +104,7 @@ class App extends Component {
 
   notFoundWSHandler(code) {
     console.log(`Room ${code} was not found..`);
-    const error = `Room ${code} was not found!`;
+    const error = `Room ${code} was not found`;
     this.setState({error});
   }
 
@@ -493,7 +497,7 @@ class App extends Component {
   }
 
   onCreateRoomHandler() {
-    console.log(`Create one!`);
+    console.log(`Create new room`);
     this.socket.emit(`createRoom`, this.socket.id);
   }
 
@@ -524,6 +528,10 @@ class App extends Component {
     };
 
     this.setState({room});
+  }
+
+  onRemoveErrorHandler() {
+    this.setState({error: ``});
   }
 
   render() {
@@ -572,6 +580,7 @@ class App extends Component {
                   <Join
                     onSubmitCode={code => this.onSubmitCodeHandler(code)}
                     error={error}
+                    onRemoveError={() => this.onRemoveErrorHandler()}
                   />
                 );
               }}

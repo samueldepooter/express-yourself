@@ -87,9 +87,6 @@ module.exports.register = (server, options, next) => {
       console.log(`${deviceId} left`);
 
       socket.leave(room.code);
-      room.code = ``;
-      room.devices = [];
-      room.started = false;
 
       //checken of ik in een room zat
       if (room.code) {

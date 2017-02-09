@@ -16,33 +16,51 @@ class Join extends Component {
 
   renderError() {
     const {error} = this.props;
-    return <p>{error}</p>;
+
+    let show = ``;
+    if (error) show = `showError`;
+
+    return (
+      <div className={`error ${show}`}>
+        <img src='/assets/icons/close.svg' className='icon' />
+        <p className='text'>{error}</p>
+      </div>
+    );
   }
 
   render() {
+
+    const {onRemoveError} = this.props;
+
     return (
       <section className='join fullPage'>
 
-        <h2 className='title' data-before='Join a session'>Join a session</h2>
-        <p className='explanation'>Connect this device to another one so you can do activities with multiple people at the same time!</p>
+        <div className='headerBg'></div>
 
-        <div className='content'>
-          {this.renderError()}
-          <form onSubmit={e => this.submitCode(e, this.code)} className='codeWrap'>
+        <div className='joinContentWrap'>
+          <h2 className='title' data-before='Join a session'>Join a session</h2>
+          <p>Use the <span className='bold'>4-digit code</span> on your main device</p>
 
-            <label htmlFor='roomCode'>Use the <span className='bold'>4-digit code</span> on your main device</label>
+          <div className='content'>
+            <form onSubmit={e => this.submitCode(e, this.code)} className='codeWrap'>
 
-            <div className='codeInput'>
-              <input type='number' className='code' required min='1000' max='9999' maxLength='4' id='roomCode' ref={code => this.code = code} placeholder='1234' />
-              <button type='submit' className='btn'>
-                <img className='icon' src='/assets/icons/check.svg' />
-              </button>
-            </div>
-          </form>
+              <label htmlFor='roomCode' className='hide'>Your code</label>
+
+              <div className='codeInput'>
+                <input type='number' className='code' required min='1000' max='9999' maxLength='4' id='roomCode' ref={code => this.code = code} placeholder='1234' />
+                <button type='submit' className='btn' onClick={() => onRemoveError()}>
+                  <img className='icon' src='/assets/icons/check.svg' />
+                </button>
+              </div>
+            </form>
+
+            {this.renderError()}
+
+          </div>
         </div>
 
         <div className='footer'>
-          <Link to='/' className='btn backBtn'>
+          <Link to='/' className='btn backBtn' onClick={() => onRemoveError()}>
             <img className='icon' src='/assets/icons/back.svg' />
             <p className='text'>Back to menu</p>
           </Link>
@@ -55,7 +73,8 @@ class Join extends Component {
 
 Join.propTypes = {
   onSubmitCode: PropTypes.func,
-  error: PropTypes.string
+  error: PropTypes.string,
+  onRemoveError: PropTypes.func
 };
 
 export default Join;

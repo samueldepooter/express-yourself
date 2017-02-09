@@ -18,6 +18,8 @@ $inputShadow: #dd9f07;
 
 $videoBg: #ffc600;
 
+$errorBg: #fb474b;
+
 /* --- GENERAL --- */
 
 body {
@@ -2422,28 +2424,30 @@ input[type=number] {
 .globalMessage {
   position: relative;
   height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   z-index: 99999;
 
-  top: -6rem;
+  top: -8.5rem;
 
   transition: all .4s ease;
 
   .message {
-    padding: 2rem 3rem;
-    background: #57db36;
+    background: $inputBg;
     color: $white;
     text-align: center;
-    width: 70rem;
-    font-size: 3rem;
+    width: 100%;
+    height: 8rem;
+    font-size: 2.6rem;
     font-weight: bold;
+    box-shadow: 0 .5rem 0 0 $btnShadow;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &.show {
-    top: 1rem;
+    top: 0;
   }
 }
 
@@ -2452,6 +2456,19 @@ input[type=number] {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .headerBg {
+    position: absolute;
+    top: 0;
+
+    width: 100%;
+    height: 33rem;
+
+    background: url(/assets/headers/waitSession/bg.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: -1;
+  }
 
   .title {
 
@@ -2466,7 +2483,13 @@ input[type=number] {
     left: 0;
     bottom: 0;
     display: flex;
+    justify-content: space-between;
     width: 100%;
+
+    .left {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .devices {
@@ -2526,25 +2549,31 @@ input[type=number] {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    position: relative;
+    top: 5rem;
   }
 
-  .closeBtn {
-    width: 5rem;
-    height: 5rem;
+  .btn {
+    animation: none;
+    opacity: 1;
+    max-width: 50rem;
+    height: 7rem;
+    padding: 1rem 3rem 1rem 1rem;
+    margin: 0;
 
-    padding: 0;
-    margin: 2rem 2rem 0 0;
-
-    position: absolute;
-    right: 0;
-
-    z-index: 999;
-
-    background: url(/assets/icons/close_2.svg) no-repeat;
-    background-position: center;
-    background-size: contain;
+    background: $errorBg;
 
     box-shadow: 0 .25rem 0 0 $btnShadow;
+
+    .icon {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    .text {
+      font-size: 2rem;
+    }
   }
 }
 
@@ -2554,6 +2583,28 @@ input[type=number] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .joinContentWrap {
+    position: relative;
+    top: 11rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .headerBg {
+    position: absolute;
+    top: 0;
+
+    width: 100%;
+    height: 33rem;
+
+    background: url(/assets/headers/joinSession/bg.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: -1;
+  }
 
   .title {
 
@@ -2575,14 +2626,8 @@ input[type=number] {
     margin-top: 4rem;
   }
 
-  .explanation {
-    max-width: 50rem;
-    text-align: center;
-    line-height: 3rem;
-  }
-
   .code {
-    width: 20rem;
+    width: 30rem;
     height: 8rem;
   }
 
@@ -2593,6 +2638,36 @@ input[type=number] {
 
     .btn {
       padding: 1.5rem;
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  .error {
+    color: $errorBg;
+    text-align: center;
+    font-weight: bold;
+    opacity: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 2rem;
+
+    transition: all .4s ease;
+
+    .text {
+      margin-left: 1rem;
+    }
+
+    .icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    &.showError {
+      opacity: 1;
     }
   }
 

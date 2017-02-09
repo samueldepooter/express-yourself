@@ -12,7 +12,7 @@ class Wait extends Component {
     return (
       <section className='fullPage wait'>
 
-        <Link to='/' onClick={() => onLeaveRoom(code)} className='btn closeBtn'><span className='hide'>Close</span></Link>
+        <div className='headerBg'></div>
 
         <div className='content'>
 
@@ -22,17 +22,24 @@ class Wait extends Component {
         </div>
 
         <div className='footer'>
-          <div className='roomWrap'>
-            <p className='room'>Room</p>
-            <p className='code'>{code}</p>
+          <div className='left'>
+            <div className='roomWrap'>
+              <p className='room'>Room</p>
+              <p className='code'>{code}</p>
+            </div>
+
+            <div className='devices'>
+              <p className='connected'>Connected devices</p>
+              <ul className='list'>
+                {devices.map((device, i) => <li key={i} className='deviceWrap'><img src='/assets/icons/device.svg' className='device' /><span className='hide'>Device</span></li>)}
+              </ul>
+            </div>
           </div>
 
-          <div className='devices'>
-            <p className='connected'>Connected devices</p>
-            <ul className='list'>
-              {devices.map((device, i) => <li key={i} className='deviceWrap'><img src='/assets/icons/device.svg' className='device' /><span className='hide'>Device</span></li>)}
-            </ul>
-          </div>
+          <Link to='/' onClick={() => onLeaveRoom(code)} className='btn'>
+            <img className='icon' src={`/assets/icons/close.svg`} />
+            <span className='text'>Disconnect</span>
+          </Link>
         </div>
       </section>
     );

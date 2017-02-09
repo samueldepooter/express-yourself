@@ -3,6 +3,7 @@ import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 import IO from 'socket.io-client';
 
 import {Start, Intro, Activities, Activity, Details, NoMatch} from '../pages';
+import {AppLanguage} from '../components/';
 import {Page1} from '../pages';
 import {settings, languages, activitiesData} from '../globals';
 
@@ -11,13 +12,10 @@ let router = {};
 class App extends Component {
 
   state = {
+    appLanguage: `English`,
     intro: {
       currentStep: 1,
       maxStep: 1
-    },
-    activity: {
-      currentStep: 1,
-      playerIds: []
     },
     location: ``,
     family: {
@@ -25,12 +23,16 @@ class App extends Component {
       languages: [],
       members: []
     },
-    search: [],
+    activity: {
+      currentStep: 1,
+      playerIds: []
+    },
     activities: {
       confirmation: false,
       active: 0,
       completed: []
-    }
+    },
+    search: []
   }
 
   setRouter(r) {
@@ -427,7 +429,7 @@ class App extends Component {
   render() {
 
     console.log(this.state);
-    const {location, family, search, activities, activity} = this.state;
+    const {location, family, search, activities, activity, appLanguage} = this.state;
 
     return (
       <Router>
@@ -449,6 +451,8 @@ class App extends Component {
             <header className='hide'>
               <h1>Express yourself!</h1>
             </header>
+
+            <AppLanguage language={appLanguage} />
 
             <Match
               exactly pattern='/'

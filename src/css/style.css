@@ -493,10 +493,10 @@ input[type=search] {
       left: 0;
 
       width: 100%;
-      height: 22rem;
+      height: 30rem;
 
       background: url(/assets/headers/memberAvatar/bg.svg) no-repeat;
-      background-position: center;
+      background-position: center top;
       background-size: contain;
     }
 
@@ -2315,6 +2315,76 @@ input[type=search] {
 
 .nextWrap {
   height: 8rem;
+}
+
+.appLanguages {
+
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  z-index: 99999;
+
+  .all {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: relative;
+    transition: all .3s ease-out;
+
+    padding: .5rem 0;
+
+    top: -24rem;
+    border-radius: 10rem;
+
+    .flag {
+      padding: .5rem;
+      border-radius: 10rem;
+    }
+
+    .text {
+      font-size: 1.6rem;
+    }
+
+    .language {
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 1rem;
+      background: $inputShadow;
+      border-radius: 10rem;
+
+      &:first-child {
+        background: $white;
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .current {
+    display: flex;
+    align-items: center;
+    align-self: center;
+
+    background: $inputBg;
+    padding: .5rem;
+    border-radius: 10rem;
+
+    z-index: 5;
+  }
+
+  .flag {
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 /* --- NO MATCH --- */

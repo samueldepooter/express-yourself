@@ -1,5 +1,5 @@
 const languages = {
-  BE: [`Arabic`, `Dutch`, `French`, `German`, `Turkish`],
+  BE: [`Arabic`, `Dutch`, `English`, `French`, `German`],
   FR: [`French`],
   all: [
     {code: `ab`, name: `Abkhaz`, nativeName: `аҧсуа`},
@@ -41,7 +41,7 @@ const languages = {
     {code: `da`, name: `Danish`, nativeName: `dansk`},
     {code: `dv`, name: `Dhivehi`, nativeName: `ދިވެހި`},
     {code: `nl`, name: `Dutch`, nativeName: `Nederlands, Vlaams`, flag: `belgium`},
-    {code: `en`, name: `English`, nativeName: `English`},
+    {code: `en`, name: `English`, nativeName: `English`, flag: `britain`},
     {code: `eo`, name: `Esperanto`, nativeName: `Esperanto`},
     {code: `et`, name: `Estonian`, nativeName: `eesti, eesti keel`},
     {code: `ee`, name: `Ewe`, nativeName: `Eʋegbe`},

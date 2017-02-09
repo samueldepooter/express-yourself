@@ -6,5 +6,5 @@ export Details from './Details';
 
 export NoMatch from './NoMatch';
 
-/* TESTS */
-export Page1 from './test/Page1';
+export Join from './Join';
+export Wait from './Wait';

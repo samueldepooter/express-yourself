@@ -49,7 +49,8 @@ input {
 }
 
 input[type=text],
-input[type=search] {
+input[type=search],
+input[type=number] {
   background-color: $inputBg;
   box-shadow: inset 0 .5rem 0 0 $inputShadow;
   border: none;
@@ -2415,6 +2416,198 @@ input[type=search] {
       margin-top: 5rem;
       background: $inputBg;
     }
+  }
+}
+
+.globalMessage {
+  position: relative;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 99999;
+
+  top: -6rem;
+
+  transition: all .4s ease;
+
+  .message {
+    padding: 2rem 3rem;
+    background: #57db36;
+    color: $white;
+    text-align: center;
+    width: 70rem;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  &.show {
+    top: 1rem;
+  }
+}
+
+.wait {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .title {
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .footer {
+    position: absolute;
+    padding: 2rem;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+  }
+
+  .devices {
+    display: flex;
+    align-items: center;
+
+    .list {
+      display: flex;
+      justify-content: center;
+      margin-left: 1rem;
+    }
+
+    .deviceWrap {
+      background: $btnBg;
+      padding: 1rem;
+      border-radius: 10rem;
+      margin: 0 .5rem;
+      width: 5rem;
+      height: 5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .roomWrap {
+
+    display: flex;
+    align-items: center;
+    margin-right: 4rem;
+
+    .code {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+
+      padding: 1rem 2rem;
+      border-radius: 10rem;
+
+      background: $inputBg;
+      box-shadow: 0 .5rem 0 0 $btnShadow;
+      color: $white;
+
+      margin-left: 1rem;
+
+      font-size: 2.6rem;
+      font-weight: bold;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .closeBtn {
+    width: 5rem;
+    height: 5rem;
+
+    padding: 0;
+    margin: 2rem 2rem 0 0;
+
+    position: absolute;
+    right: 0;
+
+    z-index: 999;
+
+    background: url(/assets/icons/close_2.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    box-shadow: 0 .25rem 0 0 $btnShadow;
+  }
+}
+
+.join {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .title {
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .codeWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  .explanation {
+    max-width: 50rem;
+    text-align: center;
+    line-height: 3rem;
+  }
+
+  .code {
+    width: 20rem;
+    height: 8rem;
+  }
+
+  .codeInput {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+
+    .btn {
+      padding: 1.5rem;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .backBtn {
+    margin-bottom: 2rem;
   }
 }
 

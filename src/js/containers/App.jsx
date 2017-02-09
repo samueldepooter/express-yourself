@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 import IO from 'socket.io-client';
 
-import {Start, Intro, Activities, Activity, Details, NoMatch} from '../pages';
+import {Start, Intro, Activities, Activity, Details, NoMatch, Join, Wait} from '../pages/';
 import {AppLanguage} from '../components/';
-import {Page1} from '../pages';
-import {settings, languages, activitiesData} from '../globals';
+import {settings, languages, activitiesData} from '../globals/';
 
 let router = {};
 
@@ -13,6 +12,11 @@ class App extends Component {
 
   state = {
     appLanguage: `English`,
+    room: {
+      code: ``,
+      devices: [],
+      started: false
+    },
     intro: {
       currentStep: 1,
       maxStep: 1
@@ -41,6 +45,68 @@ class App extends Component {
 
   initSocket() {
     this.socket = IO(`/`);
+
+    this.socket.on(`createdRoom`, room => this.createdRoomWSHandler(room));
+    this.socket.on(`joinedRoom`, devices => this.joinedRoomWSHandler(devices));
+    this.socket.on(`joinedRoomSuccess`, devices => this.joinedRoomSuccessWSHandler(devices));
+    this.socket.on(`leftRoom`, devices => this.leftRoomWSHandler(devices));
+
+    this.socket.on(`busy`, code => this.busyWSHandler(code));
+    this.socket.on(`found`, code => this.foundWSHandler(code));
+    this.socket.on(`notFound`, code => this.notFoundWSHandler(code));
+  }
+
+  leftRoomWSHandler(devices) {
+    console.log(`A device stopped connection`);
+
+    const {room} = this.state;
+    room.devices = devices;
+    this.setState({room});
+  }
+
+  joinedRoomWSHandler(devices) {
+    console.log(`A new device connected to your session`);
+
+    const message = `A device connected to your session`;
+    setTimeout(() => this.setState({message: ``}), 5000);
+
+    const {room} = this.state;
+    room.devices = devices;
+    this.setState({room, message});
+  }
+
+  joinedRoomSuccessWSHandler(devices) {
+    const {room} = this.state;
+    room.devices = devices;
+    this.setState({room});
+  }
+
+  busyWSHandler(code) {
+    console.log(`Room ${code} has already started`);
+    const error = `Room ${code} is busy!`;
+    this.setState({error});
+  }
+
+  foundWSHandler(code) {
+    console.log(`Room ${code} was found -> JOIN!`);
+
+    const {room} = this.state;
+    room.code = code;
+    this.setState({room});
+
+    router.transitionTo(`/${code}/wait`);
+    this.socket.emit(`joinRoom`, code);
+  }
+
+  notFoundWSHandler(code) {
+    console.log(`Room ${code} was not found..`);
+    const error = `Room ${code} was not found!`;
+    this.setState({error});
+  }
+
+  createdRoomWSHandler(room) {
+    console.log(`Code: ${room.code}`);
+    this.setState({room});
   }
 
   componentWillMount() {
@@ -426,10 +492,44 @@ class App extends Component {
     this.setState({activity});
   }
 
+  onCreateRoomHandler() {
+    console.log(`Create one!`);
+    this.socket.emit(`createRoom`, this.socket.id);
+  }
+
+  onSubmitCodeHandler(code) {
+    this.socket.emit(`checkRoom`, code);
+  }
+
+  renderMessage() {
+    const {message} = this.state;
+
+    let show = ``;
+    if (message) show = `show`;
+
+    return (
+      <div className={`globalMessage ${show}`}>
+        <p className='message'>{message}</p>
+      </div>
+    );
+  }
+
+  onLeaveRoomHandler(code) {
+    this.socket.emit(`leaveRoom`, code);
+
+    const room = {
+      code: ``,
+      devices: [],
+      started: false
+    };
+
+    this.setState({room});
+  }
+
   render() {
 
     console.log(this.state);
-    const {location, family, search, activities, activity, appLanguage} = this.state;
+    const {location, family, search, activities, activity, appLanguage, room, error} = this.state;
 
     return (
       <Router>
@@ -452,11 +552,47 @@ class App extends Component {
               <h1>Express yourself!</h1>
             </header>
 
+            {this.renderMessage()}
+
             <AppLanguage language={appLanguage} />
 
             <Match
               exactly pattern='/'
-              component={Start}
+              render={() => {
+                return (
+                  <Start onCreateRoom={() => this.onCreateRoomHandler()} />
+                );
+              }}
+            />
+
+            <Match
+              exactly pattern='/join'
+              render={() => {
+                return (
+                  <Join
+                    onSubmitCode={code => this.onSubmitCodeHandler(code)}
+                    error={error}
+                  />
+                );
+              }}
+            />
+
+            <Match
+              exactly pattern='/:id/wait'
+              render={({params}) => {
+
+                if (this.state.room.code === params.id) {
+                  return (
+                    <Wait
+                      code={params.id}
+                      devices={room.devices}
+                      onLeaveRoom={code => this.onLeaveRoomHandler(code)}
+                    />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
             />
 
             <Match
@@ -630,11 +766,6 @@ class App extends Component {
                   return <Redirect to='/activities' />;
                 }
               }}
-            />
-
-            <Match
-              exactly pattern='/test/1'
-              render={() => <Page1 />}
             />
 
             <Miss component={NoMatch} />

@@ -1,29 +1,42 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 
-const Start = () => {
-  return (
-    <section className='start fullPage'>
-      <h2 className='logo'><span className='hide'>Express yourself logo</span></h2>
+class Start extends Component {
 
-      <p>The application that assists you in analysing emotion in language.</p>
+  state = {}
 
-      <div className='buttons'>
-        <Link className='btn' to='/intro/1'>
-          <img className='icon' src='/assets/icons/check.svg' />
-          <span className='text'>Start new session</span>
-        </Link>
+  render() {
 
-        <p className='or'>or</p>
+    const {onCreateRoom} = this.props;
 
-        <Link to='/' className='btn existing'>
-          <img className='icon' src='/assets/icons/back.svg' />
-          <span className='text'>Join existing</span>
-        </Link>
-      </div>
+    return (
+      <section className='start fullPage'>
+        <h2 className='logo'><span className='hide'>Express yourself logo</span></h2>
 
-    </section>
-  );
+        <p>The application that assists you in analysing emotion in language.</p>
+
+        <div className='buttons'>
+          <Link className='btn' to='/intro/1' onClick={() => onCreateRoom()}>
+            <img className='icon' src='/assets/icons/check.svg' />
+            <span className='text'>Start new session</span>
+          </Link>
+
+          <p className='or'>or</p>
+
+          <Link to='/join' className='btn existing'>
+            <img className='icon' src='/assets/icons/back.svg' />
+            <span className='text'>Join existing</span>
+          </Link>
+        </div>
+
+      </section>
+    );
+  }
+
+}
+
+Start.propTypes = {
+  onCreateRoom: PropTypes.func
 };
 
 export default Start;

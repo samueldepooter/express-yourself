@@ -14,6 +14,11 @@ class PickPlayers extends Component {
   }
 
   enableDrag() {
+
+    const {id} = this.props;
+
+    const {showDragEntered, removeDragEntered} = this.props;
+
     interact(`.draggable`)
       .draggable({
 
@@ -67,12 +72,19 @@ class PickPlayers extends Component {
           // (kan bij zowel element dat je vast hebt als waarin je gaat droppen)
           dropzoneElement.classList.add(`drop-target`);
           draggableElement.classList.add(`can-drop`);
+
+          if (id === 3) showDragEntered(event.target.getAttribute(`data-dropzoneId`));
         },
 
         ondragleave: event => {
+          const draggableElement = event.relatedTarget;
+          const dropzoneElement = event.target;
+
           // verwijder visuele ding van hierboven
-          event.target.classList.remove(`drop-target`);
-          event.relatedTarget.classList.remove(`can-drop`);
+          dropzoneElement.classList.remove(`drop-target`);
+          draggableElement.classList.remove(`can-drop`);
+
+          if (id === 3) removeDragEntered(event.target.getAttribute(`data-dropzoneId`));
         }
 
       });
@@ -107,6 +119,9 @@ class PickPlayers extends Component {
     inner.style.color = `white`;
     inner.style.borderColor = `white`;
     inner.style.background = `rgba(0, 0, 0, .5)`;
+
+    const {id, removeDragEntered} = this.props;
+    if (id === 3) removeDragEntered(target.getAttribute(`data-dropzoneId`));
 
     //rendernext opnieuw checken, zien of alle dropzones al opgevuld zijn
     this.checkDropzones();
@@ -220,7 +235,7 @@ class PickPlayers extends Component {
         if (contains) {
           const player = {
             id: dropzones[i].getAttribute(`data-memberId`),
-            dropzone: dropzones[i].getAttribute(`data-dropzoneId`)
+            deviceId: dropzones[i].getAttribute(`data-dropzoneId`)
           };
           players.push(player);
         }
@@ -583,6 +598,30 @@ class PickPlayers extends Component {
           <img className='headerBgExtra' src='/assets/headers/pickPlayers/drawing.svg' />
         </div>
       );
+    } else if (activityId === 3) {
+      return <div className='headerBg'></div>;
+    }
+  }
+
+  renderTitle3(activityId) {
+
+    const {activity} = this.props;
+
+    if (activityId === 3) {
+      return (
+        <div className='titleWrap'>
+          <h3 className='title' data-before={activity.title}>{activity.title}</h3>
+        </div>
+      );
+    }
+  }
+
+  renderTitle1(activityId) {
+
+    const {activity} = this.props;
+
+    if (activityId === 1) {
+      return <h3 className='title' data-before={activity.title}>{activity.title}</h3>;
     }
   }
 
@@ -597,8 +636,10 @@ class PickPlayers extends Component {
 
         {this.renderHeader(id)}
 
+        {this.renderTitle3(id)}
+
         <div className='main'>
-          <h3 className='title' data-before={activity.title}>{activity.title}</h3>
+          {this.renderTitle1(id)}
 
           <section className='members'>
             <h4 className='hide'>Pick out a family member</h4>
@@ -645,7 +686,9 @@ PickPlayers.propTypes = {
   numberOfPlayers: PropTypes.number,
   onFinish: PropTypes.func,
   onPlayersSubmit: PropTypes.func,
-  onDevicePlayersSubmit: PropTypes.func
+  onDevicePlayersSubmit: PropTypes.func,
+  showDragEntered: PropTypes.func,
+  removeDragEntered: PropTypes.func
 };
 
 export default PickPlayers;

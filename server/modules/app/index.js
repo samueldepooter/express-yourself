@@ -46,6 +46,57 @@ module.exports.register = (server, options, next) => {
       socket.emit(`createdRoom`, room);
     });
 
+    socket.on(`showActiveDropzone`, ({deviceId, code}) => {
+      const devices = findDevicesInRoom(code);
+
+      console.log(devices);
+
+      devices.map((device, i) => {
+        deviceId = parseInt(deviceId);
+        i = parseInt(i);
+
+        if (deviceId === i) {
+          io.to(device).emit(`showActiveDropzone`);
+        }
+      });
+    });
+
+    socket.on(`removeActiveDropzone`, ({deviceId, code}) => {
+      const devices = findDevicesInRoom(code);
+
+      devices.map((device, i) => {
+        deviceId = parseInt(deviceId);
+        i = parseInt(i);
+
+        if (deviceId === i) {
+          io.to(device).emit(`removeActiveDropzone`);
+        }
+      });
+
+    });
+
+    socket.on(`updatePlayers`, ({players, code}) => {
+
+      players.map(player => {
+        //room zoeken, dan index van deviceId in player vergelijken met index van socketId in room
+        const devices = findDevicesInRoom(code);
+
+        devices.map((device, i) => {
+
+          console.log(player.deviceId, i);
+
+          player.deviceId = parseInt(player.deviceId);
+          i = parseInt(i);
+
+          if (player.deviceId === i) {
+            console.log(`${device} is device ${player.deviceId}`);
+            io.to(device).emit(`setDrawingPlayer`, player);
+          }
+        });
+      });
+
+    });
+
     socket.on(`checkRoom`, code => {
       const roomFound = rooms.find(r => {
         return r.code === code;

@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, room, familyLanguages, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
+    const {id, step, members, players, activity, room, familyLanguages, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -54,6 +54,9 @@ class Activity extends Component {
           onFinish={onFinish}
           onPlayersSubmit={onPlayersSubmit}
           onDevicePlayersSubmit={onDevicePlayersSubmit}
+          onSubjectSubmit={onSubjectSubmit}
+          showDragEntered={showDragEntered}
+          removeDragEntered={removeDragEntered}
         />
       );
     }
@@ -108,7 +111,10 @@ Activity.propTypes = {
   onLanguagesUpdate: PropTypes.func,
   onLanguageColorUpdate: PropTypes.func,
   onCustomAvatarUpdate: PropTypes.func,
-  onDevicePlayersSubmit: PropTypes.func
+  onDevicePlayersSubmit: PropTypes.func,
+  onSubjectSubmit: PropTypes.func,
+  showDragEntered: PropTypes.func,
+  removeDragEntered: PropTypes.func
 };
 
 export default Activity;

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 import IO from 'socket.io-client';
 
-import {Start, Intro, Activities, Activity, Details, NoMatch, Join, Wait} from '../pages/';
+import {Start, Intro, Activities, Activity, Details, NoMatch, Join, Wait, SelectedPlayer} from '../pages/';
 import {AppLanguage} from '../components/';
 import {settings, languages, activitiesData} from '../globals/';
 
@@ -11,6 +11,7 @@ let router = {};
 class App extends Component {
 
   state = {
+    mainDevice: false,
     appLanguage: `English`,
     room: {
       code: ``,
@@ -55,6 +56,36 @@ class App extends Component {
     this.socket.on(`busy`, code => this.busyWSHandler(code));
     this.socket.on(`found`, code => this.foundWSHandler(code));
     this.socket.on(`notFound`, code => this.notFoundWSHandler(code));
+
+    this.socket.on(`setDrawingPlayer`, playerId => this.setDrawingPlayerWSHandler(playerId));
+
+    this.socket.on(`showActiveDropzone`, () => this.showActiveDropzoneWSHandler());
+    this.socket.on(`removeActiveDropzone`, () => this.removeActiveDropzoneWSHandler());
+  }
+
+  showActiveDropzoneWSHandler() {
+    console.log(`SHOW DEVICE ACTIVE`);
+    const el = document.querySelector(`.activeBorder`);
+    el.classList.add(`active`);
+  }
+
+  removeActiveDropzoneWSHandler() {
+    console.log(`HIDE DEVICE ACTIVE`);
+    const el = document.querySelector(`.activeBorder`);
+    el.classList.remove(`active`);
+  }
+
+  setDrawingPlayerWSHandler(player) {
+    console.log(`This device is ${player.name}`);
+
+    const {mainDevice, room} = this.state;
+    if (!mainDevice) {
+      console.log(`Show which player you will be`);
+      this.setState({selectedPlayer: player});
+      this.onRedirectHandler(`/${room.code}/player`);
+    } else {
+      console.log(`Choose a subject`);
+    }
   }
 
   leftRoomWSHandler(devices) {
@@ -111,7 +142,7 @@ class App extends Component {
 
   createdRoomWSHandler(room) {
     console.log(`Code: ${room.code}`);
-    this.setState({room});
+    this.setState({room, mainDevice: true});
   }
 
   componentWillMount() {
@@ -459,7 +490,7 @@ class App extends Component {
       players.map(player => {
         player.id = parseInt(player.id);
         if (member.id === player.id + 1) {
-          member.deviceId = player.dropzone;
+          member.deviceId = player.deviceId;
           updatedPlayers.push(member);
         }
       });
@@ -555,7 +586,7 @@ class App extends Component {
   }
 
   onDevicePlayersSubmitHandler(id, step, players) {
-    const {activity} = this.state;
+    const {activity, room} = this.state;
 
     const {players: oldPlayers} = activity;
 
@@ -566,8 +597,42 @@ class App extends Component {
 
     this.setState({activity});
 
+    const playerIds = [];
+    players.map(player => playerIds.push(player.id));
+
+    const playersData = this.findPlayers(playerIds);
+    console.log(playersData);
+
+    const data = {players: playersData, code: room.code};
+
+    this.socket.emit(`updatePlayers`, data);
+
     this.onActivityStepUpdateHandler(step + 1);
     this.onRedirectHandler(`/activities/${id}/steps/${step + 1}`);
+  }
+
+  onSubjectSubmitHandler(id, step, subject) {
+    const {activity} = this.state;
+    activity.subject = subject;
+
+    this.setState({activity});
+
+    this.onActivityStepUpdateHandler(step + 1);
+    this.onRedirectHandler(`/activities/${id}/steps/${step + 1}`);
+  }
+
+  showDragEnteredHandler(deviceId) {
+    const {room} = this.state;
+    console.log(`Show active on device ${deviceId}`);
+    const data = {deviceId: deviceId, code: room.code};
+    this.socket.emit(`showActiveDropzone`, data);
+  }
+
+  removeDragEnteredHandler(deviceId) {
+    const {room} = this.state;
+    console.log(`remove active on device ${deviceId}`);
+    const data = {deviceId: deviceId, code: room.code};
+    this.socket.emit(`removeActiveDropzone`, data);
   }
 
   render() {
@@ -591,6 +656,8 @@ class App extends Component {
               </div>
               <p className='text'>Please use a <span className='bold'>tablet</span> and put it in <span className='bold'>landscape view</span>!</p>
             </div>
+
+            <div className='activeBorder'></div>
 
             <header className='hide'>
               <h1>Express yourself!</h1>
@@ -633,6 +700,20 @@ class App extends Component {
                       devices={room.devices}
                       onLeaveRoom={code => this.onLeaveRoomHandler(code)}
                     />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
+            />
+
+            <Match
+              exactly pattern='/:id/player'
+              render={() => {
+
+                if (this.state.selectedPlayer) {
+                  return (
+                    <SelectedPlayer player={this.state.selectedPlayer} />
                   );
                 } else {
                   return <Redirect to='/' />;
@@ -807,6 +888,9 @@ class App extends Component {
                         onLanguageColorUpdate={(language, color) => this.onLanguageColorUpdateHandler(language, color)}
                         onCustomAvatarUpdate={avatar => this.onCustomAvatarUpdateHandler(avatar)}
                         onDevicePlayersSubmit={(id, step, players) => this.onDevicePlayersSubmitHandler(id, step, players)}
+                        onSubjectSubmit={(id, step, subject) => this.onSubjectSubmitHandler(id, step, subject)}
+                        showDragEntered={deviceId => this.showDragEnteredHandler(deviceId)}
+                        removeDragEntered={deviceId => this.removeDragEnteredHandler(deviceId)}
                       />
                     );
                   } else {

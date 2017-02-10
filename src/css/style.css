@@ -33,6 +33,17 @@ body {
   display: none;
 }
 
+.activeBorder {
+
+  &.active {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border: 1rem solid $btnBg;
+    z-index: 99999;
+  }
+}
+
 input[type=search]::-webkit-search-cancel-button {
   appearance: searchfield-cancel-button;
 }
@@ -67,6 +78,10 @@ input[type=number] {
   &::placeholder {
     color: $inputShadow;
   }
+}
+
+button {
+  font-family: 'din_rounded', 'Helvetica neue', Helvetica, Arial, sans-serif;
 }
 
 .hide {
@@ -2150,6 +2165,8 @@ input[type=number] {
     width: 12rem;
     height: 12rem;
 
+    margin: 0 1rem;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2456,6 +2473,33 @@ input[type=number] {
   }
 }
 
+.selectedPlayer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .title {
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 20rem;
+    height: 20rem;
+    border-radius: 100%;
+    background: $inputBg;
+    padding: 1rem;
+  }
+}
+
 .wait {
 
   display: flex;
@@ -2583,6 +2627,8 @@ input[type=number] {
   }
 }
 
+/* --- JOIN --- */
+
 .join {
 
   display: flex;
@@ -2689,6 +2735,318 @@ input[type=number] {
 
   .backBtn {
     margin-bottom: 2rem;
+  }
+}
+
+/* --- DRAW --- */
+
+.showSessionCode {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .headerBg {
+    position: absolute;
+    top: -6rem;
+
+    width: 100%;
+    height: 37rem;
+
+    background: url(/assets/headers/draw/selectDevices/bg.svg) no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .titleWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 0;
+  }
+
+  .title {
+    position: relative;
+    top: 32rem;
+    z-index: 5;
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .code {
+    background: $inputBg;
+    padding: 2rem 6rem;
+    margin-top: 2rem;
+    font-size: 3rem;
+    font-weight: bold;
+    color: $white;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 10rem;
+  }
+
+  .explanation {
+    max-width: 45rem;
+    text-align: center;
+    line-height: 3rem;
+  }
+
+  .connected {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: $btnBg;
+
+    width: 8rem;
+    height: 8rem;
+    border-radius: 100%;
+
+    padding: 1rem;
+
+    .icon {
+      background: url(/assets/icons/device.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+      width: 100%;
+      height: 100%;
+    }
+
+    .text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $white;
+      border-radius: 100%;
+      width: 3rem;
+      height: 3rem;
+      background: $errorBg;
+      font-size: 1.6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.subject {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .headerBg {
+    position: absolute;
+    top: -6rem;
+    left: 0;
+
+    width: 100%;
+    height: 37rem;
+
+    background: url(/assets/headers/draw/selectDevices/bg.svg) no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .titleWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 0;
+  }
+
+  .title {
+    position: relative;
+    top: 32rem;
+    z-index: 5;
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .proposedSubjects {
+    display: flex;
+    align-items: center;
+
+    .proposedSubject {
+      margin: 0 1rem;
+      padding: 1.5rem 2.5rem;
+      font-size: 2.4rem;
+      color: $white;
+      font-weight: bold;
+    }
+  }
+
+  .or {
+    margin: 4rem 0;
+    font-size: 1.6rem;
+  }
+
+  .submitSubject {
+    height: 8rem;
+  }
+
+  .customSubject {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .input {
+      width: 40rem;
+      height: 7rem;
+      font-size: 2.4rem;
+      margin-bottom: 4rem;
+    }
+  }
+
+  .content {
+    position: absolute;
+    bottom: 4rem;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.selectDevices {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .headerBg {
+    position: absolute;
+    top: -6rem;
+    left: 0;
+
+    width: 100%;
+    height: 37rem;
+
+    background: url(/assets/headers/draw/selectDevices/bg.svg) no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .iconBtn {
+
+    .icon {
+      width: 15rem;
+      height: 15rem;
+    }
+  }
+
+  .titleWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 0;
+  }
+
+  .title {
+    position: relative;
+    top: 32rem;
+    z-index: 5;
+
+    &::before {
+      content: attr(data-before);
+    }
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 10rem;
+  }
+
+  .or {
+    font-size: 1.8rem;
+  }
+
+  .possibleDevice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 5rem;
+
+    .text {
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+  }
+}
+
+.pictionaryActivity {
+
+  &.pickPlayers {
+
+    .titleWrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 0;
+    }
+
+    .title {
+      position: relative;
+      top: 32rem;
+      z-index: 5;
+    }
+
+    .headerBg {
+      position: absolute;
+      top: -6rem;
+      left: 0;
+
+      width: 100%;
+      height: 37rem;
+
+      background: url(/assets/headers/draw/selectDevices/bg.svg) no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
   }
 }
 

@@ -5,20 +5,29 @@ const SelectDevices = ({id, step, activity, onActivityStepUpdate}) => {
   return (
     <section className='fullPage selectDevices'>
 
-      <h2 className='title' data-before={activity.name}>{activity.name}</h2>
+      <div className='headerBg'></div>
+
+      <div className='titleWrap'>
+        <h2 className='title' data-before={activity.title}>{activity.title}</h2>
+      </div>
 
       <div className='content'>
-        <Link to={`/activities/${id}/steps/${step + 2}`} className='btn' onClick={() => onActivityStepUpdate(step + 2)}>
-          <img className='icon' src={`/assets/icons/device.svg`} />
-          <span className='text'>One device</span>
-        </Link>
 
-        <p>or</p>
+        <div className='possibleDevice'>
+          <Link to={`/activities/${id}/steps/${step + 2}`} className='btn iconBtn' onClick={() => onActivityStepUpdate(step + 2)}>
+            <img className='icon' src={`/assets/icons/device.svg`} />
+          </Link>
+          <p className='text'>one device</p>
+        </div>
 
-        <Link to={`/activities/${id}/steps/${step + 1}`} className='btn' onClick={() => onActivityStepUpdate(step + 1)}>
-          <img className='icon' src={`/assets/icons/device.svg`} />
-          <span className='text'>Multiple devices</span>
-        </Link>
+        <p className='or'>or</p>
+
+        <div className='possibleDevice'>
+          <Link to={`/activities/${id}/steps/${step + 1}`} className='btn iconBtn' onClick={() => onActivityStepUpdate(step + 1)}>
+            <img className='icon' src={`/assets/icons/devices.svg`} />
+          </Link>
+          <p className='text'>multiple devices</p>
+        </div>
       </div>
 
     </section>

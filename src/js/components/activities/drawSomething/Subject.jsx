@@ -6,9 +6,11 @@ class Subject extends Component {
     subject: ``
   }
 
-  onSubjectSelect(e, language) {
+  onSubjectSelect(e, subject) {
     e.preventDefault();
-    console.log(language);
+
+    const {id, step, onSubjectSubmit} = this.props;
+    onSubjectSubmit(id, step, subject);
   }
 
   renderNext() {
@@ -29,33 +31,38 @@ class Subject extends Component {
 
   render() {
 
-    console.log(this.props.players);
-
     const {familyLanguages} = this.props;
 
     return (
       <section className='fullPage subject'>
 
-        <div className='content'>
-          <h2 className='title' data-before='Choose a subject'>Choose a subject</h2>
+        <div className='headerBg'></div>
 
-          <ul>
+        <div className='titleWrap'>
+          <h2 className='title' data-before='Choose a subject'>Choose a subject</h2>
+        </div>
+
+        <div className='content'>
+
+          <ul className='proposedSubjects'>
             {familyLanguages.map((language, i) => {
               return (
                 <li key={i}>
-                  <button className='btn language' onClick={e => this.onSubjectSelect(e, language)}>{language}</button>
+                  <button className='btn proposedSubject' onClick={e => this.onSubjectSelect(e, language)}>{language}</button>
                 </li>
               );
             })}
           </ul>
 
-          <p>or</p>
+          <p className='or'>or</p>
 
           <form className='customSubject' onSubmit={e => this.onSubjectSelect(e, this.subject.value)}>
             <label className='hide' htmlFor='customSubject'>Custom subject</label>
-            <input type='text' maxLength='30' id='customSubject' placeholder='Your own subject' ref={subject => this.subject = subject} onChange={() => this.updateSubject(this.subject)} />
+            <input type='text' className='input' maxLength='30' id='customSubject' placeholder='Your own subject' ref={subject => this.subject = subject} onChange={() => this.updateSubject(this.subject)} />
 
-            {this.renderNext()}
+            <div className='submitSubject'>
+              {this.renderNext()}
+            </div>
           </form>
         </div>
       </section>
@@ -68,7 +75,8 @@ Subject.propTypes = {
   id: PropTypes.number,
   step: PropTypes.number,
   players: PropTypes.array,
-  familyLanguages: PropTypes.array
+  familyLanguages: PropTypes.array,
+  onSubjectSubmit: PropTypes.func
 };
 
 export default Subject;

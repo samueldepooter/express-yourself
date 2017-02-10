@@ -1,7 +1,7 @@
 const settings = {
   totalIntroSteps: 5,
   maxPlayers: 5,
-  maxLanguageResults: 3,
+  maxLanguageResults: 2,
   development: true
 };
 

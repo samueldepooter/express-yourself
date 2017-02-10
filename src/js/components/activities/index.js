@@ -11,6 +11,7 @@ export FamilyMembers from './FamilyMembers';
 export FamilyMember from './FamilyMember';
 export Finish from './Finish';
 export PickPlayers from './PickPlayers';
+export ExplanationVideo from './ExplanationVideo';
 
 /* Activities */
 export Customise from './Customise';
@@ -18,11 +19,12 @@ export AnimationReaction from './AnimationReaction';
 export DrawSomething from './DrawSomething';
 
 /* ACTIVITY: Customise */
-export ExplanationVideo from './ExplanationVideo';
 export ColorLanguages from './activityCustomise/ColorLanguages';
 export CustomiseAvatar from './activityCustomise/CustomiseAvatar';
 export ConfirmCustomAvatar from './activityCustomise/ConfirmCustomAvatar';
 
-/* ACTIVITY: AnimationReaction */
-
 /* ACTIVITY: DrawSomething */
+export SelectDevices from './drawSomething/SelectDevices';
+export ShowSessionCode from './drawSomething/ShowSessionCode';
+export Subject from './drawSomething/Subject';
+export Draw from './drawSomething/Draw';

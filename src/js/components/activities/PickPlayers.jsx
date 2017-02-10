@@ -89,16 +89,24 @@ class PickPlayers extends Component {
     for (let i = 0;i < dropzones.length;i ++) {
 
       //checken of de avatar al ergens gebruikt is, if so -> verwijderen uit de andere dropzone
-      if (dropzones[i].src === el.src) {
-        for (let i = 0;i < dropzones.length;i ++) {
-          dropzones[i].src = `/assets/avatars/unknown.svg`;
-          dropzones[i].setAttribute(`data-memberId`, - 1);
-        }
+      if (dropzones[i].getAttribute(`data-memberId`) === el.getAttribute(`data-memberId`)) {
+        dropzones[i].setAttribute(`data-memberId`, - 1);
+        dropzones[i].style.background = `none`;
+        dropzones[i].childNodes[0].style.background = `none`;
+        dropzones[i].childNodes[0].style.color = `#dd9f07`;
+        dropzones[i].childNodes[0].style.borderColor = `#dd9f07`;
       }
     }
 
     target.setAttribute(`data-memberId`, el.getAttribute(`data-memberId`));
-    target.src = el.src;
+    target.style.background = `url(${el.src})`;
+    target.style.backgroundPosition = `center`;
+    target.style.backgroundSize = `contain`;
+
+    const inner = target.childNodes[0];
+    inner.style.color = `white`;
+    inner.style.borderColor = `white`;
+    inner.style.background = `rgba(0, 0, 0, .5)`;
 
     //rendernext opnieuw checken, zien of alle dropzones al opgevuld zijn
     this.checkDropzones();
@@ -127,13 +135,15 @@ class PickPlayers extends Component {
 
     if (target.style.transition) target.style.removeProperty(`transition`);
 
-    // update the posiion attributes
+    // update the position attributes
     target.setAttribute(`data-x`, x);
     target.setAttribute(`data-y`, y);
   }
 
   renderDropZones() {
-    const {numberOfPlayers} = this.props;
+    const {id} = this.props;
+    let {numberOfPlayers} = this.props;
+    if (!numberOfPlayers) numberOfPlayers = 1;
 
     const dzs = [];
 
@@ -141,44 +151,92 @@ class PickPlayers extends Component {
       dzs.push(i);
     }
 
-    return dzs.map((dz, i) => {
-      return (
+    if (id === 3) {
+
+      return dzs.map((dz, i) => {
+        return (
+        <li key={i}>
+          <p className='hide'>Dropzone</p>
+          <div className='dropzone' data-memberId={- 1} data-dropzoneId={i}>
+            <div className='inner'>device {i + 1}</div>
+          </div>
+        </li>
+        );
+      });
+
+    } else {
+
+      return dzs.map((dz, i) => {
+        return (
         <li key={i}>
           <p className='hide'>Dropzone</p>
           <div className='dropzone' data-memberId={- 1} data-dropzoneId={i}>
             <div className='inner'>start</div>
           </div>
         </li>
-      );
-    });
+        );
+      });
+
+    }
   }
 
   checkDropzones() {
 
-    const {id, step, onPlayersSubmit} = this.props;
+    const {id, step, onPlayersSubmit, onDevicePlayersSubmit} = this.props;
 
     const dropzones = document.querySelectorAll(`.dropzone`);
-    const playerIds = [];
 
-    for (let i = 0;i < dropzones.length;i ++) {
-      const contains = (dropzones[i].getAttribute(`data-memberId`) >= 0);
-      if (contains) {
-        playerIds.push(dropzones[i].getAttribute(`data-memberId`));
+    if (id === 1) {
+      const playerIds = [];
+
+      for (let i = 0;i < dropzones.length;i ++) {
+        const contains = (dropzones[i].getAttribute(`data-memberId`) >= 0);
+        if (contains) {
+          playerIds.push(dropzones[i].getAttribute(`data-memberId`));
+        }
       }
+
+      if (playerIds.length !== dropzones.length) {
+        console.log(`Er zijn nog lege dropzones`);
+        return;
+      }
+
+      //alle dropzones hebben een user
+      //transition naar volgende step
+      const newStep = step + 1;
+      console.log(`Dropzones complete -> go to step ${newStep}`);
+
+      onPlayersSubmit(id, step, playerIds);
+
+    } else if (id === 3) {
+      const players = [];
+
+      console.log(`Length: ${dropzones.length}`);
+
+      for (let i = 0;i < dropzones.length;i ++) {
+
+        const contains = (dropzones[i].getAttribute(`data-memberId`) >= 0);
+
+        if (contains) {
+          const player = {
+            id: dropzones[i].getAttribute(`data-memberId`),
+            dropzone: dropzones[i].getAttribute(`data-dropzoneId`)
+          };
+          players.push(player);
+        }
+      }
+
+      if (players.length !== dropzones.length) {
+        console.log(`Er zijn nog lege dropzones`);
+        return;
+      }
+
+      const newStep = step + 1;
+      console.log(`Dropzones complete -> go to step ${newStep}`);
+
+      onDevicePlayersSubmit(id, step, players);
+
     }
-
-    if (playerIds.length !== dropzones.length) {
-      console.log(`Er zijn nog lege dropzones`);
-      return;
-    }
-
-    //alle dropzones hebben een user
-    //transition naar volgende step
-    const newStep = step + 1;
-    console.log(`Dropzones complete -> go to step ${newStep}`);
-
-    //weten wie er speelt, id van de activity
-    onPlayersSubmit(id, step, playerIds);
 
   }
 
@@ -586,7 +644,8 @@ PickPlayers.propTypes = {
   members: PropTypes.array,
   numberOfPlayers: PropTypes.number,
   onFinish: PropTypes.func,
-  onPlayersSubmit: PropTypes.func
+  onPlayersSubmit: PropTypes.func,
+  onDevicePlayersSubmit: PropTypes.func
 };
 
 export default PickPlayers;

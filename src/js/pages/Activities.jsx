@@ -48,7 +48,7 @@ class Activities extends Component {
 
             <ul className='list-inline'>
               <li>
-                <a href='/assets/download/report.png' target='_blank' className='btn'>
+                <a href='/assets/download/report.svg' target='_blank' className='btn'>
                   <img src='/assets/icons/download.svg' className='icon dl' />
                   <span className='hide'>Download report</span>
                 </a>

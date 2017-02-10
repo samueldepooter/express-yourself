@@ -36,7 +36,7 @@ const activitiesData = [
     age: `7 to 14`,
     players: `4`,
     devices: `4`,
-    steps: 4
+    steps: 6
   }
 ];
 

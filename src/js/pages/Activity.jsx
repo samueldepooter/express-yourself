@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
+    const {id, step, members, players, activity, room, familyLanguages, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -42,13 +42,21 @@ class Activity extends Component {
     case 3:
       return (
         <DrawSomething
+          id={id}
           step={step}
+          members={members}
+          players={players}
           activity={activity}
+          familyLanguages={familyLanguages}
+          room={room}
+          onActivityStepUpdate={onActivityStepUpdate}
+          onRedirect={onRedirect}
+          onFinish={onFinish}
+          onPlayersSubmit={onPlayersSubmit}
+          onDevicePlayersSubmit={onDevicePlayersSubmit}
         />
       );
-
     }
-
   }
 
   render() {
@@ -87,7 +95,9 @@ Activity.propTypes = {
   activity: PropTypes.object,
   members: PropTypes.array,
   players: PropTypes.array,
+  room: PropTypes.object,
   step: PropTypes.number,
+  familyLanguages: PropTypes.array,
   confirmation: PropTypes.bool,
   onSetActive: PropTypes.func,
   onConfirmation: PropTypes.func,
@@ -97,7 +107,8 @@ Activity.propTypes = {
   onActivityStepUpdate: PropTypes.func,
   onLanguagesUpdate: PropTypes.func,
   onLanguageColorUpdate: PropTypes.func,
-  onCustomAvatarUpdate: PropTypes.func
+  onCustomAvatarUpdate: PropTypes.func,
+  onDevicePlayersSubmit: PropTypes.func
 };
 
 export default Activity;

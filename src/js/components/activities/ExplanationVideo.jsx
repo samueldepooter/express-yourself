@@ -68,8 +68,6 @@ class ExplanationVideo extends Component {
 
     const {id, step, onActivityStepUpdate} = this.props;
 
-    console.log(this.props);
-
     //activity 2 has nothing to skip to
     if (id === 2) return;
 

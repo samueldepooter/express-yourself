@@ -3,6 +3,10 @@ import {languages} from '../../globals';
 
 const LocationLanguages = ({location, family, onSpokenLangUpdate, checkLanguageSelected, checkFlag}) => {
 
+  const country = languages[location];
+  const {languages: familyLanguages} = family;
+  const memberId = 0;
+
   if (location === `denied` || !location) {
     return (
       <div className='list-inline languagesDisabled'>
@@ -12,9 +16,14 @@ const LocationLanguages = ({location, family, onSpokenLangUpdate, checkLanguageS
     );
   }
 
-  const country = languages[location];
-  const {languages: familyLanguages} = family;
-  const memberId = 0;
+  if (!country) {
+    return (
+      <div className='list-inline languagesDisabled'>
+        <img src='/assets/icons/close.svg' className='smallIcon' />
+        <p className='text'>Your country is not added yet!</p>
+      </div>
+    );
+  }
 
   return (
     <ul className='locationResult'>

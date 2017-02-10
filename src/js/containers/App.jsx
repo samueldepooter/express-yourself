@@ -29,7 +29,8 @@ class App extends Component {
     },
     activity: {
       currentStep: 1,
-      playerIds: []
+      playerIds: [],
+      players: []
     },
     activities: {
       confirmation: false,
@@ -448,6 +449,25 @@ class App extends Component {
     return players;
   }
 
+  findPlayersPerDevice(players) {
+    const {family} = this.state;
+    const {members} = family;
+
+    const updatedPlayers = [];
+
+    members.map(member => {
+      players.map(player => {
+        player.id = parseInt(player.id);
+        if (member.id === player.id + 1) {
+          member.deviceId = player.dropzone;
+          updatedPlayers.push(member);
+        }
+      });
+    });
+
+    return updatedPlayers;
+  }
+
   onLanguagesUpdateHandler(convertedLanguages) {
     const {family} = this.state;
 
@@ -532,6 +552,22 @@ class App extends Component {
 
   onRemoveErrorHandler() {
     this.setState({error: ``});
+  }
+
+  onDevicePlayersSubmitHandler(id, step, players) {
+    const {activity} = this.state;
+
+    const {players: oldPlayers} = activity;
+
+    let newPlayers = oldPlayers.slice();
+    newPlayers = players;
+
+    activity.players = newPlayers;
+
+    this.setState({activity});
+
+    this.onActivityStepUpdateHandler(step + 1);
+    this.onRedirectHandler(`/activities/${id}/steps/${step + 1}`);
   }
 
   render() {
@@ -733,11 +769,13 @@ class App extends Component {
                 stepId = parseInt(stepId);
 
                 const {confirmation} = activities;
-                const {playerIds} = activity;
+                const {playerIds, players: devicePlayers} = activity;
                 const {members} = family;
 
                 const activityDetails = this.findActivity(id - 1);
-                const players = this.findPlayers(playerIds);
+                let players = [];
+                if (id !== 3) players = this.findPlayers(playerIds);
+                else players = this.findPlayersPerDevice(devicePlayers);
 
                 const {steps} = activitiesData[id - 1];
 
@@ -757,6 +795,8 @@ class App extends Component {
                         members={members}
                         confirmation={confirmation}
                         players={players}
+                        familyLanguages={family.languages}
+                        room={room}
                         onConfirmation={state => this.onConfirmationHandler(state)}
                         onSetActive={id => this.onSetActiveHandler(id)}
                         onRedirect={url => this.onRedirectHandler(url)}
@@ -766,6 +806,7 @@ class App extends Component {
                         onLanguagesUpdate={languages => this.onLanguagesUpdateHandler(languages)}
                         onLanguageColorUpdate={(language, color) => this.onLanguageColorUpdateHandler(language, color)}
                         onCustomAvatarUpdate={avatar => this.onCustomAvatarUpdateHandler(avatar)}
+                        onDevicePlayersSubmit={(id, step, players) => this.onDevicePlayersSubmitHandler(id, step, players)}
                       />
                     );
                   } else {

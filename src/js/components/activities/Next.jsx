@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
-const Next = ({id, step, icon, text, onActivityStepUpdate}) => {
+const Next = ({id, step, icon, nextStep, text, onActivityStepUpdate}) => {
 
   if (!text) text = `Next`;
   if (!icon) icon = `check`;
-  const nextStep = step + 1;
+  if (!nextStep) nextStep = step + 1;
 
   return (
     <Link
@@ -21,6 +21,7 @@ const Next = ({id, step, icon, text, onActivityStepUpdate}) => {
 Next.propTypes = {
   id: PropTypes.number,
   step: PropTypes.number,
+  nextStep: PropTypes.number,
   icon: PropTypes.string,
   text: PropTypes.string,
   onActivityStepUpdate: PropTypes.func

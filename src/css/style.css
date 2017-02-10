@@ -92,7 +92,6 @@ input[type=number] {
 
   padding: 1.5rem 5rem 1.5rem 2.5rem;
   margin: 0 1rem;
-  max-width: 40rem;
 
   border: none;
   border-radius: 10rem;
@@ -105,6 +104,12 @@ input[type=number] {
 
   &:hover {
     cursor: pointer;
+  }
+
+  &.disabled {
+    transition: all .4s ease;
+    opacity: .4;
+    animation-fill-mode: none;
   }
 
   .icon {
@@ -2460,6 +2465,7 @@ input[type=number] {
   .headerBg {
     position: absolute;
     top: 0;
+    left: 0;
 
     width: 100%;
     height: 33rem;

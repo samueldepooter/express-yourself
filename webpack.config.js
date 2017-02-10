@@ -17,10 +17,12 @@ const publicPath = `/`;
 // - json files (through fetch)
 // - fonts via WebFontLoader
 
-const copy = new CopyWebpackPlugin([{
-  from: `./src/assets`,
-  to: `assets`
-}], {
+const copy = new CopyWebpackPlugin([
+  {
+    from: `./src/assets`,
+    to: `assets`
+  }
+], {
   ignore: [ `.DS_Store` ]
 });
 

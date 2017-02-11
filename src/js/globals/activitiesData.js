@@ -36,7 +36,8 @@ const activitiesData = [
     age: `7 to 14`,
     players: `4`,
     devices: `4`,
-    steps: 6
+    steps: 6,
+    colors: [`#5AD321`, `#1CFCF4`, `#DC372C`, `#F27A1C`, `#F8E81C`]
   }
 ];
 

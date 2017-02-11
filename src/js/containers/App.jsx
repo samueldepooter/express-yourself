@@ -3,7 +3,7 @@ import {Match, BrowserRouter as Router, Miss, Redirect} from 'react-router';
 import IO from 'socket.io-client';
 
 import {Start, Intro, Activities, Activity, Details, NoMatch, Join, Wait, SelectedPlayer} from '../pages/';
-import {AppLanguage} from '../components/';
+import {AppLanguage, Draw} from '../components/';
 import {settings, languages, activitiesData} from '../globals/';
 
 let router = {};
@@ -38,7 +38,8 @@ class App extends Component {
       active: 0,
       completed: []
     },
-    search: []
+    search: [],
+    selectedPlayer: {}
   }
 
   setRouter(r) {
@@ -57,10 +58,35 @@ class App extends Component {
     this.socket.on(`found`, code => this.foundWSHandler(code));
     this.socket.on(`notFound`, code => this.notFoundWSHandler(code));
 
-    this.socket.on(`setDrawingPlayer`, playerId => this.setDrawingPlayerWSHandler(playerId));
+    this.socket.on(`setDrawingPlayer`, data => this.setDrawingPlayerWSHandler(data));
 
     this.socket.on(`showActiveDropzone`, () => this.showActiveDropzoneWSHandler());
     this.socket.on(`removeActiveDropzone`, () => this.removeActiveDropzoneWSHandler());
+
+    this.socket.on(`subject`, subject => this.subjectWSHandler(subject));
+    this.socket.on(`draw`, data => this.drawWSHandler(data));
+  }
+
+  subjectWSHandler(subject) {
+    const {activity, room} = this.state;
+    activity.subject = subject;
+    this.setState({activity});
+
+    router.transitionTo(`/${room.code}/draw`);
+  }
+
+  drawWSHandler(line) {
+    const canvas = document.querySelector(`.canvas`);
+    const context = canvas.getContext(`2d`);
+
+    context.lineWidth = line[2].size;
+    context.lineCap = context.lineJoin =  `round`;
+    context.strokeStyle = line[2].color;
+
+    context.beginPath();
+    context.moveTo(line[0].x, line[0].y);
+    context.lineTo(line[1].x, line[1].y);
+    context.stroke();
   }
 
   showActiveDropzoneWSHandler() {
@@ -75,17 +101,21 @@ class App extends Component {
     el.classList.remove(`active`);
   }
 
-  setDrawingPlayerWSHandler(player) {
-    console.log(`This device is ${player.name}`);
+  setDrawingPlayerWSHandler({players, playerData}) {
+    console.log(`This device is ${playerData.name}`);
 
-    const {mainDevice, room} = this.state;
+    const {mainDevice, room, activity} = this.state;
+
+    activity.players = players;
+
     if (!mainDevice) {
       console.log(`Show which player you will be`);
-      this.setState({selectedPlayer: player});
       this.onRedirectHandler(`/${room.code}/player`);
     } else {
       console.log(`Choose a subject`);
     }
+
+    this.setState({activity, selectedPlayer: playerData});
   }
 
   leftRoomWSHandler(devices) {
@@ -481,6 +511,9 @@ class App extends Component {
   }
 
   findPlayersPerDevice(players) {
+
+    console.log(`findplayersperdevice`, players);
+
     const {family} = this.state;
     const {members} = family;
 
@@ -489,12 +522,17 @@ class App extends Component {
     members.map(member => {
       players.map(player => {
         player.id = parseInt(player.id);
+        member.id = parseInt(member.id);
+        console.log(member.id, player.id);
         if (member.id === player.id + 1) {
           member.deviceId = player.deviceId;
           updatedPlayers.push(member);
+          console.log(`push shit`);
         }
       });
     });
+
+    console.log(`updatedPlayers`, updatedPlayers);
 
     return updatedPlayers;
   }
@@ -588,22 +626,17 @@ class App extends Component {
   onDevicePlayersSubmitHandler(id, step, players) {
     const {activity, room} = this.state;
 
-    const {players: oldPlayers} = activity;
-
-    let newPlayers = oldPlayers.slice();
-    newPlayers = players;
-
-    activity.players = newPlayers;
-
+    activity.players = players;
     this.setState({activity});
+    console.log(`activity players data`, players);
 
     const playerIds = [];
     players.map(player => playerIds.push(player.id));
 
     const playersData = this.findPlayers(playerIds);
-    console.log(playersData);
+    console.log(`data for other devices`, playersData);
 
-    const data = {players: playersData, code: room.code};
+    const data = {players: players, playersData: playersData, code: room.code};
 
     this.socket.emit(`updatePlayers`, data);
 
@@ -616,6 +649,9 @@ class App extends Component {
     activity.subject = subject;
 
     this.setState({activity});
+
+    //send subject to other in room
+    this.socket.emit(`subject`, subject);
 
     this.onActivityStepUpdateHandler(step + 1);
     this.onRedirectHandler(`/activities/${id}/steps/${step + 1}`);
@@ -635,10 +671,14 @@ class App extends Component {
     this.socket.emit(`removeActiveDropzone`, data);
   }
 
+  emitDrawDataHandler(data) {
+    this.socket.emit(`draw`, data);
+  }
+
   render() {
 
     console.log(this.state);
-    const {location, family, search, activities, activity, appLanguage, room, error} = this.state;
+    const {location, family, search, activities, activity, selectedPlayer, appLanguage, room, error} = this.state;
 
     return (
       <Router>
@@ -708,12 +748,36 @@ class App extends Component {
             />
 
             <Match
-              exactly pattern='/:id/player'
-              render={() => {
+              exactly pattern='/:id/draw'
+              render={({params}) => {
 
-                if (this.state.selectedPlayer) {
+                const {mainDevice, activity} = this.state;
+                const {players: devicePlayers, subject} = activity;
+
+                const players = this.findPlayersPerDevice(devicePlayers);
+
+                if (this.state.room.code === params.id && !mainDevice, activity.subject) {
                   return (
-                    <SelectedPlayer player={this.state.selectedPlayer} />
+                    <Draw
+                      players={players}
+                      subject={subject}
+                      selectedPlayerId={selectedPlayer.id}
+                      emitDrawData={data => this.emitDrawDataHandler(data)}
+                    />
+                  );
+                } else {
+                  return <Redirect to='/' />;
+                }
+              }}
+            />
+
+            <Match
+              exactly pattern='/:id/player'
+              render={({params}) => {
+
+                if (selectedPlayer && params.id === room.code) {
+                  return (
+                    <SelectedPlayer player={selectedPlayer} />
                   );
                 } else {
                   return <Redirect to='/' />;
@@ -850,7 +914,7 @@ class App extends Component {
                 stepId = parseInt(stepId);
 
                 const {confirmation} = activities;
-                const {playerIds, players: devicePlayers} = activity;
+                const {playerIds, players: devicePlayers, subject} = activity;
                 const {members} = family;
 
                 const activityDetails = this.findActivity(id - 1);
@@ -876,6 +940,8 @@ class App extends Component {
                         members={members}
                         confirmation={confirmation}
                         players={players}
+                        subject={subject}
+                        selectedPlayerId={selectedPlayer.id}
                         familyLanguages={family.languages}
                         room={room}
                         onConfirmation={state => this.onConfirmationHandler(state)}
@@ -891,6 +957,7 @@ class App extends Component {
                         onSubjectSubmit={(id, step, subject) => this.onSubjectSubmitHandler(id, step, subject)}
                         showDragEntered={deviceId => this.showDragEnteredHandler(deviceId)}
                         removeDragEntered={deviceId => this.removeDragEnteredHandler(deviceId)}
+                        emitDrawData={data => this.emitDrawDataHandler(data)}
                       />
                     );
                   } else {

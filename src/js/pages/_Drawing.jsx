@@ -1,33 +1,23 @@
-import React, {Component, PropTypes} from 'react';
-import {activitiesData} from '../../../globals';
-import {Playing} from '../';
+import React, {Component} from 'react';
+import {activitiesData} from '../globals';
 
 let canvas,
   context = undefined;
 
-class Draw extends Component {
+class Drawing extends Component {
 
   state = {
-    player: {},
     position: {x: 0, y: 0},
     lineWidth: 3,
     color: ``,
     drawing: false
   }
 
-  componentWillMount() {
-    this.setPlayer();
-  }
-
   componentDidMount() {
-
-    const {player} = this.state;
-    player.id = parseInt(player.id);
-
     canvas = document.querySelector(`.canvas`);
     context = canvas.getContext(`2d`);
 
-    const color = activitiesData[2].colors[player.id - 1];
+    const color = activitiesData[2].colors[3];
     this.setState({color});
 
     this.preventDefaultGestures();
@@ -88,7 +78,6 @@ class Draw extends Component {
   draw(e) {
 
     const {position, color, lineWidth, drawing} = this.state;
-    const {emitDrawData} = this.props;
     if (!drawing) return;
 
     const previousPosition = {x: position.x, y: position.y};
@@ -112,7 +101,8 @@ class Draw extends Component {
 
     const line = [previousPosition, {x: position.x, y: position.y}, type];
     //emit socket met gegevens hierboven
-    emitDrawData(line);
+
+    console.log(line);
   }
 
   setPosition(e) {
@@ -150,66 +140,17 @@ class Draw extends Component {
     }, false);
   }
 
-  findPlayer(players, playerId) {
-    const found = players.find(player => player.id === playerId);
-    if (found) return found;
-  }
-
-  setPlayer() {
-    const {players, selectedPlayerId} = this.props;
-    const player = this.findPlayer(players, selectedPlayerId);
-
-    this.setState({player});
-  }
-
-  renderPlayers() {
-    const {players} = this.props;
-
-    return players.map((player, i) => {
-      return (
-        <li key={i} className='player'>
-          <p className='color' style={{backgroundColor: `${activitiesData[2].colors[player.id - 1]}`}}>
-            <span className='hide'>{activitiesData[2].colors[player.id - 1]}</span>
-          </p>
-          <img src={`/assets/avatars/${player.avatar}.svg`} className='avatar' />
-          <p className='name hide'>{player.name}</p>
-        </li>
-      );
-    });
-  }
-
   render() {
-
-    const {player} = this.state;
-    const {subject} = this.props;
 
     return (
       <div className='draw fullPage'>
-
-        <div className='content'>
-          <p className='beforeTitle'>Draw something around the topic</p>
-          <h2 className='title' data-before={subject}>{subject}</h2>
-
-          <div className='canvasWrap'>
-            <canvas className='canvas'></canvas>
-          </div>
+        <div className='canvasWrap'>
+          <canvas className='canvas'></canvas>
         </div>
-
-        <ul className='players'>
-          {this.renderPlayers()}
-        </ul>
-
-        <Playing player={player} />
       </div>
     );
   }
+
 }
 
-Draw.propTypes = {
-  subject: PropTypes.string,
-  selectedPlayerId: PropTypes.number,
-  emitDrawData: PropTypes.func,
-  players: PropTypes.array
-};
-
-export default Draw;
+export default Drawing;

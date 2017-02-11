@@ -1709,31 +1709,6 @@ button {
     margin-top: 3rem;
   }
 
-  .playing {
-
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    .name {
-      background: $inputBg;
-      color: $white;
-      font-size: 1.6rem;
-      font-weight: lighter;
-      animation: none;
-      opacity: 1;
-    }
-
-    .avatar {
-      position: absolute;
-      top: -1rem;
-      right: -2rem;
-      width: 7rem;
-      height: 7rem;
-      z-index: 5;
-    }
-  }
-
   .header {
     position: relative;
     width: 100%;
@@ -1925,31 +1900,6 @@ button {
 
     margin-top: 3rem;
 
-  }
-
-  .playing {
-
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    .name {
-      background: $inputBg;
-      color: $white;
-      font-size: 1.6rem;
-      font-weight: lighter;
-      animation: none;
-      opacity: 1;
-    }
-
-    .avatar {
-      position: absolute;
-      top: -1rem;
-      right: -2rem;
-      width: 7rem;
-      height: 7rem;
-      z-index: 5;
-    }
   }
 }
 
@@ -2213,6 +2163,31 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+.playing {
+
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .name {
+    background: $inputBg;
+    color: $white;
+    font-size: 1.6rem;
+    font-weight: lighter;
+    animation: none;
+    opacity: 1;
+  }
+
+  .avatar {
+    position: absolute;
+    top: -1rem;
+    right: -2rem;
+    width: 7rem;
+    height: 7rem;
+    z-index: 5;
   }
 }
 
@@ -3047,6 +3022,99 @@ button {
       background-position: center;
       background-size: cover;
     }
+  }
+}
+
+.draw {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .beforeTitle {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .title {
+
+      &::before {
+        content: attr(data-before);
+      }
+    }
+  }
+
+  .players {
+    position: absolute;
+    top: 0;
+    right: 3rem;
+
+    height: 100%;
+    width: 8rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .player {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: relative;
+
+    margin-bottom: 3rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .avatar {
+      width: 8rem;
+      height: 8rem;
+
+      border-radius: 100%;
+      box-shadow: 0 .5rem 0 0 $btnShadow;
+    }
+
+    .color {
+      position: absolute;
+      top: -1rem;
+      right: 0;
+
+      border-radius: 100%;
+
+      width: 3rem;
+      height: 3rem;
+      border: .5rem solid $white;
+    }
+  }
+
+  .playing {
+    position: absolute;
+    bottom: 4rem;
+    right: 6rem;
+  }
+
+  .canvasWrap {
+    background: white;
+    border: 1rem solid $inputBg;
+
+    width: 72rem;
+    height: 54rem;
+  }
+
+  .canvas {
+    cursor: pointer;
   }
 }
 

@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, room, familyLanguages, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
+    const {id, step, members, players, activity, selectedPlayerId, subject, room, familyLanguages, showDragEntered, emitDrawData, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -46,6 +46,8 @@ class Activity extends Component {
           step={step}
           members={members}
           players={players}
+          selectedPlayerId={selectedPlayerId}
+          subject={subject}
           activity={activity}
           familyLanguages={familyLanguages}
           room={room}
@@ -57,6 +59,7 @@ class Activity extends Component {
           onSubjectSubmit={onSubjectSubmit}
           showDragEntered={showDragEntered}
           removeDragEntered={removeDragEntered}
+          emitDrawData={emitDrawData}
         />
       );
     }
@@ -100,8 +103,10 @@ Activity.propTypes = {
   players: PropTypes.array,
   room: PropTypes.object,
   step: PropTypes.number,
+  selectedPlayerId: PropTypes.number,
   familyLanguages: PropTypes.array,
   confirmation: PropTypes.bool,
+  subject: PropTypes.string,
   onSetActive: PropTypes.func,
   onConfirmation: PropTypes.func,
   onRedirect: PropTypes.func,
@@ -114,7 +119,8 @@ Activity.propTypes = {
   onDevicePlayersSubmit: PropTypes.func,
   onSubjectSubmit: PropTypes.func,
   showDragEntered: PropTypes.func,
-  removeDragEntered: PropTypes.func
+  removeDragEntered: PropTypes.func,
+  emitDrawData: PropTypes.func
 };
 
 export default Activity;

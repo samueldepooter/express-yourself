@@ -74,7 +74,6 @@ class Subject extends Component {
 Subject.propTypes = {
   id: PropTypes.number,
   step: PropTypes.number,
-  players: PropTypes.array,
   familyLanguages: PropTypes.array,
   onSubjectSubmit: PropTypes.func
 };

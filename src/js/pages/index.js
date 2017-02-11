@@ -9,3 +9,5 @@ export NoMatch from './NoMatch';
 export Join from './Join';
 export Wait from './Wait';
 export SelectedPlayer from './SelectedPlayer';
+
+export _Drawing from './_Drawing';

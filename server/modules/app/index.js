@@ -75,22 +75,26 @@ module.exports.register = (server, options, next) => {
 
     });
 
-    socket.on(`updatePlayers`, ({players, code}) => {
+    socket.on(`subject`, subject => {
+      socket.broadcast.in(room.code).emit(`subject`, subject);
+    });
 
-      players.map(player => {
+    socket.on(`updatePlayers`, ({players, playersData, code}) => {
+
+      playersData.map(playerData => {
         //room zoeken, dan index van deviceId in player vergelijken met index van socketId in room
         const devices = findDevicesInRoom(code);
 
         devices.map((device, i) => {
 
-          console.log(player.deviceId, i);
+          console.log(playerData.deviceId, i);
 
-          player.deviceId = parseInt(player.deviceId);
+          playerData.deviceId = parseInt(playerData.deviceId);
           i = parseInt(i);
 
-          if (player.deviceId === i) {
-            console.log(`${device} is device ${player.deviceId}`);
-            io.to(device).emit(`setDrawingPlayer`, player);
+          if (playerData.deviceId === i) {
+            console.log(`${device} is device ${playerData.deviceId}`);
+            io.to(device).emit(`setDrawingPlayer`, ({players, playerData}));
           }
         });
       });
@@ -133,6 +137,10 @@ module.exports.register = (server, options, next) => {
 
     });
 
+    socket.on(`draw`, data => {
+      console.log(data);
+      socket.broadcast.in(room.code).emit(`draw`, data);
+    });
 
     socket.on(`disconnect`, () => {
       console.log(`${deviceId} left`);

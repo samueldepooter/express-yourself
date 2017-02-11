@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ExplanationVideo, SelectDevices, ShowSessionCode, PickPlayers, Subject, Draw} from './';
 
-const DrawSomething = ({id, step, members, activity, players, room, familyLanguages, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onPlayersSubmit, onActivityStepUpdate, onRedirect}) => {
+const DrawSomething = ({id, step, members, activity, players, subject, selectedPlayerId, room, familyLanguages, emitDrawData, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onPlayersSubmit, onActivityStepUpdate, onRedirect}) => {
 
   switch (step) {
   case 1:
@@ -59,7 +59,6 @@ const DrawSomething = ({id, step, members, activity, players, room, familyLangua
         id={id}
         step={step}
         familyLanguages={familyLanguages}
-        players={players}
         onSubjectSubmit={onSubjectSubmit}
       />
     );
@@ -68,6 +67,9 @@ const DrawSomething = ({id, step, members, activity, players, room, familyLangua
     return (
       <Draw
         players={players}
+        emitDrawData={emitDrawData}
+        selectedPlayerId={selectedPlayerId}
+        subject={subject}
       />
     );
   }
@@ -79,6 +81,8 @@ DrawSomething.propTypes = {
   members: PropTypes.array,
   room: PropTypes.object,
   familyLanguages: PropTypes.array,
+  selectedPlayerId: PropTypes.number,
+  subject: PropTypes.string,
   players: PropTypes.array,
   activity: PropTypes.object,
   onActivityStepUpdate: PropTypes.func,
@@ -88,7 +92,8 @@ DrawSomething.propTypes = {
   onDevicePlayersSubmit: PropTypes.func,
   onSubjectSubmit: PropTypes.func,
   showDragEntered: PropTypes.func,
-  removeDragEntered: PropTypes.func
+  removeDragEntered: PropTypes.func,
+  emitDrawData: PropTypes.func
 };
 
 export default DrawSomething;

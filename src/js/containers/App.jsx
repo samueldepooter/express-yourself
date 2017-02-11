@@ -101,7 +101,7 @@ class App extends Component {
     el.classList.remove(`active`);
   }
 
-  setDrawingPlayerWSHandler({players, playerData}) {
+  setDrawingPlayerWSHandler({players, playerData, family}) {
     console.log(`This device is ${playerData.name}`);
 
     const {mainDevice, room, activity} = this.state;
@@ -115,7 +115,7 @@ class App extends Component {
       console.log(`Choose a subject`);
     }
 
-    this.setState({activity, selectedPlayer: playerData});
+    this.setState({activity, family, selectedPlayer: playerData});
   }
 
   leftRoomWSHandler(devices) {
@@ -624,7 +624,7 @@ class App extends Component {
   }
 
   onDevicePlayersSubmitHandler(id, step, players) {
-    const {activity, room} = this.state;
+    const {activity, room, family} = this.state;
 
     activity.players = players;
     this.setState({activity});
@@ -636,7 +636,7 @@ class App extends Component {
     const playersData = this.findPlayers(playerIds);
     console.log(`data for other devices`, playersData);
 
-    const data = {players: players, playersData: playersData, code: room.code};
+    const data = {players: players, playersData: playersData, code: room.code, family};
 
     this.socket.emit(`updatePlayers`, data);
 

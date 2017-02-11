@@ -79,7 +79,7 @@ module.exports.register = (server, options, next) => {
       socket.broadcast.in(room.code).emit(`subject`, subject);
     });
 
-    socket.on(`updatePlayers`, ({players, playersData, code}) => {
+    socket.on(`updatePlayers`, ({players, playersData, code, family}) => {
 
       playersData.map(playerData => {
         //room zoeken, dan index van deviceId in player vergelijken met index van socketId in room
@@ -94,7 +94,7 @@ module.exports.register = (server, options, next) => {
 
           if (playerData.deviceId === i) {
             console.log(`${device} is device ${playerData.deviceId}`);
-            io.to(device).emit(`setDrawingPlayer`, ({players, playerData}));
+            io.to(device).emit(`setDrawingPlayer`, ({players, playerData, family}));
           }
         });
       });

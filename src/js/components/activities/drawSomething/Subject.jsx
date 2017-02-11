@@ -18,7 +18,7 @@ class Subject extends Component {
     if (!subject) return;
 
     return (
-      <button type='submit' className='btn'>
+      <button className='btn'>
         <img className='icon' src={`/assets/icons/check.svg`} />
         <span className='text'>Start drawing</span>
       </button>
@@ -59,6 +59,8 @@ class Subject extends Component {
           <form className='customSubject' onSubmit={e => this.onSubjectSelect(e, this.subject.value)}>
             <label className='hide' htmlFor='customSubject'>Custom subject</label>
             <input type='text' className='input' maxLength='30' id='customSubject' placeholder='Your own subject' ref={subject => this.subject = subject} onChange={() => this.updateSubject(this.subject)} />
+
+            <input type='submit' className='hide' />
 
             <div className='submitSubject'>
               {this.renderNext()}

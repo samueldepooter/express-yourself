@@ -2000,7 +2000,6 @@ button {
 
       position: relative;
       width: 100%;
-      min-height: 15rem;
 
       &:first-child {
         margin-top: 0;

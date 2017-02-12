@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ExplanationVideo, SelectDevices, ShowSessionCode, PickPlayers, Subject, Draw} from './';
 
-const DrawSomething = ({id, step, members, activity, drawings, mainDevice, onDrawingSubmit, players, subject, selectedPlayerId, room, familyLanguages, emitDrawData, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onPlayersSubmit, onActivityStepUpdate, onRedirect}) => {
+const DrawSomething = ({id, step, members, activity, drawings, mainDevice, onClearCanvas, onDrawingSubmit, players, subject, selectedPlayerId, room, familyLanguages, emitDrawData, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onPlayersSubmit, onActivityStepUpdate, onRedirect}) => {
 
   switch (step) {
   case 1:
@@ -75,6 +75,7 @@ const DrawSomething = ({id, step, members, activity, drawings, mainDevice, onDra
         subject={subject}
         mainDevice={mainDevice}
         onDrawingSubmit={onDrawingSubmit}
+        onClearCanvas={onClearCanvas}
       />
     );
   }
@@ -101,7 +102,8 @@ DrawSomething.propTypes = {
   showDragEntered: PropTypes.func,
   removeDragEntered: PropTypes.func,
   emitDrawData: PropTypes.func,
-  onDrawingSubmit: PropTypes.func
+  onDrawingSubmit: PropTypes.func,
+  onClearCanvas: PropTypes.func
 };
 
 export default DrawSomething;

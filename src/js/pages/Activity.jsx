@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, drawings, mainDevice, onDrawingSubmit, selectedPlayerId, subject, room, familyLanguages, showDragEntered, emitDrawData, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
+    const {id, step, members, players, activity, drawings, mainDevice, onClearCanvas, onDrawingSubmit, selectedPlayerId, subject, room, familyLanguages, showDragEntered, emitDrawData, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -63,6 +63,7 @@ class Activity extends Component {
           emitDrawData={emitDrawData}
           onDrawingSubmit={onDrawingSubmit}
           drawings={drawings}
+          onClearCanvas={onClearCanvas}
         />
       );
     }
@@ -126,7 +127,8 @@ Activity.propTypes = {
   showDragEntered: PropTypes.func,
   removeDragEntered: PropTypes.func,
   emitDrawData: PropTypes.func,
-  onDrawingSubmit: PropTypes.func
+  onDrawingSubmit: PropTypes.func,
+  onClearCanvas: PropTypes.func
 };
 
 export default Activity;

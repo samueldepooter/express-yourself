@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ExplanationVideo, SelectDevices, ShowSessionCode, PickPlayers, Subject, Draw} from './';
 
-const DrawSomething = ({id, step, members, activity, players, subject, selectedPlayerId, room, familyLanguages, emitDrawData, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onPlayersSubmit, onActivityStepUpdate, onRedirect}) => {
+const DrawSomething = ({id, step, members, activity, drawings, mainDevice, onDrawingSubmit, players, subject, selectedPlayerId, room, familyLanguages, emitDrawData, showDragEntered, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onPlayersSubmit, onActivityStepUpdate, onRedirect}) => {
 
   switch (step) {
   case 1:
@@ -44,6 +44,7 @@ const DrawSomething = ({id, step, members, activity, players, subject, selectedP
         activity={activity}
         members={members}
         room={room}
+        drawings={drawings}
         numberOfPlayers={room.devices.length}
         onFinish={onFinish}
         onPlayersSubmit={onPlayersSubmit}
@@ -66,10 +67,14 @@ const DrawSomething = ({id, step, members, activity, players, subject, selectedP
   case 6:
     return (
       <Draw
+        id={id}
+        step={step}
         players={players}
         emitDrawData={emitDrawData}
         selectedPlayerId={selectedPlayerId}
         subject={subject}
+        mainDevice={mainDevice}
+        onDrawingSubmit={onDrawingSubmit}
       />
     );
   }
@@ -83,7 +88,9 @@ DrawSomething.propTypes = {
   familyLanguages: PropTypes.array,
   selectedPlayerId: PropTypes.number,
   subject: PropTypes.string,
+  mainDevice: PropTypes.bool,
   players: PropTypes.array,
+  drawings: PropTypes.array,
   activity: PropTypes.object,
   onActivityStepUpdate: PropTypes.func,
   onRedirect: PropTypes.func,
@@ -93,7 +100,8 @@ DrawSomething.propTypes = {
   onSubjectSubmit: PropTypes.func,
   showDragEntered: PropTypes.func,
   removeDragEntered: PropTypes.func,
-  emitDrawData: PropTypes.func
+  emitDrawData: PropTypes.func,
+  onDrawingSubmit: PropTypes.func
 };
 
 export default DrawSomething;

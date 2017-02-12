@@ -101,6 +101,10 @@ module.exports.register = (server, options, next) => {
 
     });
 
+    socket.on(`activityFinished`, () => {
+      socket.broadcast.in(room.code).emit(`activityFinished`);
+    });
+
     socket.on(`checkRoom`, code => {
       const roomFound = rooms.find(r => {
         return r.code === code;

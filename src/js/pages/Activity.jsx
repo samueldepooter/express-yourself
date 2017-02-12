@@ -9,7 +9,7 @@ class Activity extends Component {
   }
 
   renderActivity() {
-    const {id, step, members, players, activity, selectedPlayerId, subject, room, familyLanguages, showDragEntered, emitDrawData, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
+    const {id, step, members, players, activity, drawings, mainDevice, onDrawingSubmit, selectedPlayerId, subject, room, familyLanguages, showDragEntered, emitDrawData, removeDragEntered, onSubjectSubmit, onDevicePlayersSubmit, onFinish, onRedirect, onActivityStepUpdate, onPlayersSubmit, onLanguagesUpdate, onLanguageColorUpdate, onCustomAvatarUpdate} = this.props;
 
     switch (id) {
     case 1:
@@ -49,6 +49,7 @@ class Activity extends Component {
           selectedPlayerId={selectedPlayerId}
           subject={subject}
           activity={activity}
+          mainDevice={mainDevice}
           familyLanguages={familyLanguages}
           room={room}
           onActivityStepUpdate={onActivityStepUpdate}
@@ -60,6 +61,8 @@ class Activity extends Component {
           showDragEntered={showDragEntered}
           removeDragEntered={removeDragEntered}
           emitDrawData={emitDrawData}
+          onDrawingSubmit={onDrawingSubmit}
+          drawings={drawings}
         />
       );
     }
@@ -107,6 +110,8 @@ Activity.propTypes = {
   familyLanguages: PropTypes.array,
   confirmation: PropTypes.bool,
   subject: PropTypes.string,
+  mainDevice: PropTypes.bool,
+  drawings: PropTypes.array,
   onSetActive: PropTypes.func,
   onConfirmation: PropTypes.func,
   onRedirect: PropTypes.func,
@@ -120,7 +125,8 @@ Activity.propTypes = {
   onSubjectSubmit: PropTypes.func,
   showDragEntered: PropTypes.func,
   removeDragEntered: PropTypes.func,
-  emitDrawData: PropTypes.func
+  emitDrawData: PropTypes.func,
+  onDrawingSubmit: PropTypes.func
 };
 
 export default Activity;

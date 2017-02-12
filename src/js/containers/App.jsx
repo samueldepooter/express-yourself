@@ -39,7 +39,8 @@ class App extends Component {
       completed: []
     },
     search: [],
-    selectedPlayer: {}
+    selectedPlayer: {},
+    drawings: []
   }
 
   setRouter(r) {
@@ -65,6 +66,13 @@ class App extends Component {
 
     this.socket.on(`subject`, subject => this.subjectWSHandler(subject));
     this.socket.on(`draw`, data => this.drawWSHandler(data));
+
+    this.socket.on(`activityFinished`, () => this.activityFinishedWSHandler());
+  }
+
+  activityFinishedWSHandler() {
+    const {room} = this.state;
+    router.transitionTo(`/${room.code}/wait`);
   }
 
   subjectWSHandler(subject) {
@@ -675,10 +683,24 @@ class App extends Component {
     this.socket.emit(`draw`, data);
   }
 
+  onDrawingSubmitHandler(drawing) {
+    console.log(`Drawing submitted!`);
+
+    //send emit to everyone but you that drawing has been submitted -> back to wait screen
+    //add all drawings to button on overview
+
+    this.socket.emit(`activityFinished`);
+
+    const {drawings} = this.state;
+    const updated = drawings.slice();
+    updated.push(drawing);
+    this.setState({drawings: updated});
+  }
+
   render() {
 
     console.log(this.state);
-    const {location, family, search, activities, activity, selectedPlayer, appLanguage, room, error} = this.state;
+    const {location, family, search, activities, drawings, mainDevice, activity, selectedPlayer, appLanguage, room, error} = this.state;
 
     return (
       <Router>
@@ -733,7 +755,7 @@ class App extends Component {
               exactly pattern='/:id/wait'
               render={({params}) => {
 
-                if (this.state.room.code === params.id) {
+                if (room.code === params.id) {
                   return (
                     <Wait
                       code={params.id}
@@ -751,14 +773,14 @@ class App extends Component {
               exactly pattern='/:id/draw'
               render={({params}) => {
 
-                const {mainDevice, activity} = this.state;
                 const {players: devicePlayers, subject} = activity;
 
                 const players = this.findPlayersPerDevice(devicePlayers);
 
-                if (this.state.room.code === params.id && !mainDevice, activity.subject) {
+                if (room.code === params.id && !mainDevice, activity.subject) {
                   return (
                     <Draw
+                      mainDevice={mainDevice}
                       players={players}
                       subject={subject}
                       selectedPlayerId={selectedPlayer.id}
@@ -880,6 +902,7 @@ class App extends Component {
             <Match
               exactly pattern='/activities/:id/details'
               render={({params}) => {
+
                 let {id} = params;
                 const {confirmation, completed} = activities;
 
@@ -937,6 +960,7 @@ class App extends Component {
                         id={id}
                         activity={activityDetails}
                         step={stepId}
+                        mainDevice={mainDevice}
                         members={members}
                         confirmation={confirmation}
                         players={players}
@@ -944,6 +968,7 @@ class App extends Component {
                         selectedPlayerId={selectedPlayer.id}
                         familyLanguages={family.languages}
                         room={room}
+                        drawings={drawings}
                         onConfirmation={state => this.onConfirmationHandler(state)}
                         onSetActive={id => this.onSetActiveHandler(id)}
                         onRedirect={url => this.onRedirectHandler(url)}
@@ -958,6 +983,7 @@ class App extends Component {
                         showDragEntered={deviceId => this.showDragEnteredHandler(deviceId)}
                         removeDragEntered={deviceId => this.removeDragEnteredHandler(deviceId)}
                         emitDrawData={data => this.emitDrawDataHandler(data)}
+                        onDrawingSubmit={drawing => this.onDrawingSubmitHandler(drawing)}
                       />
                     );
                   } else {

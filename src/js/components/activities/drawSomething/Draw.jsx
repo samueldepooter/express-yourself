@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 import {activitiesData} from '../../../globals';
 import {Playing} from '../';
 
@@ -33,6 +34,7 @@ class Draw extends Component {
     this.preventDefaultGestures();
 
     this.fitToContainer(canvas);
+    this.setCanvasBg(canvas);
 
     canvas.addEventListener(`mousedown`, e => this.onMouseDown(e));
     canvas.addEventListener(`mouseup`, e => this.onMouseUp(e));
@@ -70,6 +72,11 @@ class Draw extends Component {
 
     }, false);
 
+  }
+
+  setCanvasBg(canvas) {
+    context.fillStyle = `rgb(255,255,255)`;
+    context.fillRect(0, 0, canvas.width, canvas.height);
   }
 
   onMouseLeave() {
@@ -111,7 +118,6 @@ class Draw extends Component {
     };
 
     const line = [previousPosition, {x: position.x, y: position.y}, type];
-    //emit socket met gegevens hierboven
     emitDrawData(line);
   }
 
@@ -134,19 +140,13 @@ class Draw extends Component {
 
   preventDefaultGestures() {
     document.body.addEventListener(`touchstart`, e => {
-      if (e.target === canvas) {
-        e.preventDefault();
-      }
+      if (e.target === canvas) e.preventDefault();
     }, false);
     document.body.addEventListener(`touchend`, e => {
-      if (e.target === canvas) {
-        e.preventDefault();
-      }
+      if (e.target === canvas) e.preventDefault();
     }, false);
     document.body.addEventListener(`touchmove`, e => {
-      if (e.target === canvas) {
-        e.preventDefault();
-      }
+      if (e.target === canvas) e.preventDefault();
     }, false);
   }
 
@@ -178,6 +178,42 @@ class Draw extends Component {
     });
   }
 
+  handleDrawingSubmit() {
+    const {players, onDrawingSubmit} = this.props;
+
+    players.map(player => {
+      player.color = activitiesData[2].colors[player.id - 1];
+    });
+
+    const {subject} = this.props;
+    const image = canvas.toDataURL(`image/jpeg`, 1);
+
+    const date = new Date();
+    const ms = date.getTime();
+
+    const drawing = {
+      image: image,
+      time: ms,
+      members: players,
+      subject: subject
+    };
+
+    onDrawingSubmit(drawing);
+  }
+
+  renderSubmitDrawing() {
+    const {id, step, mainDevice} = this.props;
+
+    if (!mainDevice) return;
+
+    return (
+      <Link className='btn iconBtn' to={`/activities/${id}/steps/${step - 2}`} onClick={() => this.handleDrawingSubmit()}>
+        <img className='icon' src='/assets/icons/check.svg' />
+        <span className='text hide'>Submit drawings</span>
+      </Link>
+    );
+  }
+
   render() {
 
     const {player} = this.state;
@@ -195,6 +231,12 @@ class Draw extends Component {
           </div>
         </div>
 
+        <div className='tools'>
+
+
+          {this.renderSubmitDrawing()}
+        </div>
+
         <ul className='players'>
           {this.renderPlayers()}
         </ul>
@@ -206,10 +248,14 @@ class Draw extends Component {
 }
 
 Draw.propTypes = {
+  id: PropTypes.number,
+  step: PropTypes.number,
   subject: PropTypes.string,
   selectedPlayerId: PropTypes.number,
   emitDrawData: PropTypes.func,
-  players: PropTypes.array
+  players: PropTypes.array,
+  mainDevice: PropTypes.bool,
+  onDrawingSubmit: PropTypes.func
 };
 
 export default Draw;

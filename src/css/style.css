@@ -518,7 +518,8 @@ button {
       width: 100%;
       height: 30rem;
 
-      background: url(/assets/headers/memberAvatar/bg.svg) no-repeat;
+      background: url(/assets/headers/memberAvatar/bg.svg);
+      background-repeat: repeat-x;
       background-position: center top;
       background-size: contain;
     }
@@ -1233,6 +1234,8 @@ button {
     background: rgba(0, 0, 0, .85);
 
     .icon {
+      position: relative;
+      top: -1rem;
       width: 4rem;
       height: 4rem;
     }
@@ -1912,6 +1915,132 @@ button {
     }
   }
 
+  .drawingsOverview {
+
+    animation: .4s fade-in ease;
+    animation-fill-mode: forwards;
+
+    display: flex;
+
+    .mainDrawing {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .drawingMembers {
+      display: flex;
+      justify-content: center;
+
+      .drawingMember {
+        margin: 0 1rem;
+        display: flex;
+        align-items: center;
+
+        position: relative;
+        left: -1rem;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+
+      .name {
+        margin-left: .5rem;
+      }
+
+      .avatar {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      .color {
+        position: relative;
+        left: 1rem;
+        width: 2rem;
+        height: 2rem;
+        border: .25rem solid $white;
+        border-radius: 100%;
+      }
+    }
+
+    .mainDrawingWrap {
+      width: 80vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .title {
+        top: 0;
+        align-self: center;
+
+        &::before {
+          content: attr(data-before);
+        }
+      }
+    }
+
+    .drawings {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 20vw;
+
+      padding: 2rem;
+      background: $bg;
+
+      position: relative;
+      overflow-y: scroll;
+    }
+
+    .drawingWrap {
+      display: block;
+      margin: 1rem 0;
+
+      position: relative;
+      width: 100%;
+      min-height: 15rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .footer {
+      display: flex;
+      margin-top: 2rem;
+      justify-content: space-between;
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      background: $inputBg;
+      padding: 1rem 1.5rem;
+      border-radius: 10rem;
+      font-size: 1.6rem;
+      box-shadow: 0 .25rem 0 0 $inputShadow;
+    }
+
+    .selectedDrawing {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url(/assets/icons/check.svg) no-repeat;
+      background-size: 3rem;
+      background-position: center;
+    }
+
+    .drawing {
+      width: 100%;
+    }
+  }
+
   .customAvatarsOverview {
 
     animation: .4s fade-in ease;
@@ -2192,7 +2321,8 @@ button {
 }
 
 .confirmationBox,
-.customAvatarsOverview {
+.customAvatarsOverview,
+.drawingsOverview {
   z-index: 99999999;
   position: absolute;
   top: 0;
@@ -3145,10 +3275,10 @@ button {
 
     z-index: 999999999999;
 
-    font-size: 3rem;
+    font-size: 2rem;
     color: $white;
     text-align: center;
-    line-height: 4rem;
+    line-height: 3rem;
 
     .tabletWrap {
       display: flex;
@@ -3189,7 +3319,8 @@ button {
     }
 
     .tablet {
-      width: 25rem;
+      width: 50vw;
+      max-width: 25rem;
       height: auto;
 
       animation: 6s tablet-rotate ease;
@@ -3202,6 +3333,7 @@ button {
 
     .text {
       max-width: 50rem;
+      width: 90vw;
     }
 
     .bold {

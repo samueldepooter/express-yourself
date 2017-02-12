@@ -2,11 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import {Finish} from './';
 import {interact} from 'interactjs';
 import {avatars as avatarsSettings, languages as allLanguages} from '../../globals';
+import moment from 'moment';
 
 class PickPlayers extends Component {
 
   state = {
-    showAvatars: false
+    showAvatars: false,
+    showDrawings: false
   }
 
   componentDidMount() {
@@ -265,12 +267,87 @@ class PickPlayers extends Component {
     return <img src={`/assets/icons/flags/${img}.svg`} className='flag' />;
   }
 
+  checkCustomDrawings() {
+    const {id} = this.props;
+    if (id !== 3) return;
+
+    const {showDrawings} = this.state;
+    if (!showDrawings) return;
+
+    const {drawings} = this.props;
+    if (drawings.length <= 0) return;
+
+    return (
+      <section className='drawingsOverview'>
+        <button className='btn closeBtn' onClick={e => this.toggleShowDrawings(e, false)}><span className='hide'>Close</span></button>
+
+        <h4 className='hide'>Drawings</h4>
+
+        <ol className='drawings'>
+          {drawings.map((drawing, i) => {
+
+            //const date = moment(drawing.time).fromNow();
+
+            return (
+              <li key={i} className='drawingWrap' onClick={() => this.setState({mainDrawing: drawing})}>
+                {this.renderDrawingSelected(drawing)}
+                <img src={drawing.image} className='drawing' />
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className='mainDrawingWrap'>
+          {this.renderMainDrawing()}
+        </div>
+      </section>
+    );
+  }
+
+  renderDrawingSelected(drawing) {
+    const {mainDrawing} = this.state;
+    if (drawing.image === mainDrawing.image) {
+      return <div className='selectedDrawing'></div>;
+    }
+  }
+
+  renderMainDrawing() {
+    const {mainDrawing} = this.state;
+    if (!mainDrawing) return;
+
+    const date = moment(mainDrawing.time).fromNow();
+
+    return (
+      <div className='mainDrawing'>
+
+        <h4 className='title' data-before={mainDrawing.subject}>{mainDrawing.subject}</h4>
+
+        <img src={mainDrawing.image} className='mainDrawingImage' />
+
+        <div className='footer'>
+          <ul className='drawingMembers'>
+            {mainDrawing.members.map((member, i) => {
+              return (
+                <li key={i} className='drawingMember'>
+                  <div className='color' style={{backgroundColor: `${member.color}`}}><span className='hide'>{member.color}</span></div>
+                  <img className='avatar' src={`/assets/avatars/${member.avatar}.svg`} />
+                  <p className='name'>{member.name}</p>
+                </li>
+              );
+            })}
+          </ul>
+
+          <p className='date'>{date}</p>
+        </div>
+      </div>
+    );
+  }
+
   checkCustomAvatars() {
     const {id} = this.props;
     if (id !== 1) return;
 
     const {showAvatars} = this.state;
-
     if (!showAvatars) return;
 
     const {members} = this.props;
@@ -518,6 +595,32 @@ class PickPlayers extends Component {
     }
   }
 
+  showDrawingsBtn() {
+    const {id} = this.props;
+    if (id !== 3) return;
+
+    const {drawings} = this.props;
+
+    //if there are drawings -> show button
+    if (drawings.length > 0) {
+      return (
+        <button
+          className='btn iconBtn avatarBtn'
+          onClick={e => this.toggleShowDrawings(e, true)}>
+          <img className='icon' src='/assets/icons/drawing.svg' />
+          <span className='text hide'>Show drawings</span>
+        </button>
+      );
+    }
+
+    return (
+      <button className='btn iconBtn avatarBtn disabled'>
+        <img className='icon' src='/assets/icons/drawing.svg' />
+        <span className='text hide'>Show drawings</span>
+      </button>
+    );
+  }
+
   showAvatarsBtn() {
     const {id} = this.props;
     if (id !== 1) return;
@@ -549,6 +652,16 @@ class PickPlayers extends Component {
         <span className='text hide'>Show avatars</span>
       </button>
     );
+  }
+
+  toggleShowDrawings(e, state) {
+    e.preventDefault();
+
+    const {drawings} = this.props;
+    const {mainDrawing} = this.state;
+
+    if (!mainDrawing) this.setState({mainDrawing: drawings[0]});
+    this.setState({showDrawings: state});
   }
 
   toggleShowAvatars(e, state) {
@@ -633,6 +746,7 @@ class PickPlayers extends Component {
       <section className={`${activity.name}Activity pickPlayers fullPage`}>
 
         {this.checkCustomAvatars()}
+        {this.checkCustomDrawings()}
 
         {this.renderHeader(id)}
 
@@ -669,6 +783,7 @@ class PickPlayers extends Component {
             </ul>
 
             {this.showAvatarsBtn()}
+            {this.showDrawingsBtn()}
           </div>
 
         </div>
@@ -682,6 +797,7 @@ PickPlayers.propTypes = {
   id: PropTypes.number,
   step: PropTypes.number,
   activity: PropTypes.object,
+  drawings: PropTypes.array,
   members: PropTypes.array,
   numberOfPlayers: PropTypes.number,
   onFinish: PropTypes.func,

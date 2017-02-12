@@ -214,9 +214,25 @@ class Draw extends Component {
     );
   }
 
+  onBrushSizeUpdate(value) {
+    console.log(`NEW VALUE: ${value}`);
+    this.setState({lineWidth: value});
+  }
+
+  onClearCanvasClick(e) {
+    e.preventDefault();
+    const {onClearCanvas} = this.props;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = `rgb(255,255,255)`;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    onClearCanvas();
+  }
+
   render() {
 
-    const {player} = this.state;
+    const {player, lineWidth} = this.state;
     const {subject} = this.props;
 
     return (
@@ -232,7 +248,27 @@ class Draw extends Component {
         </div>
 
         <div className='tools'>
+          <button onClick={e => this.onClearCanvasClick(e)} className='btn clearCanvas'>
+            <img src='/assets/icons/trash.svg' className='icon' />
+            <span className='hide'>Clear canvas</span>
+          </button>
 
+          <div className='brushSizeWrap'>
+            <div className='brush largeBrush'></div>
+            <input
+              type='range'
+              className='brushSize'
+              value={lineWidth}
+              step='1'
+              min='1'
+              max='9'
+              id='brushSize'
+              ref={brushSize => this.brushSize = brushSize}
+              onChange={() => this.onBrushSizeUpdate(this.brushSize.value)}
+            />
+            <label htmlFor='brushSize' className='hide'>Brush size</label>
+            <div className='brush smallBrush'></div>
+          </div>
 
           {this.renderSubmitDrawing()}
         </div>
@@ -255,7 +291,8 @@ Draw.propTypes = {
   emitDrawData: PropTypes.func,
   players: PropTypes.array,
   mainDevice: PropTypes.bool,
-  onDrawingSubmit: PropTypes.func
+  onDrawingSubmit: PropTypes.func,
+  onClearCanvas: PropTypes.func
 };
 
 export default Draw;

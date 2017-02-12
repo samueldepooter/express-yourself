@@ -75,6 +75,10 @@ module.exports.register = (server, options, next) => {
 
     });
 
+    socket.on(`clearCanvas`, () => {
+      socket.broadcast.in(room.code).emit(`clearCanvas`);
+    });
+
     socket.on(`subject`, subject => {
       socket.broadcast.in(room.code).emit(`subject`, subject);
     });

@@ -66,8 +66,18 @@ class App extends Component {
 
     this.socket.on(`subject`, subject => this.subjectWSHandler(subject));
     this.socket.on(`draw`, data => this.drawWSHandler(data));
+    this.socket.on(`clearCanvas`, () => this.clearCanvasWSHandler());
 
     this.socket.on(`activityFinished`, () => this.activityFinishedWSHandler());
+  }
+
+  clearCanvasWSHandler() {
+    const canvas = document.querySelector(`.canvas`);
+    const context = canvas.getContext(`2d`);
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = `rgb(255,255,255)`;
+    context.fillRect(0, 0, canvas.width, canvas.height);
   }
 
   activityFinishedWSHandler() {
@@ -98,13 +108,11 @@ class App extends Component {
   }
 
   showActiveDropzoneWSHandler() {
-    console.log(`SHOW DEVICE ACTIVE`);
     const el = document.querySelector(`.activeBorder`);
     el.classList.add(`active`);
   }
 
   removeActiveDropzoneWSHandler() {
-    console.log(`HIDE DEVICE ACTIVE`);
     const el = document.querySelector(`.activeBorder`);
     el.classList.remove(`active`);
   }
@@ -117,18 +125,16 @@ class App extends Component {
     activity.players = players;
 
     if (!mainDevice) {
-      console.log(`Show which player you will be`);
+      //console.log(`Show which player you will be`);
       this.onRedirectHandler(`/${room.code}/player`);
     } else {
-      console.log(`Choose a subject`);
+      //console.log(`Choose a subject`);
     }
 
     this.setState({activity, family, selectedPlayer: playerData});
   }
 
   leftRoomWSHandler(devices) {
-    console.log(`A device stopped connection`);
-
     const {room} = this.state;
     room.devices = devices;
 
@@ -139,8 +145,6 @@ class App extends Component {
   }
 
   joinedRoomWSHandler(devices) {
-    console.log(`A new device connected to your session`);
-
     const message = `A device connected to your session`;
     setTimeout(() => this.setState({message: ``}), 5000);
 
@@ -156,14 +160,11 @@ class App extends Component {
   }
 
   busyWSHandler(code) {
-    console.log(`Room ${code} has already started`);
     const error = `Room ${code} is busy!`;
     this.setState({error});
   }
 
   foundWSHandler(code) {
-    console.log(`Room ${code} was found -> JOIN!`);
-
     const {room} = this.state;
     room.code = code;
     this.setState({room});
@@ -173,13 +174,11 @@ class App extends Component {
   }
 
   notFoundWSHandler(code) {
-    console.log(`Room ${code} was not found..`);
     const error = `Room ${code} was not found`;
     this.setState({error});
   }
 
   createdRoomWSHandler(room) {
-    console.log(`Code: ${room.code}`);
     this.setState({room, mainDevice: true});
   }
 
@@ -520,8 +519,6 @@ class App extends Component {
 
   findPlayersPerDevice(players) {
 
-    console.log(`findplayersperdevice`, players);
-
     const {family} = this.state;
     const {members} = family;
 
@@ -535,12 +532,9 @@ class App extends Component {
         if (member.id === player.id + 1) {
           member.deviceId = player.deviceId;
           updatedPlayers.push(member);
-          console.log(`push shit`);
         }
       });
     });
-
-    console.log(`updatedPlayers`, updatedPlayers);
 
     return updatedPlayers;
   }
@@ -594,7 +588,6 @@ class App extends Component {
   }
 
   onCreateRoomHandler() {
-    console.log(`Create new room`);
     this.socket.emit(`createRoom`, this.socket.id);
   }
 
@@ -636,13 +629,11 @@ class App extends Component {
 
     activity.players = players;
     this.setState({activity});
-    console.log(`activity players data`, players);
 
     const playerIds = [];
     players.map(player => playerIds.push(player.id));
 
     const playersData = this.findPlayers(playerIds);
-    console.log(`data for other devices`, playersData);
 
     const data = {players: players, playersData: playersData, code: room.code, family};
 
@@ -667,14 +658,12 @@ class App extends Component {
 
   showDragEnteredHandler(deviceId) {
     const {room} = this.state;
-    console.log(`Show active on device ${deviceId}`);
     const data = {deviceId: deviceId, code: room.code};
     this.socket.emit(`showActiveDropzone`, data);
   }
 
   removeDragEnteredHandler(deviceId) {
     const {room} = this.state;
-    console.log(`remove active on device ${deviceId}`);
     const data = {deviceId: deviceId, code: room.code};
     this.socket.emit(`removeActiveDropzone`, data);
   }
@@ -683,12 +672,11 @@ class App extends Component {
     this.socket.emit(`draw`, data);
   }
 
+  onClearCanvasHandler() {
+    this.socket.emit(`clearCanvas`);
+  }
+
   onDrawingSubmitHandler(drawing) {
-    console.log(`Drawing submitted!`);
-
-    //send emit to everyone but you that drawing has been submitted -> back to wait screen
-    //add all drawings to button on overview
-
     this.socket.emit(`activityFinished`);
 
     const {drawings} = this.state;
@@ -785,6 +773,7 @@ class App extends Component {
                       subject={subject}
                       selectedPlayerId={selectedPlayer.id}
                       emitDrawData={data => this.emitDrawDataHandler(data)}
+                      onClearCanvas={() => this.onClearCanvasHandler()}
                     />
                   );
                 } else {
@@ -984,6 +973,7 @@ class App extends Component {
                         removeDragEntered={deviceId => this.removeDragEnteredHandler(deviceId)}
                         emitDrawData={data => this.emitDrawDataHandler(data)}
                         onDrawingSubmit={drawing => this.onDrawingSubmitHandler(drawing)}
+                        onClearCanvas={() => this.onClearCanvasHandler()}
                       />
                     );
                   } else {

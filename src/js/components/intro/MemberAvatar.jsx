@@ -50,6 +50,7 @@ const MemberAvatar = ({step, editStep, member, onMemberAvatarUpdate, onMemberNam
               step='1'
               min='7'
               max='70'
+              orient='vertical'
               id='memberAge'
               ref={memberAge => this.memberAge = memberAge}
               onChange={() => onMemberAgeUpdate(memberId, this.memberAge.value)}

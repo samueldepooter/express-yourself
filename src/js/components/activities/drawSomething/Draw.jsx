@@ -245,6 +245,11 @@ class Draw extends Component {
           <div className='canvasWrap'>
             <canvas className='canvas'></canvas>
           </div>
+
+          <div className='varia'>
+            <div className='pencil'></div>
+            <div className='brush'></div>
+          </div>
         </div>
 
         <div className='tools'>

@@ -40,10 +40,26 @@ const Location = ({step, onIntroStepUpdate, onLocationSubmit}) => {
 
 const onLocationCheckHandler = (nextStep, onLocationSubmit) => {
 
+  editBtns();
+
   fetch(`https://ipinfo.io/json`)
     .then(response => response.json())
     .then(result => onLocationSubmit(nextStep, result.country))
     .catch(() => onLocationSubmit(nextStep, `denied`));
+};
+
+const editBtns = () => {
+  const allow = document.querySelector(`.allowIcon`);
+  allow.classList.add(`animate`);
+
+  const allowBtn = document.querySelector(`.allowBtn`);
+  allowBtn.classList.add(`disabled`);
+
+  const deny = document.querySelector(`.denyBtn`);
+  deny.classList.add(`hide`);
+
+  const back = document.querySelector(`.backBtn`);
+  back.classList.add(`hide`);
 };
 
 Location.propTypes = {

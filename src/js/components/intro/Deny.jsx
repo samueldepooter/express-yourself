@@ -6,7 +6,7 @@ const Deny = ({step, onIntroStepUpdate, onLocationSubmit}) => {
 
   return (
     <button
-      className='btn iconBtn'
+      className='btn iconBtn denyBtn'
       onClick={() => {
         onLocationSubmit(nextStep, false);
         onIntroStepUpdate(nextStep);

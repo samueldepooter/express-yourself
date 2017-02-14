@@ -16,10 +16,10 @@ class Start extends Component {
         <p>The application that assists you in analysing emotion in language.</p>
 
         <div className='buttons'>
-          <Link className='btn' to='/intro/1' onClick={() => onCreateRoom()}>
+          <button className='btn' onClick={() => onCreateRoom()}>
             <img className='icon' src='/assets/icons/check.svg' />
             <span className='text'>Start new session</span>
-          </Link>
+          </button>
 
           <p className='or'>or</p>
 

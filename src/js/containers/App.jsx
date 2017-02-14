@@ -180,6 +180,7 @@ class App extends Component {
 
   createdRoomWSHandler(room) {
     this.setState({room, mainDevice: true});
+    router.transitionTo(`/intro/1`);
   }
 
   componentWillMount() {
@@ -800,13 +801,15 @@ class App extends Component {
               exactly pattern='/intro/:id'
               render={({params}) => {
 
+                const {room} = this.state;
                 let {id} = params;
                 id = parseInt(id);
 
                 let stepExists = this.doesIntroStepExist(id);
                 if (settings.development) stepExists = true;
 
-                if (stepExists) {
+                //bestaat de stap en heeft de user een room -> doorgaan
+                if (stepExists && room.code) {
                   return (
                     <Intro
                       step={id}

@@ -33,6 +33,15 @@ body {
   display: none;
 }
 
+.smiley {
+  width: 3rem;
+  height: 3rem;
+  transform: rotate(10deg);
+  margin-left: 1rem;
+  box-shadow: 0 .25rem 0 0 $btnShadow;
+  border-radius: 100%;
+}
+
 .activeBorder {
 
   &.active {
@@ -367,7 +376,7 @@ button {
       top: 1rem;
 
       width: 100%;
-      height: 33rem;
+      height: 32.5rem;
 
       background: url(/assets/headers/familyMembers/bg.svg) no-repeat;
       background-position: center;
@@ -468,12 +477,20 @@ button {
         height: 6rem;
         font-size: 1.8rem;
         text-align: left;
-        padding: 0 2rem;
+        padding: 0 3rem;
+
+        background-image: url(/assets/icons/search.svg);
+        background-repeat: no-repeat;
+        background-position: right 3rem center;
+        background-size: 2rem;
       }
     }
 
     .searchResult {
       min-height: 5.6rem;
+
+      display: flex;
+      align-items: center;
     }
 
     .searchResult,
@@ -842,9 +859,20 @@ button {
 
       .search {
         height: 6rem;
+        width: 100%;
         font-size: 1.8rem;
         text-align: left;
-        padding: 0 2rem;
+        padding: 0 3rem;
+
+        background-image: url(/assets/icons/search.svg);
+        background-repeat: no-repeat;
+        background-position: right 3rem center;
+        background-size: 2rem;
+      }
+
+      .searchResult {
+        display: flex;
+        align-items: center;
       }
     }
 
@@ -922,11 +950,13 @@ button {
     }
 
     .selectedLanguages {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       margin-bottom: 5rem;
       max-width: 80vw;
       text-align: center;
-      justify-content: center;
-      flex-wrap: wrap;
     }
   }
 
@@ -1841,11 +1871,11 @@ button {
 
   .headerBg {
     position: absolute;
-    top: 0;
+    top: 3rem;
     left: 0;
 
     width: 100%;
-    height: 30rem;
+    height: 24rem;
 
     background: url(/assets/headers/pickPlayers/bg.svg) no-repeat;
     background-position: center;
@@ -1854,11 +1884,10 @@ button {
 
   .headerBgExtra {
     position: relative;
-    height: 21rem;
-    margin-top: 3rem;
+    height: 17rem;
     opacity: 1;
 
-    top: 3.5rem;
+    top: 8.5rem;
     left: -.5rem;
   }
 
@@ -1950,8 +1979,8 @@ button {
       }
 
       .avatar {
-        width: 4rem;
-        height: 4rem;
+        width: 5rem;
+        height: 5rem;
       }
 
       .color {
@@ -1992,6 +2021,8 @@ button {
 
       position: relative;
       overflow-y: scroll;
+
+      border-right: 1rem solid $btnShadow;
     }
 
     .drawingWrap {
@@ -2019,6 +2050,7 @@ button {
       padding: 1rem 1.5rem;
       border-radius: 10rem;
       font-size: 1.6rem;
+      height: 4rem;
       box-shadow: 0 .25rem 0 0 $inputShadow;
     }
 
@@ -2138,11 +2170,11 @@ button {
 
   .headerBg {
     position: absolute;
-    top: 0;
+    top: 3rem;
     left: 0;
 
     width: 100%;
-    height: 30rem;
+    height: 24rem;
 
     background: url(/assets/headers/pickPlayers/bg.svg) no-repeat;
     background-position: center;
@@ -2151,9 +2183,9 @@ button {
 
   .headerBgExtra {
     position: relative;
-    height: 21rem;
+    height: 17rem;
     opacity: 0;
-    margin-top: 3rem;
+    margin-top: 5rem;
     left: -.5rem;
 
     animation: .5s familyMembers-fade-in ease;
@@ -2835,7 +2867,7 @@ button {
   }
 
   .backBtn {
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
   }
 }
 

@@ -17,7 +17,7 @@ const FoundLanguages = ({found, family, member, searchLanguage, onSpokenLangUpda
   }
 
   if (searchLanguage) {
-    if (found.length === 0 && searchLanguage.length > 0) return <p className='searchResult'>Oops, no results :(</p>;
+    if (found.length === 0 && searchLanguage.length > 0) return <p className='searchResult'>Oops, no results <img src='/assets/icons/pig_sad.svg' className='smiley' alt=':(' /></p>;
   }
 
   if (found.length === 0) return <p className='searchResult'>Type to find your language!</p>;

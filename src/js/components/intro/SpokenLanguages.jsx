@@ -16,7 +16,7 @@ const SpokenLanguages = ({family, member, onSpokenLangUpdate, checkLanguageSelec
     spokenLangUpdate = `member`;
   }
 
-  if (languages.length === 0) return <p className='selectedLanguages'>Tap on a language to select it :)</p>;
+  if (languages.length === 0) return <p className='selectedLanguages'>Tap on a language to select it <img src='/assets/avatars/pig.svg' className='smiley' alt=':)' /></p>;
 
   return (
     <ul className='list-inline selectedLanguages'>

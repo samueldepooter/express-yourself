@@ -52,9 +52,6 @@ const editBtns = () => {
   const allow = document.querySelector(`.allowIcon`);
   allow.classList.add(`animate`);
 
-  const allowBtn = document.querySelector(`.allowBtn`);
-  allowBtn.classList.add(`disabled`);
-
   const deny = document.querySelector(`.denyBtn`);
   deny.classList.add(`hide`);
 

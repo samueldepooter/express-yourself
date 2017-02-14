@@ -1001,11 +1001,6 @@ button {
       width: 40rem;
       justify-content: space-between;
 
-      .disabled {
-        transition: all .4s ease;
-        opacity: .5;
-      }
-
       .allowIcon {
 
         &.animate {

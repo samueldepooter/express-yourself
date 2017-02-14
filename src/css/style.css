@@ -1001,14 +1001,15 @@ button {
       width: 40rem;
       justify-content: space-between;
 
+      .disabled {
+        transition: all .4s ease;
+        opacity: .5;
+      }
+
       .allowIcon {
 
-        &.disabled {
-          opacity: .5;
-        }
-
         &.animate {
-          animation: 1s rotate ease;
+          animation: 1s loading ease;
           animation-iteration-count: infinite;
         }
       }

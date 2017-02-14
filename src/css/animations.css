@@ -19,14 +19,16 @@
   }
 }
 
-@keyframes rotate {
+@keyframes loading {
 
   0% {
     transform: rotate(0);
+    opacity: .5;
   }
 
   100% {
     transform: rotate(360deg);
+    opacity: .5;
   }
 }
 

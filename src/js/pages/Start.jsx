@@ -25,7 +25,7 @@ class Start extends Component {
 
           <Link to='/join' className='btn existing'>
             <img className='icon' src='/assets/icons/back.svg' />
-            <span className='text'>Join existing</span>
+            <span className='text'>Join session</span>
           </Link>
         </div>
 

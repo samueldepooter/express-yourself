@@ -35,6 +35,17 @@ class Details extends Component {
     else return `${devices} device`;
   }
 
+  renderVideo() {
+    const {activity} = this.state;
+
+    if (activity.video) {
+      console.log(`yesh`);
+      return <iframe width='560' height='315' src={activity.video} frameBorder='0' allowFullScreen></iframe>;
+    } else {
+      return <p>No gameplay video available yet!</p>;
+    }
+  }
+
   render() {
     const {activity} = this.state;
     const {title, description} = activity;
@@ -96,7 +107,7 @@ class Details extends Component {
 
               <section className='section'>
                 <h3 className='title'>Gameplay</h3>
-                <p>Video</p>
+                {this.renderVideo()}
               </section>
           </div>
 

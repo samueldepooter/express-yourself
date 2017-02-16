@@ -2,7 +2,7 @@ const settings = {
   totalIntroSteps: 5,
   maxPlayers: 5,
   maxLanguageResults: 2,
-  development: false
+  development: true
 };
 
 export default settings;

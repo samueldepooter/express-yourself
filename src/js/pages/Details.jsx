@@ -38,7 +38,7 @@ class Details extends Component {
   renderVideo() {
     const {activity} = this.state;
 
-    if (activity.video) {
+    if (activity.gameplayVideo) {
       console.log(`yesh`);
       return <iframe width='560' height='315' src={activity.gameplayVideo} frameBorder='0' allowFullScreen></iframe>;
     } else {

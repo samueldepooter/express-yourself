@@ -40,7 +40,7 @@ class Details extends Component {
 
     if (activity.video) {
       console.log(`yesh`);
-      return <iframe width='560' height='315' src={activity.video} frameBorder='0' allowFullScreen></iframe>;
+      return <iframe width='560' height='315' src={activity.gameplayVideo} frameBorder='0' allowFullScreen></iframe>;
     } else {
       return <p>No gameplay video available yet!</p>;
     }
